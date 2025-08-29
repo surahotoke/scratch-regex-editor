@@ -150,6 +150,8 @@ const workspace = Blockly.getMainWorkspace()
 
 // ルートブロックの生成
 const rootBlock = workspace.newBlock("root")
+// 初期位置
+rootBlock.moveBy(20, 20)
 rootBlock.initSvg()
 const patternInput = rootBlock.getInput("PATTERN")
 const substituteInput = rootBlock.getInput("SUBSTITUTE")
