@@ -1,0 +1,324 @@
+import { regexGenerator } from "./generator.js"
+
+registerContinuousToolbox()
+
+const myTheme = Blockly.Theme.defineTheme("myTheme", {
+  categoryStyles: {
+    position: { colour: "#3F51B5" },
+    chars: { colour: "#2196F3" },
+    join: { colour: "#009688" },
+    groups: { colour: "#4CAF50" },
+    repeat: { colour: "#FFC107" },
+    substitute: { colour: "#FF5722" },
+  },
+  blockStyles: {
+    root: { colourPrimary: "#546E7A" },
+    position: { colourPrimary: "#3F51B5" },
+    chars: { colourPrimary: "#2196F3" },
+    charclass: { colourPrimary: "#00BCD4" },
+    join: { colourPrimary: "#009688" },
+    groups: { colourPrimary: "#4CAF50" },
+    repeat: { colourPrimary: "#FFC107" },
+    substitute: { colourPrimary: "#FF5722" },
+    substituteShadow: { colourPrimary: "#FF9C7A" },
+  },
+  componentStyles: {
+    workspaceBackgroundColour: "#f9f9f9",
+    toolboxBackgroundColour: "#ffffff",
+    flyoutBackgroundColour: "#f9f9f9",
+  },
+})
+
+const toolbox = {
+  kind: "categoryToolbox",
+  contents: [
+    {
+      kind: "category",
+      name: "位置",
+      categorystyle: "position",
+      contents: [
+        { kind: "block", type: "anchor_start" },
+        { kind: "block", type: "anchor_end" },
+        { kind: "block", type: "boundary" },
+        { kind: "block", type: "look" },
+      ],
+    },
+    {
+      kind: "category",
+      name: "文字",
+      categorystyle: "chars",
+      contents: [
+        { kind: "block", type: "chars_input" },
+        { kind: "block", type: "dot" },
+        { kind: "block", type: "dw" },
+        { kind: "block", type: "s" },
+        { kind: "block", type: "unicode_property" },
+        { kind: "block", type: "tab" },
+        { kind: "block", type: "newline" },
+        { kind: "block", type: "escaped_special" },
+        { kind: "block", type: "char_class" },
+        { kind: "block", type: "char_class_join" },
+        { kind: "block", type: "char_class_range" },
+      ],
+    },
+    {
+      kind: "category",
+      name: "結合・選択",
+      categorystyle: "join",
+      contents: [
+        { kind: "block", type: "join" },
+        { kind: "block", type: "choice" },
+      ],
+    },
+    {
+      kind: "category",
+      name: "グループ化",
+      categorystyle: "groups",
+      contents: [
+        { kind: "block", type: "group_noncapturing" },
+        { kind: "block", type: "group" },
+        { kind: "block", type: "group_named" },
+        { kind: "block", type: "backreference" },
+        { kind: "block", type: "backreference_named" },
+      ],
+    },
+    {
+      kind: "category",
+      name: "繰り返し",
+      categorystyle: "repeat",
+      contents: [
+        { kind: "block", type: "question" },
+        { kind: "block", type: "star_plus" },
+        { kind: "block", type: "quantit_exact" },
+        { kind: "block", type: "quantit_min" },
+        { kind: "block", type: "quantit_range" },
+      ],
+    },
+    {
+      kind: "sep",
+    },
+    {
+      kind: "category",
+      name: "置換",
+      categorystyle: "substitute",
+      contents: [
+        { kind: "block", type: "substitute_join" },
+        { kind: "block", type: "dollar" },
+        { kind: "block", type: "ampersand" },
+        { kind: "block", type: "match_before" },
+        { kind: "block", type: "match_after" },
+        { kind: "block", type: "match_backreference" },
+        { kind: "block", type: "match_named_backreference" },
+      ],
+    },
+  ],
+}
+
+Blockly.inject("blockly-editor", {
+  renderer: "zelos",
+  themes: { myTheme: myTheme },
+  theme: "myTheme",
+  toolbox,
+  zoom: {
+    controls: true,
+    wheel: true,
+    startScale: 1.0,
+    maxScale: 3,
+    minScale: 0.3,
+    scaleSpeed: 1.2,
+  },
+  plugins: {
+    flyoutsVerticalToolbox: "ContinuousFlyout",
+    metricsManager: "ContinuousMetrics",
+    toolbox: "ContinuousToolbox",
+  },
+})
+
+// UI要素の取得
+const saveButton = document.getElementById("save-button")
+const loadButton = document.getElementById("load-button")
+const loadInput = document.getElementById("load-input")
+const regexPattern = document.getElementById("regex-pattern")
+const patternCopyButton = document.getElementById("pattern-copy")
+const replaceText = document.getElementById("replace-text")
+const replaceCopyButton = document.getElementById("replace-copy")
+const targetText = document.getElementById("target-text")
+const resultText = document.getElementById("result-text")
+
+// Blocklyのメインワークスペースを取得
+const workspace = Blockly.getMainWorkspace()
+
+// ルートブロックの生成
+const rootBlock = workspace.newBlock("root")
+rootBlock.initSvg()
+const patternInput = rootBlock.getInput("PATTERN")
+const substituteInput = rootBlock.getInput("SUBSTITUTE")
+
+// regex_input shadowブロックを作成
+const patternShadow = workspace.newBlock("regex_input")
+patternShadow.setShadow(true)
+patternShadow.initSvg()
+
+// no_substitute shadowブロックを作成
+const shadow = workspace.newBlock("no_substitute")
+shadow.setShadow(true)
+shadow.initSvg()
+
+// 接続
+patternInput.connection.connect(patternShadow.outputConnection)
+substituteInput.connection.connect(shadow.outputConnection)
+rootBlock.render()
+rootBlock.setMovable(false)
+rootBlock.setDeletable(false)
+workspace.clearUndo()
+
+// ルートブロックの入力値とフラグを監視して正規表現を評価
+evaluateRegex()
+workspace.addChangeListener(evaluateRegex)
+
+// ワークスペースの保存
+saveButton.addEventListener("click", () => {
+  try {
+    const state = Blockly.serialization.workspaces.save(workspace)
+    const jsonString = JSON.stringify(state, null, 2)
+    const blob = new Blob([jsonString], { type: "application/json" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = "regex_workspace.json"
+    a.click()
+    URL.revokeObjectURL(url)
+  } catch (e) {
+    console.error("保存に失敗しました:", e)
+    alert("ワークスペースの保存に失敗しました。")
+  }
+})
+
+// 読み込みボタンでファイル選択をトリガー
+loadButton.addEventListener("click", () => {
+  loadInput.click()
+})
+
+// ワークスペースを読み込み
+loadInput.addEventListener("change", (event) => {
+  const file = event.target.files[0]
+  if (!file) return
+
+  const reader = new FileReader()
+  reader.onload = (e) => {
+    try {
+      const state = JSON.parse(e.target.result)
+      Blockly.serialization.workspaces.load(state, workspace)
+    } catch (e) {
+      alert(
+        "ファイルの読み込みに失敗しました。有効なJSONファイルではありません。"
+      )
+    }
+  }
+  reader.readAsText(file)
+  event.target.value = ""
+})
+
+// ターゲットテキストの入力で更新
+targetText.addEventListener("input", () => {
+  evaluateRegex()
+})
+
+// タブを入力可能にする
+targetText.addEventListener("keydown", (e) => {
+  if (e.key !== "Tab" || e.isComposing) return
+  e.preventDefault()
+  const start = targetText.selectionStart
+  const end = targetText.selectionEnd
+  targetText.setRangeText("\t", start, end, "end")
+  // タブの場合はこっちで更新
+  evaluateRegex()
+})
+
+// 正規表現コピー
+patternCopyButton.addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(regexPattern.value)
+    // 軽いフィードバック
+    const icon = patternCopyButton.querySelector(".material-symbols-outlined")
+    icon.textContent = "check"
+    patternCopyButton.disabled = true
+    setTimeout(() => (patternCopyButton.disabled = false), 300)
+    setTimeout(() => (icon.textContent = "content_copy"), 900)
+  } catch (e) {
+    console.error("クリップボードへのコピーに失敗:", e)
+  }
+})
+
+// 置換文字列コピー
+replaceCopyButton.addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(replaceText.value)
+    // 軽いフィードバック
+    const icon = replaceCopyButton.querySelector(".material-symbols-outlined")
+    icon.textContent = "check"
+    replaceCopyButton.disabled = true
+    setTimeout(() => (replaceCopyButton.disabled = false), 300)
+    setTimeout(() => (icon.textContent = "content_copy"), 900)
+  } catch (e) {
+    console.error("クリップボードへのコピーに失敗:", e)
+  }
+})
+
+// 正規表現の評価関数
+function evaluateRegex() {
+  const rootBlock = workspace.getBlocksByType("root", false)[0]
+  const regexJsonStr = regexGenerator.blockToCode(rootBlock)
+  const regexJson = JSON.parse(regexJsonStr)
+  regexPattern.value = `/${regexJson.pattern}/${regexJson.flags}`
+  replaceText.value = regexJson.substitute
+  resultText.textContent = targetText.value
+  try {
+    const regex = new RegExp(regexJson.pattern, regexJson.flags)
+    const substituteBlock = substituteInput.connection.targetBlock()
+    // 置換しない場合はマッチ部分をハイライト、置換する場合は置換して表示
+    if (substituteBlock.isShadow()) {
+      const matches = [...resultText.textContent.matchAll(regex)]
+      // 空文字に位置だけマッチした場合
+      if (targetText.value === "" && matches.length > 0) {
+        const mark = document.createElement("mark")
+        resultText.appendChild(mark)
+        return
+      }
+      // 置換しない場合はマッチ部分をハイライト
+      for (const match of matches.reverse()) {
+        markTextRange(
+          resultText.firstChild,
+          match.index,
+          match.index + match[0].length
+        )
+      }
+    } else {
+      // 置換する場合は置換して表示
+      resultText.textContent = resultText.textContent.replace(
+        regex,
+        regexJson.substitute
+      )
+    }
+    // 空白文字を可視化
+    resultText.innerHTML = visualizeWhitespace(resultText.innerHTML)
+  } catch (e) {
+    resultText.textContent = `エラー：${e.message}`
+  }
+}
+
+function markTextRange(node, start, end) {
+  const range = document.createRange()
+  range.setStart(node, start)
+  range.setEnd(node, end)
+  const mark = document.createElement("mark")
+  range.surroundContents(mark)
+}
+
+// 空白文字を可視化する関数（置き換えるものがスペース、タブ、改行のみなのでinnerHTMLでエスケープしても問題ない）
+function visualizeWhitespace(str) {
+  return str
+    .replace(/ /g, '<span class="sp-mark">␣</span>') // 半角スペース → ␣
+    .replace(/\t/g, '<span class="tb-mark">⇥</span>') // タブ → ⇥
+    .replace(/\n/g, '<span class="nl-mark">⏎</span>\n') // 改行 → ⏎\n
+}

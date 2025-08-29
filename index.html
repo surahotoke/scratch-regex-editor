@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scratch風Regexエディター</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
+  <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+  <script src="https://unpkg.com/blockly/msg/ja.js"></script>
+  <script src="https://unpkg.com/@blockly/continuous-toolbox"></script>
+  <script src="https://unpkg.com/@blockly/field-grid-dropdown"></script>
+</head>
+
+<body>
+  <header>
+    <h1><span class="material-symbols-outlined">regular_expression</span>Scratch風Regexエディター</h1>
+    <div class="header-content">
+      <span class="message">自由に触ってね！</span>
+      <div class="file-controls">
+        <button id="save-button" title="保存">
+          <span class="material-symbols-outlined">save</span>
+        </button>
+        <input type="file" id="load-input" accept=".json,application/json" hidden>
+        <button id="load-button" title="読み込み">
+          <span class="material-symbols-outlined">folder_open</span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div id="blockly-editor"></div>
+    <aside>
+      <section>
+        <h2>正規表現パターン</h2>
+        <div class="pattern-container">
+          <input type="text" id="regex-pattern" class="regex-pattern" readonly>
+          <button id="pattern-copy" class="copy-button" title="コピー">
+            <span class="material-symbols-outlined">content_copy</span>
+          </button>
+        </div>
+      </section>
+      <section>
+        <h2>置換文字列</h2>
+        <div class="replace-container">
+          <input type="text" id="replace-text" class="replace-text" readonly>
+          <button id="replace-copy" class="copy-button" title="コピー">
+            <span class="material-symbols-outlined">content_copy</span>
+          </button>
+        </div>
+      </section>
+      <section>
+        <h2>対象テキスト</h2>
+        <textarea id="target-text" class="target-text" placeholder="ここにテキストを入力（タブも入力可能）" spellcheck="false"
+          autocorrect="off" autocapitalize="off" autocomplete="off"></textarea>
+      </section>
+      <section>
+        <h2>結果</h2>
+        <pre id="result-text" class="result-text"></pre>
+      </section>
+    </aside>
+  </main>
+  <script type="module" src="js/main.js"></script>
+</body>
+
+</html>
