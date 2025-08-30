@@ -141,10 +141,11 @@ const workspace = Blockly.getMainWorkspace()
 const flyout = Blockly.Workspace.getAll()[2]
 
 // フライアウトのzoomの変更を阻止
-flyout.addChangeListener(() => {
+flyout.addChangeListener((event) => {
   const newScale = flyout.scale
   // 無限ループ防止
-  if (newScale === 1) return
+  if (event.type !== 'viewport_change' || newScale === 1) return
+  console.log(event)
   // フライアウトの幅はなぜかフライアウトではなくworkspaceのsetScale()でしか変えられない、フライアウトのブロックサイズも変えられる
   workspace.setScale(1)
   // フライアウトを調整した直後workspaceを理想のscaleに戻す
