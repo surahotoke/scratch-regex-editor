@@ -140,21 +140,22 @@ const resultText = document.getElementById("result-text")
 const workspace = Blockly.getMainWorkspace()
 const flyout = Blockly.Workspace.getAll()[2]
 
+// 通常の場合使用されるフライアウト
+const dumyFlyout = workspace.getFlyout(false)
+
 // フライアウトのzoomの変更を阻止
 flyout.addChangeListener((event) => {
-  const newScale = flyout.scale
-  // 無限ループ防止
+  const newScale = workspace.scale
+  // newScale が 1 の場合も意味がないので無視
   if (event.type !== 'viewport_change' || newScale === 1) return
-  console.log(event)
-  // フライアウトの幅はなぜかフライアウトではなくworkspaceのsetScale()でしか変えられない、フライアウトのブロックサイズも変えられる
-  workspace.setScale(1)
-  // フライアウトを調整した直後workspaceを理想のscaleに戻す
-  requestAnimationFrame(() => {
-    // resize()でscaleを変えるとchangeListenerを動作させずにscaleを反映させられる
-    workspace.scale = newScale
-    workspace.resize()
-  })
+  // 一旦 1 に戻してフライアウトを整える
+  workspace.scale = 1
+  dumyFlyout.reflow()
+  // 本来のスケールに戻して再レイアウト
+  workspace.scale = newScale
+  workspace.resize()
 })
+
 // ルートブロックの設定
 const rootBlockDef = {
   type: "root",
