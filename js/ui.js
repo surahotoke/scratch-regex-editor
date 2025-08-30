@@ -116,24 +116,15 @@ const toolbox = {
 
 Blockly.inject("blockly-editor", {
   renderer: "zelos",
-  themes: { myTheme: myTheme },
-  theme: "myTheme",
+  theme: myTheme,
   toolbox,
-  zoom: {
-    controls: true,
-    wheel: true,
-    startScale: 1.0,
-    maxScale: 3,
-    minScale: 0.3,
-    scaleSpeed: 1.2,
-  },
+  zoom: { controls: true },
   plugins: {
     flyoutsVerticalToolbox: "ContinuousFlyout",
     metricsManager: "ContinuousMetrics",
     toolbox: "ContinuousToolbox",
   },
 })
-
 // UI要素の取得
 const saveButton = document.getElementById("save-button")
 const loadButton = document.getElementById("load-button")
@@ -145,37 +136,46 @@ const replaceCopyButton = document.getElementById("replace-copy")
 const targetText = document.getElementById("target-text")
 const resultText = document.getElementById("result-text")
 
-// Blocklyのメインワークスペースを取得
+// Blocklyのワークスペースを取得
 const workspace = Blockly.getMainWorkspace()
+const flyout = Blockly.Workspace.getAll()[2]
 
-// ルートブロックの生成
-const rootBlock = workspace.newBlock("root")
-// 初期位置
-rootBlock.moveBy(20, 20)
-rootBlock.initSvg()
-const patternInput = rootBlock.getInput("PATTERN")
-const substituteInput = rootBlock.getInput("SUBSTITUTE")
-
-// regex_input shadowブロックを作成
-const patternShadow = workspace.newBlock("regex_input")
-patternShadow.setShadow(true)
-patternShadow.initSvg()
-
-// no_substitute shadowブロックを作成
-const shadow = workspace.newBlock("no_substitute")
-shadow.setShadow(true)
-shadow.initSvg()
-
-// 接続
-patternInput.connection.connect(patternShadow.outputConnection)
-substituteInput.connection.connect(shadow.outputConnection)
-rootBlock.render()
+// フライアウトのzoomの変更を阻止
+flyout.addChangeListener(() => {
+  const newScale = flyout.scale
+  // 無限ループ防止
+  if (newScale === 1) return
+  // フライアウトの幅はなぜかフライアウトではなくworkspaceのsetScale()でしか変えられない、フライアウトのブロックサイズも変えられる
+  workspace.setScale(1)
+  // フライアウトを調整した直後workspaceを理想のscaleに戻す
+  requestAnimationFrame(() => {
+    // resize()でscaleを変えるとchangeListenerを動作させずにscaleを反映させられる
+    workspace.scale = newScale
+    workspace.resize()
+  })
+})
+// ルートブロックの設定
+const rootBlockDef = {
+  type: "root",
+  x: 20,
+  y: 20,
+  inputs: {
+    PATTERN: {
+      shadow: { type: "regex_input" },
+    },
+    SUBSTITUTE: {
+      shadow: { type: "no_substitute" },
+    },
+  },
+}
+// workspace にrootブロックを追加
+Blockly.serialization.blocks.append(rootBlockDef, workspace)
+const rootBlock = workspace.getBlocksByType("root")[0]
 rootBlock.setMovable(false)
 rootBlock.setDeletable(false)
 workspace.clearUndo()
 
 // ルートブロックの入力値とフラグを監視して正規表現を評価
-evaluateRegex()
 workspace.addChangeListener(evaluateRegex)
 
 // ワークスペースの保存
@@ -204,6 +204,7 @@ loadButton.addEventListener("click", () => {
 // ワークスペースを読み込み
 loadInput.addEventListener("change", (event) => {
   const file = event.target.files[0]
+  // キャンセル
   if (!file) return
 
   const reader = new FileReader()
@@ -222,9 +223,7 @@ loadInput.addEventListener("change", (event) => {
 })
 
 // ターゲットテキストの入力で更新
-targetText.addEventListener("input", () => {
-  evaluateRegex()
-})
+targetText.addEventListener("input", evaluateRegex)
 
 // タブを入力可能にする
 targetText.addEventListener("keydown", (e) => {
@@ -277,6 +276,7 @@ function evaluateRegex() {
   resultText.textContent = targetText.value
   try {
     const regex = new RegExp(regexJson.pattern, regexJson.flags)
+    const substituteInput = rootBlock.getInput("SUBSTITUTE")
     const substituteBlock = substituteInput.connection.targetBlock()
     // 置換しない場合はマッチ部分をハイライト、置換する場合は置換して表示
     if (substituteBlock.isShadow()) {

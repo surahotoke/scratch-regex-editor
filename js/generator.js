@@ -1,4 +1,6 @@
 export const regexGenerator = new Blockly.Generator("REGEX")
+// コード生成
+
 const Order = {
   ATOMIC: 0,
 }

@@ -5,7 +5,7 @@ Blockly.defineBlocksWithJsonArray([
     message0: "置換しない",
     output: "substitute",
     style: "substituteShadow",
-    tooltip: "置換しない",
+    tooltip: "マッチさせる",
   },
   {
     type: "substitute_join",

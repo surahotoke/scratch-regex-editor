@@ -43,5 +43,6 @@ Blockly.defineBlocksWithJsonArray([
       },
     ],
     output: "regex",
+    tooltip: "正規表現の入力ブロック。テキスト入力も可能です",
   },
 ])
