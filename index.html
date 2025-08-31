@@ -16,18 +16,25 @@
 <body>
   <header>
     <h1><span class="material-symbols-outlined">regular_expression</span>Scratch風Regexエディター</h1>
-    <div class="header-content">
-      <span class="message">自由に触ってね！</span>
-      <div class="file-controls">
-        <button id="save-button" title="保存">
-          <span class="material-symbols-outlined">save</span>
-        </button>
-        <input type="file" id="load-input" accept=".json,application/json" hidden>
-        <button id="load-button" title="読み込み">
-          <span class="material-symbols-outlined">folder_open</span>
-        </button>
+    <nav>
+      <div class="dropdown">
+        <button class="dropdown-label" tabindex="0"><span class="material-symbols-outlined">draft</span>ファイル<span
+            class="material-symbols-outlined">arrow_drop_down</span></button>
+        <ul class="dropdown-menu">
+          <li>
+            <button id="save-button" class="item" tabindex="0">
+              <span class="material-symbols-outlined">file_export</span>コンピューターに保存する
+            </button>
+          </li>
+          <li>
+            <input type="file" id="load-input" accept=".json,application/json" hidden>
+            <button id="load-button" class="item" tabindex="0">
+              <span class="material-symbols-outlined">file_open</span>コンピューターから読み込む
+            </button>
+          </li>
+        </ul>
       </div>
-    </div>
+    </nav>
   </header>
   <main>
     <div id="blockly-editor"></div>
