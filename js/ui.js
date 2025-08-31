@@ -118,13 +118,20 @@ Blockly.inject("blockly-editor", {
   renderer: "zelos",
   theme: myTheme,
   toolbox,
-  zoom: { controls: true },
+  collapse: false,
+  comments: false,
+  disable: false,
+  zoom: {
+    controls: true,
+    startScale: 0.8,
+  },
   plugins: {
     flyoutsVerticalToolbox: "ContinuousFlyout",
     metricsManager: "ContinuousMetrics",
     toolbox: "ContinuousToolbox",
   },
 })
+
 // UI要素の取得
 const saveButton = document.getElementById("save-button")
 const loadButton = document.getElementById("load-button")
@@ -139,6 +146,7 @@ const resultText = document.getElementById("result-text")
 // Blocklyのワークスペースを取得
 const workspace = Blockly.getMainWorkspace()
 const flyout = Blockly.Workspace.getAll()[2]
+const startScale = workspace.options.zoomOptions.startScale
 
 // 通常の場合使用されるフライアウト
 const dumyFlyout = workspace.getFlyout(false)
@@ -147,9 +155,9 @@ const dumyFlyout = workspace.getFlyout(false)
 flyout.addChangeListener((event) => {
   const newScale = workspace.scale
   // newScale が 1 の場合も意味がないので無視
-  if (event.type !== 'viewport_change' || newScale === 1) return
+  if (event.type !== "viewport_change" || newScale === startScale) return
   // 一旦 1 に戻してフライアウトを整える
-  workspace.scale = 1
+  workspace.scale = startScale
   dumyFlyout.reflow()
   // 本来のスケールに戻して再レイアウト
   workspace.scale = newScale

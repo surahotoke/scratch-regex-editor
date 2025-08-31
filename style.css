@@ -1,12 +1,17 @@
 html,
 body {
-  min-width: 600px;
-  min-height: 100vh;
+  min-width: fit-content;
+  min-height: 700px;
+  width: 100vw;
+  height: 100vh;
 }
 body {
   margin: 0;
   display: flex;
   flex-direction: column;
+  & > main {
+    flex: 1;
+  }
 }
 
 button,
@@ -28,17 +33,16 @@ header {
   border-bottom: solid 1px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
-  gap: 1em;
+  gap: 2em;
   & > nav {
     flex: 1;
   }
 }
 h1 {
-  font-size: 1.4em;
+  font-size: 1.2em;
   margin: 0;
-  word-break: keep-all;
   & > .material-symbols-outlined {
-    font-size: 1.7em;
+    font-size: 2em;
   }
 }
 
@@ -81,7 +85,7 @@ nav {
 .dropdown-label,
 .item {
   background: white;
-  padding: 0 0.6em;
+  padding: 0.3em 0.6em;
   border: none;
   border-inline: solid 1px #ddd;
   &:hover {
@@ -96,14 +100,18 @@ nav {
 }
 
 main {
-  flex: 1;
+  min-height: 0;
   display: flex;
   & > #blockly-editor {
-    flex: 1;
+    flex: 6;
+    min-width: 600px;
+    border-right: solid 1px rgba(0, 0, 0, 0.15);
   }
   & > aside {
-    width: 360px;
+    flex: 3;
+    min-width: 280px;
     padding: 0.6em;
+    padding-bottom: 0.3em;
     box-sizing: border-box;
   }
 }
@@ -117,10 +125,12 @@ main {
 }
 
 aside {
-  border-left: solid 1px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   gap: 1em;
+  & > .result-container {
+    flex: 1;
+  }
 }
 
 h2 {
@@ -159,29 +169,38 @@ h2 {
 .target-text,
 .result-text {
   font-size: 1.2em;
+  box-sizing: border-box;
 }
 
 .target-text {
   width: 100%;
   height: 160px;
-  box-sizing: border-box;
   resize: none;
+}
+.result-container {
+  &,
+  :has(> &) {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
 }
 .result-text {
   background: #f8fafc;
   min-height: 120px;
-  max-height: 20em;
-  overflow: scroll;
+  max-height: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
   margin: 0;
   border: solid 1px #e5e7eb;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
   white-space: pre-wrap;
 }
 
 mark {
   padding: 0 0.05em;
   margin: 0 0.1em;
-  background-color: orange;
+  background: orange;
 }
 .sp-mark,
 .tb-mark,
