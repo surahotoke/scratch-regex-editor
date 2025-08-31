@@ -69,7 +69,6 @@ nav {
   z-index: 10;
   list-style: none;
   :focus + &,
-  &:focus-within,
   &:active {
     display: block;
   }
@@ -92,8 +91,11 @@ nav {
 .dropdown-menu {
   &,
   & .item {
-    border: solid 1px #ddd;
+    border: solid 0.5px #ddd;
   }
+}
+#new-button {
+  border-bottom: solid 2px #ddd;
 }
 
 main {

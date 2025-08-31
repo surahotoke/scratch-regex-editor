@@ -134,8 +134,9 @@ Blockly.inject("blockly-editor", {
 })
 
 // UI要素の取得
-const saveButton = document.getElementById("save-button")
+const newButton = document.getElementById("new-button")
 const loadButton = document.getElementById("load-button")
+const saveButton = document.getElementById("save-button")
 const loadInput = document.getElementById("load-input")
 const regexPattern = document.getElementById("regex-pattern")
 const patternCopyButton = document.getElementById("pattern-copy")
@@ -179,32 +180,28 @@ const rootBlockDef = {
     },
   },
 }
-// workspace にrootブロックを追加
-Blockly.serialization.blocks.append(rootBlockDef, workspace)
-const rootBlock = workspace.getBlocksByType("root")[0]
-rootBlock.setMovable(false)
-rootBlock.setDeletable(false)
-workspace.clearUndo()
 
-// ルートブロックの入力値とフラグを監視して正規表現を評価
-workspace.addChangeListener(evaluateRegex)
+// ワークスペースを初期状態にリセットする
+function resetWorkspace() {
+  workspace.clear()
 
-// ワークスペースの保存
-saveButton.addEventListener("click", () => {
-  try {
-    const state = Blockly.serialization.workspaces.save(workspace)
-    const jsonString = JSON.stringify(state, null, 2)
-    const blob = new Blob([jsonString], { type: "application/json" })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = "regex_workspace.json"
-    a.click()
-    URL.revokeObjectURL(url)
-  } catch (e) {
-    console.error("保存に失敗しました:", e)
-    alert("ワークスペースの保存に失敗しました。")
-  }
+  // 初期ブロックを追加
+  Blockly.serialization.blocks.append(rootBlockDef, workspace)
+  const rootBlock = workspace.getBlocksByType("root")[0]
+  rootBlock.setMovable(false)
+  rootBlock.setDeletable(false)
+  workspace.clearUndo()
+
+  // 入力値やフラグの監視
+  workspace.addChangeListener(evaluateRegex)
+}
+
+// 初期化時
+resetWorkspace()
+
+// ワークスペースの新規作成ボタン
+newButton.addEventListener("click", () => {
+  resetWorkspace()
 })
 
 // 読み込みボタンでファイル選択をトリガー
@@ -231,6 +228,24 @@ loadInput.addEventListener("change", (event) => {
   }
   reader.readAsText(file)
   event.target.value = ""
+})
+
+// ワークスペースの保存
+saveButton.addEventListener("click", () => {
+  try {
+    const state = Blockly.serialization.workspaces.save(workspace)
+    const jsonString = JSON.stringify(state, null, 2)
+    const blob = new Blob([jsonString], { type: "application/json" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = "regex_workspace.json"
+    a.click()
+    URL.revokeObjectURL(url)
+  } catch (e) {
+    console.error("保存に失敗しました:", e)
+    alert("ワークスペースの保存に失敗しました。")
+  }
 })
 
 // ターゲットテキストの入力で更新
