@@ -121,6 +121,7 @@ Blockly.inject("blockly-editor", {
   collapse: false,
   comments: false,
   disable: false,
+  modalInputs: false,
   zoom: {
     controls: true,
     startScale: 0.8,
