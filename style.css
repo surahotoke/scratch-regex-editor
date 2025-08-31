@@ -1,11 +1,8 @@
-html,
 body {
-  min-width: fit-content;
-  min-height: 700px;
+  min-width: auto;
+  min-height: 680px;
   width: 100vw;
   height: 100vh;
-}
-body {
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -170,12 +167,16 @@ h2 {
 .result-text {
   font-size: 1.2em;
   box-sizing: border-box;
+  white-space: pre;
 }
 
 .target-text {
   width: 100%;
   height: 160px;
   resize: none;
+  &::placeholder {
+    font-size: smaller;
+  }
 }
 .result-container {
   &,
@@ -189,12 +190,9 @@ h2 {
   background: #f8fafc;
   min-height: 120px;
   max-height: 100%;
-  overflow: hidden;
-  overflow-y: scroll;
+  overflow: scroll;
   margin: 0;
   border: solid 1px #e5e7eb;
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
 }
 
 mark {
