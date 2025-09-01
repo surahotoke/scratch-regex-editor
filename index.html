@@ -16,34 +16,145 @@
 <body>
   <header>
     <h1><span class="material-symbols-outlined">regular_expression</span>Scratch風Regexエディター</h1>
+
     <nav>
+
       <div class="dropdown">
-        <button class="dropdown-label" tabindex="0"><span class="material-symbols-outlined">draft</span>ファイル<span
-            class="material-symbols-outlined">arrow_drop_down</span></button>
+        <button class="dropdown-label" tabindex="0">
+          <span class="material-symbols-outlined">draft</span>ファイル
+          <span class="material-symbols-outlined">arrow_drop_down</span>
+        </button>
+
         <ul class="dropdown-menu">
+
           <li>
-            <button id="new-button" class="item">
+            <button id="new-button" class="item" tabindex="-1">
               <span class="material-symbols-outlined">note_add</span>新規作成
             </button>
           </li>
+
           <li>
             <input type="file" id="load-input" accept=".json,application/json" hidden>
-            <button id="load-button" class="item" tabindex="0">
+            <button id="load-button" class="item" tabindex="-1">
               <span class="material-symbols-outlined">file_open</span>コンピューターから読み込む
             </button>
           </li>
+
           <li>
-            <button id="save-button" class="item" tabindex="0">
+            <button id="save-button" class="item" tabindex="-1">
               <span class="material-symbols-outlined">file_export</span>コンピューターに保存する
             </button>
           </li>
+
         </ul>
       </div>
+
+      <div class="dropdown">
+        <button class="dropdown-label" tabindex="0">
+          <span class="material-symbols-outlined">code_blocks</span>サンプル
+          <span class="material-symbols-outlined">arrow_drop_down</span>
+        </button>
+
+        <ul class="dropdown-menu">
+
+          <li>
+            <button id="" class="item" tabindex="-1">
+              <span class="material-symbols-outlined">code_blocks</span>日付検出
+            </button>
+          </li>
+
+          <li>
+            <button id="" class="item" tabindex="-1">
+              <span class="material-symbols-outlined">code_blocks</span>数字区切り
+            </button>
+          </li>
+
+          <li>
+            <button id="" class="item" tabindex="-1">
+              <span class="material-symbols-outlined">code_blocks</span>URL
+            </button>
+          </li>
+
+        </ul>
+      </div>
+
+      <div class="dropdown">
+        <button class="dropdown-label" tabindex="0">
+          <span class="material-symbols-outlined">settings</span>設定
+          <span class="material-symbols-outlined">arrow_drop_down</span>
+        </button>
+
+        <ul class="dropdown-menu">
+
+          <li class="side-dropdown">
+            <button class="item side-dropdown-label" tabindex="-1">
+              <span class="material-symbols-outlined">language</span>言語
+              <span class="material-symbols-outlined">arrow_right</span>
+            </button>
+
+            <ul class="side-dropdown-menu">
+
+              <li>
+                <button id="language-japanese" class="side-item" tabindex="-1">日本語</button>
+              </li>
+
+              <li>
+                <button id="language-english" class="side-item" tabindex="-1">English</button>
+              </li>
+
+              <li>
+                <button id="language-chinese" class="side-item" tabindex="-1">简体中文</button>
+              </li>
+
+              <li>
+                <button id="language-spanish" class="side-item" tabindex="-1">Español</button>
+              </li>
+
+              <li>
+                <button id="language-korean" class="side-item" tabindex="-1">한국어</button>
+              </li>
+
+              <li>
+                <button id="language-hindi" class="side-item" tabindex="-1">हिंदी</button>
+              </li>
+
+            </ul>
+          </li>
+
+          <li class="side-dropdown">
+            <button class="item side-dropdown-label" tabindex="-1">
+              <span class="material-symbols-outlined">contrast</span>テーマ
+              <span class="material-symbols-outlined">arrow_right</span>
+            </button>
+
+            <ul class="side-dropdown-menu">
+
+              <li>
+                <button id="auto-theme" class="side-item" tabindex="-1">自動</button>
+              </li>
+
+              <li>
+                <button id="light-theme" class="side-item" tabindex="-1">ライト</button>
+              </li>
+
+              <li>
+                <button id="dark-theme" class="side-item" tabindex="-1">ダーク</button>
+              </li>
+
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+
     </nav>
   </header>
+
   <main>
     <div id="blockly-editor"></div>
+
     <aside>
+
       <section>
         <h2>正規表現パターン</h2>
         <div class="pattern-container">
@@ -53,6 +164,7 @@
           </button>
         </div>
       </section>
+
       <section>
         <h2>置換文字列</h2>
         <div class="replace-container">
@@ -62,19 +174,23 @@
           </button>
         </div>
       </section>
+
       <section>
         <h2>対象テキスト</h2>
         <textarea id="target-text" class="target-text" placeholder="ここにテキストを入力（タブも入力可能）" spellcheck="false"
           autocorrect="off" autocapitalize="off" autocomplete="off"></textarea>
       </section>
+
       <section>
         <h2>結果</h2>
         <div class="result-container">
           <pre id="result-text" class="result-text"></pre>
         </div>
       </section>
+
     </aside>
   </main>
+
   <script type="module" src="js/main.js"></script>
 </body>
 
