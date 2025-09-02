@@ -15,9 +15,16 @@ button,
 .material-symbols-outlined {
   user-select: none;
 }
-button {
+
+button:hover,
+.dropdown,
+label:hover {
   cursor: pointer;
 }
+label:has(:checked) {
+  filter: brightness(0.8);
+}
+
 :has(> .material-symbols-outlined) {
   display: flex;
   align-items: center;
@@ -55,13 +62,23 @@ nav {
     position: absolute;
   }
 }
+.side-dropdown {
+  position: relative;
+  & > .side-dropdown-menu {
+    position: absolute;
+  }
+}
 .dropdown-label {
   height: 100%;
-  &:focus {
+  .dropdown:focus-within > & {
     pointer-events: none;
   }
 }
-.dropdown-menu {
+.dropdown-name {
+  flex: 1;
+}
+.dropdown-menu,
+.side-dropdown-menu {
   display: none;
   width: max-content;
   padding: 0;
@@ -71,23 +88,44 @@ nav {
   & > li {
     display: flex;
   }
+}
+.dropdown-menu {
+  transform: translateY(2.5px);
+  &:active,
   :focus + &,
-  &:active {
+  &:has(.side-dropdown-label:focus) {
     display: block;
+    .dropdown:has(:where(&, .side-dropdown-label:focus)) .dropdown-label  {
+      filter: brightness(0.8);
+    }
   }
 }
-.item {
+.side-dropdown-menu {
+  left: 100%;
+  &:active,
+  :focus + &,
+  :focus + .dropdown-menu &:hover,
+  .dropdown-menu:not(:focus-within) :hover + & {
+    display: block;
+    .side-dropdown:has(> &) .side-dropdown-label {
+      filter: brightness(0.8);
+    }
+  }
+}
+.item,
+.side-item {
   width: 100%;
   pointer-events: all;
 }
 
 .dropdown-label,
-.item {
+.item,
+.side-item {
   background: white;
   padding: 0.3em 0.6em;
   border: none;
   border-inline: solid 1px #ddd;
-  &:hover {
+  &:active, &:hover {
     filter: brightness(0.8);
   }
 }
@@ -97,7 +135,14 @@ nav {
     border: solid 0.5px #ddd;
   }
 }
-#new-button {
+.side-dropdown-menu {
+  &,
+  & .side-item {
+    border: solid 0.5px #ddd;
+  }
+}
+#new-button,
+#auto-theme {
   border-bottom: solid 2px #ddd;
 }
 

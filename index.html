@@ -21,7 +21,7 @@
 
       <div class="dropdown">
         <button class="dropdown-label" tabindex="0">
-          <span class="material-symbols-outlined">settings</span>設定（未実装）
+          <span class="dropdown-name"><span class="material-symbols-outlined">settings</span>設定（未実装）</span>
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
 
@@ -29,34 +29,46 @@
 
           <li class="side-dropdown">
             <button class="item side-dropdown-label" tabindex="-1">
-              <span class="material-symbols-outlined">language</span>言語
+              <span class="dropdown-name"><span class="material-symbols-outlined">language</span>言語</span>
               <span class="material-symbols-outlined">arrow_right</span>
             </button>
 
             <ul class="side-dropdown-menu">
 
               <li>
-                <button id="language-japanese" class="side-item" tabindex="-1">日本語</button>
+                <label id="language-japanese" class="side-item" tabindex="-1">日本語
+                  <input type="radio" name="language" hidden checked>
+                </label>
               </li>
 
               <li>
-                <button id="language-english" class="side-item" tabindex="-1">English</button>
+                <label id="language-english" class="side-item" tabindex="-1">English
+                  <input type="radio" name="language" hidden>
+                </label>
               </li>
 
               <li>
-                <button id="language-chinese" class="side-item" tabindex="-1">简体中文</button>
+                <label id="language-chinese" class="side-item" tabindex="-1">简体中文
+                  <input type="radio" name="language" hidden>
+                </label>
               </li>
 
               <li>
-                <button id="language-spanish" class="side-item" tabindex="-1">Español</button>
+                <label id="language-spanish" class="side-item" tabindex="-1">Español
+                  <input type="radio" name="language" hidden>
+                </label>
               </li>
 
               <li>
-                <button id="language-korean" class="side-item" tabindex="-1">한국어</button>
+                <label id="language-korean" class="side-item" tabindex="-1">한국어
+                  <input type="radio" name="language" hidden>
+                </label>
               </li>
 
               <li>
-                <button id="language-hindi" class="side-item" tabindex="-1">हिंदी</button>
+                <label id="language-hindi" class="side-item" tabindex="-1">हिंदी
+                  <input type="radio" name="language" hidden>
+                </label>
               </li>
 
             </ul>
@@ -64,22 +76,28 @@
 
           <li class="side-dropdown">
             <button class="item side-dropdown-label" tabindex="-1">
-              <span class="material-symbols-outlined">contrast</span>テーマ
+              <span class="dropdown-name"><span class="material-symbols-outlined">contrast</span>テーマ</span>
               <span class="material-symbols-outlined">arrow_right</span>
             </button>
 
             <ul class="side-dropdown-menu">
 
               <li>
-                <button id="auto-theme" class="side-item" tabindex="-1">自動</button>
+                <label id="auto-theme" class="side-item" tabindex="-1">自動
+                  <input type="radio" name="theme" hidden checked>
+                </label>
               </li>
 
               <li>
-                <button id="light-theme" class="side-item" tabindex="-1">ライト</button>
+                <label id="light-theme" class="side-item" tabindex="-1">ライト
+                  <input type="radio" name="theme" hidden>
+                </label>
               </li>
 
               <li>
-                <button id="dark-theme" class="side-item" tabindex="-1">ダーク</button>
+                <label id="dark-theme" class="side-item" tabindex="-1">ダーク
+                  <input type="radio" name="theme" hidden>
+                </label>
               </li>
 
             </ul>
@@ -90,7 +108,7 @@
 
       <div class="dropdown">
         <button class="dropdown-label" tabindex="0">
-          <span class="material-symbols-outlined">draft</span>ファイル
+          <span class="dropdown-name"><span class="material-symbols-outlined">draft</span>ファイル</span>
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
 
@@ -120,7 +138,7 @@
 
       <div class="dropdown">
         <button class="dropdown-label" tabindex="0">
-          <span class="material-symbols-outlined">code_blocks</span>サンプル（未実装）
+          <span class="dropdown-name"><span class="material-symbols-outlined">code_blocks</span>サンプル（未実装）</span>
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
 
