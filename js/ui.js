@@ -23,9 +23,16 @@ const myTheme = Blockly.Theme.defineTheme("myTheme", {
     substituteShadow: { colourPrimary: "#FF9C7A" },
   },
   componentStyles: {
+    // ライトテーマの色設定
     workspaceBackgroundColour: "#f9f9f9",
     toolboxBackgroundColour: "#ffffff",
     flyoutBackgroundColour: "#f9f9f9",
+    // ダークテーマの色設定
+    // workspaceBackgroundColour: "#1e1e1e",
+    // toolboxBackgroundColour: "#2c2c2c",
+    // flyoutBackgroundColour: "#252525",
+    // toolboxForegroundColour: "#eeeeee",
+    // flyoutForegroundColour: "#eeeeee",
   },
 })
 
