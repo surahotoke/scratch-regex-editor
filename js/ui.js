@@ -219,8 +219,11 @@ loadInput.addEventListener("change", (event) => {
   reader.onload = (e) => {
     try {
       const state = JSON.parse(e.target.result)
-      Blockly.serialization.workspaces.load(state, workspace)
+      if (state.targetText) targetText.value = state.targetText
+      if (state.workspace)
+        Blockly.serialization.workspaces.load(state.workspace, workspace)
     } catch (e) {
+      console.error("ファイルの読み込みに失敗しました:", e)
       alert(
         "ファイルの読み込みに失敗しました。有効なJSONファイルではありません。"
       )
@@ -233,7 +236,10 @@ loadInput.addEventListener("change", (event) => {
 // ワークスペースの保存
 saveButton.addEventListener("click", () => {
   try {
-    const state = Blockly.serialization.workspaces.save(workspace)
+    const state = {
+      workspace: Blockly.serialization.workspaces.save(workspace),
+      targetText: targetText.value,
+    }
     const jsonString = JSON.stringify(state, null, 2)
     const blob = new Blob([jsonString], { type: "application/json" })
     const url = URL.createObjectURL(blob)
