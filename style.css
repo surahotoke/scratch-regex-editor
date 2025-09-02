@@ -93,9 +93,15 @@ nav {
   transform: translateY(2.5px);
   &:active,
   :focus + &,
-  &:has(.side-dropdown-label:focus) {
+  &:has(.side-dropdown-label:focus),
+  &:has(.side-dropdown-menu:focus-within):hover {
     display: block;
-    .dropdown:has(:where(&, .side-dropdown-label:focus)) .dropdown-label  {
+    .dropdown:where(
+        :has(&),
+        :has(.side-dropdown-label:focus),
+        :has(.side-dropdown-menu:focus-within):hover
+      )
+      .dropdown-label {
       filter: brightness(0.8);
     }
   }
@@ -103,6 +109,7 @@ nav {
 .side-dropdown-menu {
   left: 100%;
   &:active,
+  &:focus-within,
   :focus + &,
   :focus + .dropdown-menu &:hover,
   .dropdown-menu:not(:focus-within) :hover + & {
@@ -125,7 +132,8 @@ nav {
   padding: 0.3em 0.6em;
   border: none;
   border-inline: solid 1px #ddd;
-  &:active, &:hover {
+  &:active,
+  &:hover {
     filter: brightness(0.8);
   }
 }
