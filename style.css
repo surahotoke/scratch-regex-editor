@@ -91,17 +91,12 @@ nav {
 }
 .dropdown-menu {
   transform: translateY(2.5px);
-  &:active,
+  &:hover:not(:focus),
   :focus + &,
   &:has(.side-dropdown-label:focus),
-  &:has(.side-dropdown-menu:focus-within):hover {
+  &:has(.side-item:focus > :not(:checked)) {
     display: block;
-    .dropdown:where(
-        :has(&),
-        :has(.side-dropdown-label:focus),
-        :has(.side-dropdown-menu:focus-within):hover
-      )
-      .dropdown-label {
+    .dropdown:has(:where(&, .side-dropdown-label:focus)) .dropdown-label  {
       filter: brightness(0.8);
     }
   }
@@ -109,10 +104,10 @@ nav {
 .side-dropdown-menu {
   left: 100%;
   &:active,
-  &:focus-within,
   :focus + &,
   :focus + .dropdown-menu &:hover,
-  .dropdown-menu:not(:focus-within) :hover + & {
+  .dropdown-menu:not(:focus-within) :hover + &,
+  &:has(.side-item:focus > :not(:checked)) {
     display: block;
     .side-dropdown:has(> &) .side-dropdown-label {
       filter: brightness(0.8);
@@ -132,8 +127,7 @@ nav {
   padding: 0.3em 0.6em;
   border: none;
   border-inline: solid 1px #ddd;
-  &:active,
-  &:hover {
+  &:active, &:hover {
     filter: brightness(0.8);
   }
 }
