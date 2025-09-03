@@ -1,9 +1,53 @@
+:root {
+  --dark-bg: #05060a;
+  --dark-text: #e6eef6;
+  --dark-slate: #0f1724;
+  --dark-copy-bg: #0b1220;
+  --dark-input-bg: #061021;
+  --dark-result-bg: #071021;
+  --dark-muted: #9aa6b2;
+
+  --light-bg: #ffffff;
+  --light-text: #0b1220;
+  --light-item-bg: #ffffff;
+  --light-copy-bg: #ffffff;
+  --light-input-bg: #ffffff;
+  --light-result-bg: #f8fafc;
+  --light-muted: #94a3b8;
+  --accent: orange;
+  --light-brightness: 0.8;
+  --dark-brightness: 3;
+  --brightness: var(--light-brightness);
+}
+
+@media (color-scheme: dark) {
+  :root {
+    --brightness: var(--dark-brightness);
+  }
+}
+
+:root:has(#auto-theme > :checked) {
+  --ama: 0;
+  color-scheme: light dark;
+}
+
+:root:has(#light-theme > :checked) {
+  color-scheme: light;
+}
+
+:root:has(#dark-theme > :checked) {
+  color-scheme: dark;
+}
+
 body {
   min-width: auto;
   min-height: 680px;
   width: max(100vw, 880px);
   height: 100vh;
   margin: 0;
+  /* page background for dark theme */
+  background-color: light-dark(var(--light-bg), var(--dark-bg));
+  color: light-dark(var(--light-text), var(--dark-text));
   display: flex;
   flex-direction: column;
   & > main {
@@ -22,7 +66,7 @@ label:hover {
   cursor: pointer;
 }
 label:has(:checked) {
-  filter: brightness(0.8);
+  filter: brightness(var(--brightness));
 }
 
 :has(> .material-symbols-outlined) {
@@ -96,8 +140,8 @@ nav {
   &:has(.side-dropdown-label:focus),
   &:has(.side-item:focus > :not(:checked)) {
     display: block;
-    .dropdown:has(:where(&, .side-dropdown-label:focus)) .dropdown-label  {
-      filter: brightness(0.8);
+    .dropdown:has(:where(&, .side-dropdown-label:focus)) .dropdown-label {
+      filter: brightness(var(--brightness));
     }
   }
 }
@@ -110,7 +154,7 @@ nav {
   &:has(.side-item:focus > :not(:checked)) {
     display: block;
     .side-dropdown:has(> &) .side-dropdown-label {
-      filter: brightness(0.8);
+      filter: brightness(var(--brightness));
     }
   }
 }
@@ -123,12 +167,14 @@ nav {
 .dropdown-label,
 .item,
 .side-item {
-  background: white;
+  background-color: light-dark(var(--light-item-bg), var(--dark-slate));
+  color: light-dark(var(--light-text), var(--dark-text));
   padding: 0.3em 0.6em;
   border: none;
   border-inline: solid 1px #ddd;
-  &:active, &:hover {
-    filter: brightness(0.8);
+  &:active,
+  &:hover {
+    filter: brightness(var(--brightness));
   }
 }
 .dropdown-menu {
@@ -201,7 +247,7 @@ h2 {
   }
 }
 .copy-button {
-  background: white;
+  background-color: light-dark(var(--light-copy-bg), var(--dark-copy-bg));
   display: flex;
   align-items: center;
   & > .material-symbols-outlined {
@@ -214,6 +260,8 @@ h2 {
 .target-text,
 .result-text {
   padding: 0.4em;
+  color: light-dark(var(--light-text), var(--dark-text));
+  background-color: light-dark(var(--light-input-bg), var(--dark-input-bg));
 }
 .target-text,
 .result-text {
@@ -239,7 +287,7 @@ h2 {
   }
 }
 .result-text {
-  background: #f8fafc;
+  background-color: light-dark(var(--light-result-bg), var(--dark-result-bg));
   min-height: 160px;
   max-height: 100%;
   overflow: scroll;
@@ -250,12 +298,12 @@ h2 {
 mark {
   padding: 0 0.05em;
   margin: 0 0.1em;
-  background: orange;
+  background-color: var(--accent);
 }
 .sp-mark,
 .tb-mark,
 .nl-mark {
-  color: #94a3b8;
+  color: light-dark(var(--light-muted), var(--dark-muted));
 }
 .sp-mark {
   font-size: 0.8em;

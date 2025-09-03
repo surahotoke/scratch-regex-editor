@@ -2,39 +2,98 @@ import { regexGenerator } from "./generator.js"
 
 registerContinuousToolbox()
 
-const myTheme = Blockly.Theme.defineTheme("myTheme", {
-  categoryStyles: {
-    position: { colour: "#3F51B5" },
-    chars: { colour: "#2196F3" },
-    join: { colour: "#009688" },
-    groups: { colour: "#4CAF50" },
-    repeat: { colour: "#FFC107" },
-    substitute: { colour: "#FF5722" },
-  },
-  blockStyles: {
-    root: { colourPrimary: "#546E7A" },
-    position: { colourPrimary: "#3F51B5" },
-    chars: { colourPrimary: "#2196F3" },
-    charclass: { colourPrimary: "#00BCD4" },
-    join: { colourPrimary: "#009688" },
-    groups: { colourPrimary: "#4CAF50" },
-    repeat: { colourPrimary: "#FFC107" },
-    substitute: { colourPrimary: "#FF5722" },
-    substituteShadow: { colourPrimary: "#FF9C7A" },
-  },
-  componentStyles: {
-    // ライトテーマの色設定
+// テーマ選択(light/dark/auto)に応じて componentStyles を返す
+function getSelectedThemeMode() {
+  // HTML ではラベル内に hidden な input がある構造なので
+  // '#id input' を参照して checked を読む
+  const lightInput = document.querySelector('#light-theme input[type="radio"]')
+  const darkInput = document.querySelector('#dark-theme input[type="radio"]')
+  const autoInput = document.querySelector('#auto-theme input[type="radio"]')
+  if (lightInput.checked) return "light"
+  if (darkInput.checked) return "dark"
+  if (autoInput.checked) return "auto"
+  return "auto"
+}
+
+function getComponentStylesForMode(mode) {
+  // 他の色は固定。背景/ツールボックス/フライアウト/前景だけ切替。
+  const light = {
     workspaceBackgroundColour: "#f9f9f9",
     toolboxBackgroundColour: "#ffffff",
     flyoutBackgroundColour: "#f9f9f9",
-    // ダークテーマの色設定
-    // workspaceBackgroundColour: "#1e1e1e",
-    // toolboxBackgroundColour: "#2c2c2c",
-    // flyoutBackgroundColour: "#252525",
-    // toolboxForegroundColour: "#eeeeee",
-    // flyoutForegroundColour: "#eeeeee",
-  },
-})
+    toolboxForegroundColour: "#0b1220",
+    flyoutForegroundColour: "#0b1220",
+  }
+  const dark = {
+    workspaceBackgroundColour: "#1e1e1e",
+    toolboxBackgroundColour: "#2c2c2c",
+    flyoutBackgroundColour: "#252525",
+    toolboxForegroundColour: "#eeeeee",
+    flyoutForegroundColour: "#eeeeee",
+  }
+  if (mode === "light") return light
+  if (mode === "dark") return dark
+  // auto: システムの prefers-color-scheme を参照
+  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+  return prefersDark ? dark : light
+}
+
+function makeTheme() {
+  const mode = getSelectedThemeMode()
+  const componentStyles = getComponentStylesForMode(mode)
+  return Blockly.Theme.defineTheme("myTheme", {
+    categoryStyles: {
+      position: { colour: "#3F51B5" },
+      chars: { colour: "#2196F3" },
+      join: { colour: "#009688" },
+      groups: { colour: "#4CAF50" },
+      repeat: { colour: "#FFC107" },
+      substitute: { colour: "#FF5722" },
+    },
+    blockStyles: {
+      root: { colourPrimary: "#546E7A" },
+      position: { colourPrimary: "#3F51B5" },
+      chars: { colourPrimary: "#2196F3" },
+      charclass: { colourPrimary: "#00BCD4" },
+      join: { colourPrimary: "#009688" },
+      groups: { colourPrimary: "#4CAF50" },
+      repeat: { colourPrimary: "#FFC107" },
+      substitute: { colourPrimary: "#FF5722" },
+      substituteShadow: { colourPrimary: "#FF9C7A" },
+    },
+    componentStyles,
+  })
+}
+
+// 初期テーマを作成
+const myTheme = makeTheme()
+
+// 適用処理：現在の選択に応じてワークスペースのテーマを更新
+function applyTheme() {
+  const newTheme = makeTheme()
+  try {
+    workspace.setTheme(newTheme)
+  } catch (e) {
+    // 初回 inject 前などで workspace が未準備でも安全に無視
+    console.warn("テーマ適用に失敗しました:", e)
+  }
+}
+
+// テーマ切替用のラジオ（または同等の要素）が存在すれば監視
+for (const id of ["light-theme", "dark-theme", "auto-theme"]) {
+  // ラベル内の input を監視する
+  const input = document.querySelector(`#${id} input[type="radio"]`)
+  if (input) input.addEventListener("change", applyTheme)
+}
+
+// auto モード用にシステムのカラースキーム変化を監視
+if (window.matchMedia) {
+  const mq = window.matchMedia("(prefers-color-scheme: dark)")
+  mq.addEventListener && mq.addEventListener("change", () => {
+    // auto が選ばれている場合に再適用
+    if (getSelectedThemeMode() === "auto") applyTheme()
+  })
+}
 
 const toolbox = {
   kind: "categoryToolbox",
