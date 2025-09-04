@@ -2,21 +2,42 @@ import { regexGenerator } from "./generator.js"
 
 registerContinuousToolbox()
 
-// テーマ選択(light/dark/auto)に応じて componentStyles を返す
+// UI要素の取得
+const autoInput = document.querySelector('#auto-theme > input[type="radio"]')
+const autoThemeQuery = window.matchMedia("(prefers-color-scheme: dark)")
+const lightInput = document.querySelector('#light-theme > input[type="radio"]')
+const darkInput = document.querySelector('#dark-theme > input[type="radio"]')
+const newButton = document.getElementById("new-button")
+const loadButton = document.getElementById("load-button")
+const saveButton = document.getElementById("save-button")
+const loadInput = document.getElementById("load-input")
+const regexPattern = document.getElementById("regex-pattern")
+const patternCopyButton = document.getElementById("pattern-copy")
+const replaceText = document.getElementById("replace-text")
+const replaceCopyButton = document.getElementById("replace-copy")
+const targetText = document.getElementById("target-text")
+const resultText = document.getElementById("result-text")
+
+// ボタンによる切り替え
+autoInput.addEventListener("change", applyTheme)
+lightInput.addEventListener("change", applyTheme)
+darkInput.addEventListener("change", applyTheme)
+
+// autoでオートでライト/ダークを切り替える
+autoThemeQuery.addEventListener("change", () => {
+  if (getSelectedThemeMode() === "auto") applyTheme()
+})
+
+// テーマ選択の検出
 function getSelectedThemeMode() {
-  // HTML ではラベル内に hidden な input がある構造なので
-  // '#id input' を参照して checked を読む
-  const lightInput = document.querySelector('#light-theme input[type="radio"]')
-  const darkInput = document.querySelector('#dark-theme input[type="radio"]')
-  const autoInput = document.querySelector('#auto-theme input[type="radio"]')
+  if (autoInput.checked) return "auto"
   if (lightInput.checked) return "light"
   if (darkInput.checked) return "dark"
-  if (autoInput.checked) return "auto"
   return "auto"
 }
 
+// テーマに応じて componentStyles を返す
 function getComponentStylesForMode(mode) {
-  // 他の色は固定。背景/ツールボックス/フライアウト/前景だけ切替。
   const light = {
     workspaceBackgroundColour: "#f9f9f9",
     toolboxBackgroundColour: "#ffffff",
@@ -33,11 +54,10 @@ function getComponentStylesForMode(mode) {
   }
   if (mode === "light") return light
   if (mode === "dark") return dark
-  // auto: システムの prefers-color-scheme を参照
-  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
-  return prefersDark ? dark : light
+  return autoThemeQuery.matches ? dark : light
 }
 
+// テーマを作成
 function makeTheme() {
   const mode = getSelectedThemeMode()
   const componentStyles = getComponentStylesForMode(mode)
@@ -65,35 +85,14 @@ function makeTheme() {
   })
 }
 
-// 初期テーマを作成
-const myTheme = makeTheme()
-
-// 適用処理：現在の選択に応じてワークスペースのテーマを更新
+// テーマを更新
 function applyTheme() {
   const newTheme = makeTheme()
-  try {
-    workspace.setTheme(newTheme)
-  } catch (e) {
-    // 初回 inject 前などで workspace が未準備でも安全に無視
-    console.warn("テーマ適用に失敗しました:", e)
-  }
+  workspace.setTheme(newTheme)
 }
 
-// テーマ切替用のラジオ（または同等の要素）が存在すれば監視
-for (const id of ["light-theme", "dark-theme", "auto-theme"]) {
-  // ラベル内の input を監視する
-  const input = document.querySelector(`#${id} input[type="radio"]`)
-  if (input) input.addEventListener("change", applyTheme)
-}
-
-// auto モード用にシステムのカラースキーム変化を監視
-if (window.matchMedia) {
-  const mq = window.matchMedia("(prefers-color-scheme: dark)")
-  mq.addEventListener && mq.addEventListener("change", () => {
-    // auto が選ばれている場合に再適用
-    if (getSelectedThemeMode() === "auto") applyTheme()
-  })
-}
+// 初期テーマを作成
+const myTheme = makeTheme()
 
 const toolbox = {
   kind: "categoryToolbox",
@@ -199,17 +198,6 @@ Blockly.inject("blockly-editor", {
   },
 })
 
-// UI要素の取得
-const newButton = document.getElementById("new-button")
-const loadButton = document.getElementById("load-button")
-const saveButton = document.getElementById("save-button")
-const loadInput = document.getElementById("load-input")
-const regexPattern = document.getElementById("regex-pattern")
-const patternCopyButton = document.getElementById("pattern-copy")
-const replaceText = document.getElementById("replace-text")
-const replaceCopyButton = document.getElementById("replace-copy")
-const targetText = document.getElementById("target-text")
-const resultText = document.getElementById("result-text")
 
 // Blocklyのワークスペースを取得
 const workspace = Blockly.getMainWorkspace()

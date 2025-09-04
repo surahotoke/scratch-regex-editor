@@ -20,23 +20,24 @@
   --brightness: var(--light-brightness);
 }
 
-@media (color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   :root {
     --brightness: var(--dark-brightness);
   }
 }
 
 :root:has(#auto-theme > :checked) {
-  --ama: 0;
   color-scheme: light dark;
 }
 
 :root:has(#light-theme > :checked) {
   color-scheme: light;
+  --brightness: var(--light-brightness);
 }
 
 :root:has(#dark-theme > :checked) {
   color-scheme: dark;
+  --brightness: var(--dark-brightness);
 }
 
 body {
