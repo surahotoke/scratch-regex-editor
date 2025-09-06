@@ -407,7 +407,7 @@ function markTextRange(node, start, end) {
 // 空白文字を可視化する関数（置き換えるものがスペース、タブ、改行のみなのでinnerHTMLでエスケープしても問題ない）
 function visualizeWhitespace(str) {
   return str
-    .replace(/ /g, '<span class="sp-mark">␣</span>') // 半角スペース → ␣
-    .replace(/\t/g, '<span class="tb-mark">⇥</span>') // タブ → ⇥
-    .replace(/\n/g, '<span class="nl-mark">⏎</span>\n') // 改行 → ⏎\n
+    .replace(/ /g, '<span class="sp-mark"> </span>') // 半角スペース → ␣
+    .replace(/\t/g, '<span class="tb-mark">\t</span>') // タブ → ⇥
+    .replace(/\n/g, '<span class="nl-mark">\n</span>') // 改行 → ⏎
 }

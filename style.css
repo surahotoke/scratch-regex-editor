@@ -5,7 +5,6 @@
   --dark-copy-bg: #0b1220;
   --dark-input-bg: #061021;
   --dark-result-bg: #071021;
-  --dark-muted: #9aa6b2;
 
   --light-bg: #ffffff;
   --light-text: #0b1220;
@@ -13,7 +12,7 @@
   --light-copy-bg: #ffffff;
   --light-input-bg: #ffffff;
   --light-result-bg: #f8fafc;
-  --light-muted: #94a3b8;
+  --muted: #b8c3d2;
   --accent: orange;
   --light-brightness: 0.8;
   --dark-brightness: 3;
@@ -46,7 +45,6 @@ body {
   width: max(100vw, 880px);
   height: 100vh;
   margin: 0;
-  /* page background for dark theme */
   background-color: light-dark(var(--light-bg), var(--dark-bg));
   color: light-dark(var(--light-text), var(--dark-text));
   display: flex;
@@ -78,7 +76,7 @@ label:has(:checked) {
 
 header {
   height: 2.6em;
-  padding: 0 2ch;
+  padding-inline: 2ch;
   border-bottom: solid 1px rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
@@ -269,6 +267,7 @@ h2 {
   font-size: 1.2em;
   box-sizing: border-box;
   white-space: pre;
+  tab-size: 3;
 }
 
 .target-text {
@@ -297,21 +296,36 @@ h2 {
 }
 
 mark {
-  padding: 0 0.05em;
-  margin: 0 0.1em;
+  padding-inline: 0.05em;
+  margin-inline: 0.07em;
   background-color: var(--accent);
 }
 .sp-mark,
 .tb-mark,
 .nl-mark {
-  color: light-dark(var(--light-muted), var(--dark-muted));
+  position: relative;
+  &::before {
+    position: absolute;
+    color: var(--muted);
+  }
 }
 .sp-mark {
-  font-size: 0.8em;
+  padding-inline: 0.05em;
 }
-.tb-mark {
-  padding: 0 0.4em;
+.sp-mark::before {
+  content: "␣";
+  font-size: 0.4em;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
 }
-.nl-mark {
+.tb-mark::before {
+  content: "⇥";
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+.nl-mark::before {
+  content: "⏎";
   font-size: 0.7em;
 }
