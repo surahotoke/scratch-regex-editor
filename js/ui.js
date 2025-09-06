@@ -11,9 +11,6 @@ const newButton = document.getElementById("new-button")
 const loadButton = document.getElementById("load-button")
 const saveButton = document.getElementById("save-button")
 const loadInput = document.getElementById("load-input")
-const sampleDateButton = document.getElementById("sample-date")
-const sampleUrlButton = document.getElementById("sample-url")
-const sampleNumButton = document.getElementById("sample-num")
 const regexPattern = document.getElementById("regex-pattern")
 const patternCopyButton = document.getElementById("pattern-copy")
 const replaceText = document.getElementById("replace-text")
@@ -329,9 +326,12 @@ async function loadSample(filePath) {
 }
 
 // ボタンとファイルパスの対応をまとめて登録
-sampleDateButton.addEventListener("click", () => loadSample("date.json"))
-sampleUrlButton.addEventListener("click", () => loadSample("url.json"))
-sampleNumButton.addEventListener("click", () => loadSample("num.json"))
+document.querySelectorAll("button[data-sample]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const file = button.dataset.sample + ".json"
+    loadSample(file)
+  })
+})
 
 // ターゲットテキストの入力で更新
 targetText.addEventListener("input", evaluateRegex)
