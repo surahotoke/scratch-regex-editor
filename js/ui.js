@@ -198,7 +198,6 @@ Blockly.inject("blockly-editor", {
   },
 })
 
-
 // Blocklyのワークスペースを取得
 const workspace = Blockly.getMainWorkspace()
 const flyout = Blockly.Workspace.getAll()[2]
@@ -385,7 +384,9 @@ function evaluateRegex() {
       // 置換する場合は置換して表示
       resultText.textContent = resultText.textContent.replace(
         regex,
-        regexJson.substitute
+        JSON.parse(
+          JSON.stringify(regexJson.substitute).replaceAll("\\\\", "\\")
+        )
       )
     }
     // 空白文字を可視化
