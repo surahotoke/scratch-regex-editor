@@ -1,0 +1,105 @@
+{
+  "workspace": {
+    "blocks": {
+      "languageVersion": 0,
+      "blocks": [
+        {
+          "type": "root",
+          "id": "@=L82BU7wbYlBGi`G{-[",
+          "x": 20,
+          "y": 20,
+          "deletable": false,
+          "movable": false,
+          "inputs": {
+            "PATTERN": {
+              "shadow": {
+                "type": "regex_input",
+                "id": "Ybjfannb;q!V%C7lIbkJ",
+                "fields": {
+                  "PATTERN": ""
+                }
+              },
+              "block": {
+                "type": "join",
+                "id": "U*USGYsk$A}5p_I;=%z!",
+                "extraState": {
+                  "itemCount": 2
+                },
+                "inputs": {
+                  "ADD0": {
+                    "block": {
+                      "type": "look",
+                      "id": "vLc.F-{DlGqQrIs($)Ef",
+                      "fields": {
+                        "LT": "<",
+                        "EQL": "="
+                      },
+                      "inputs": {
+                        "PATTERN": {
+                          "block": {
+                            "type": "dw",
+                            "id": ";m=*~[tvKjzzYauCX2(C",
+                            "fields": {
+                              "KIND": "d"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "ADD1": {
+                    "block": {
+                      "type": "look",
+                      "id": "-P7yOz6fxS=dh22NMMjN",
+                      "fields": {
+                        "LT": "",
+                        "EQL": "="
+                      },
+                      "inputs": {
+                        "PATTERN": {
+                          "block": {
+                            "type": "star_plus",
+                            "id": "Bj^tw+(!Wm+`uGB*I0Ox",
+                            "fields": {
+                              "KIND": "+",
+                              "LAZY": ""
+                            },
+                            "inputs": {
+                              "PATTERN": {
+                                "block": {
+                                  "type": "dw",
+                                  "id": "hoU4-RCXY+x,8F-R^Ygh",
+                                  "fields": {
+                                    "KIND": "d"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SUBSTITUTE": {
+              "shadow": {
+                "type": "no_substitute",
+                "id": "@7{Rf/(AcK3.|flteffu"
+              },
+              "block": {
+                "type": "chars_input",
+                "id": "3Imq[u;gV4Qs%Iy!eB*W",
+                "fields": {
+                  "TEXT": ", "
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "targetText": "134028482abcdefg6854\n1a2v3c4d\n"
+}

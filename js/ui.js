@@ -3,14 +3,17 @@ import { regexGenerator } from "./generator.js"
 registerContinuousToolbox()
 
 // UI要素の取得
-const autoInput = document.querySelector('#auto-theme > input[type="radio"]')
+const autoRadio = document.querySelector('#auto-theme > input[type="radio"]')
 const autoThemeQuery = window.matchMedia("(prefers-color-scheme: dark)")
-const lightInput = document.querySelector('#light-theme > input[type="radio"]')
-const darkInput = document.querySelector('#dark-theme > input[type="radio"]')
+const lightRadio = document.querySelector('#light-theme > input[type="radio"]')
+const darkRadio = document.querySelector('#dark-theme > input[type="radio"]')
 const newButton = document.getElementById("new-button")
 const loadButton = document.getElementById("load-button")
 const saveButton = document.getElementById("save-button")
 const loadInput = document.getElementById("load-input")
+const sampleDateButton = document.getElementById("sample-date")
+const sampleUrlButton = document.getElementById("sample-url")
+const sampleNumButton = document.getElementById("sample-num")
 const regexPattern = document.getElementById("regex-pattern")
 const patternCopyButton = document.getElementById("pattern-copy")
 const replaceText = document.getElementById("replace-text")
@@ -19,9 +22,9 @@ const targetText = document.getElementById("target-text")
 const resultText = document.getElementById("result-text")
 
 // ボタンによる切り替え
-autoInput.addEventListener("change", applyTheme)
-lightInput.addEventListener("change", applyTheme)
-darkInput.addEventListener("change", applyTheme)
+autoRadio.addEventListener("change", applyTheme)
+lightRadio.addEventListener("change", applyTheme)
+darkRadio.addEventListener("change", applyTheme)
 
 // autoでオートでライト/ダークを切り替える
 autoThemeQuery.addEventListener("change", () => {
@@ -30,9 +33,9 @@ autoThemeQuery.addEventListener("change", () => {
 
 // テーマ選択の検出
 function getSelectedThemeMode() {
-  if (autoInput.checked) return "auto"
-  if (lightInput.checked) return "light"
-  if (darkInput.checked) return "dark"
+  if (autoRadio.checked) return "auto"
+  if (lightRadio.checked) return "light"
+  if (darkRadio.checked) return "dark"
   return "auto"
 }
 
@@ -234,8 +237,9 @@ const rootBlockDef = {
   },
 }
 
-// ワークスペースを初期状態にリセットする
+// 入力欄とワークスペースを初期状態にリセットする
 function resetWorkspace() {
+  targetText.value = ""
   workspace.clear()
 
   // 初期ブロックを追加
@@ -306,6 +310,28 @@ saveButton.addEventListener("click", () => {
     alert("ワークスペースの保存に失敗しました。")
   }
 })
+
+// サンプルを読み込む
+async function loadSample(filePath) {
+  try {
+    const response = await fetch(`../samples/${filePath}`)
+    if (!response.ok) throw new Error("HTTPエラー " + response.status)
+    const state = await response.json()
+
+    if (state.targetText) targetText.value = state.targetText
+    if (state.workspace) {
+      Blockly.serialization.workspaces.load(state.workspace, workspace)
+    }
+  } catch (e) {
+    console.error("サンプルの読み込みに失敗しました:", e)
+    alert("サンプルの読み込みに失敗しました。")
+  }
+}
+
+// ボタンとファイルパスの対応をまとめて登録
+sampleDateButton.addEventListener("click", () => loadSample("date.json"))
+sampleUrlButton.addEventListener("click", () => loadSample("url.json"))
+sampleNumButton.addEventListener("click", () => loadSample("num.json"))
 
 // ターゲットテキストの入力で更新
 targetText.addEventListener("input", evaluateRegex)
