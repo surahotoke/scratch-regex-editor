@@ -1,3 +1,5 @@
+import ja from "./locales/ja.js"
+import en from "./locales/en.js"
 import { regexGenerator } from "./generator.js"
 
 registerContinuousToolbox()
@@ -17,6 +19,46 @@ const replaceText = document.getElementById("replace-text")
 const replaceCopyButton = document.getElementById("replace-copy")
 const targetText = document.getElementById("target-text")
 const resultText = document.getElementById("result-text")
+
+const locales = {
+  ja,
+  en,
+}
+
+function switchLanguage(lang) {
+  if (!locales[lang]) {
+    console.warn(`Language ${lang} is not implemented`)
+    return
+  }
+  const locale = locales[lang]
+  updateBlocklyStrings(locale.blockly)
+  updateUIStrings(locale.ui)
+}
+
+document.querySelectorAll('input[name="language"]').forEach((input) => {
+  input.addEventListener("change", () => {
+    if (!input.checked) return
+    const lang = input.closest("label").dataset.lang
+    switchLanguage(lang)
+  })
+})
+
+function updateBlocklyStrings(locale) {
+  Object.assign(Blockly.Msg, locale)
+  // 再描画
+  const state = Blockly.serialization.workspaces.save(workspace)
+  Blockly.serialization.workspaces.load(state, workspace)
+}
+
+function updateUIStrings(locale) {
+  document.querySelectorAll("[data-locale]").forEach((element) => {
+    const key = element.dataset.locale
+    if (locale[key] === undefined) return
+    if (element.placeholder) element.placeholder = locale[key]
+    else if (element.title) element.title = locale[key]
+    else element.textContent = locale[key]
+  })
+}
 
 // ボタンによる切り替え
 autoRadio.addEventListener("change", applyTheme)
@@ -202,7 +244,7 @@ Blockly.inject("blockly-editor", {
 const workspace = Blockly.getMainWorkspace()
 const flyout = Blockly.Workspace.getAll()[2]
 const startScale = workspace.options.zoomOptions.startScale
-
+switchLanguage("ja")
 // 通常の場合使用されるフライアウト
 const dumyFlyout = workspace.getFlyout(false)
 
