@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scratch風Regexエディター</title>
+  <title data-locale="pageName">Scratch風Regexエディター</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
   <script src="https://unpkg.com/blockly/blockly.min.js"></script>
@@ -15,13 +15,13 @@
 
 <body>
   <header>
-    <h1><span class="material-symbols-outlined">regular_expression</span>Scratch風Regexエディター</h1>
+    <h1><span class="material-symbols-outlined">regular_expression</span><span data-locale="title">Scratch風Regexエディター</span></h1>
 
     <nav>
 
       <div class="dropdown">
         <button class="dropdown-label" tabindex="0">
-          <span class="dropdown-name"><span class="material-symbols-outlined">settings</span>設定</span>
+          <span class="dropdown-name"><span class="material-symbols-outlined">settings</span><span data-locale="setting">設定</span></span>
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
 
@@ -29,7 +29,7 @@
 
           <li class="side-dropdown">
             <button class="item side-dropdown-label" tabindex="-1">
-              <span class="dropdown-name"><span class="material-symbols-outlined">language</span>言語</span>
+              <span class="dropdown-name"><span class="material-symbols-outlined">language</span><span data-locale="language">言語</span></span>
               <span class="material-symbols-outlined">arrow_right</span>
             </button>
 
@@ -42,7 +42,7 @@
               </li>
 
               <li>
-                <label class="side-item" data-lang="en" tabindex="-1">English（未実装）
+                <label class="side-item" data-lang="en" tabindex="-1">English
                   <input type="radio" name="language" hidden>
                 </label>
               </li>
@@ -76,26 +76,26 @@
 
           <li class="side-dropdown">
             <button class="item side-dropdown-label" tabindex="-1">
-              <span class="dropdown-name"><span class="material-symbols-outlined">contrast</span>テーマ</span>
+              <span class="dropdown-name"><span class="material-symbols-outlined">contrast</span><span data-locale="theme">テーマ</span></span>
               <span class="material-symbols-outlined">arrow_right</span>
             </button>
 
             <ul class="side-dropdown-menu">
 
               <li>
-                <label id="auto-theme" class="side-item" tabindex="-1">自動
+                <label id="auto-theme" class="side-item" tabindex="-1"><span data-locale="autoTheme">自動</span>
                   <input type="radio" name="theme" hidden checked>
                 </label>
               </li>
 
               <li>
-                <label id="light-theme" class="side-item" tabindex="-1">ライト
+                <label id="light-theme" class="side-item" tabindex="-1"><span data-locale="lightTheme">ライト</span>
                   <input type="radio" name="theme" hidden>
                 </label>
               </li>
 
               <li>
-                <label id="dark-theme" class="side-item" tabindex="-1">ダーク
+                <label id="dark-theme" class="side-item" tabindex="-1"><span data-locale="darkTheme">ダーク</span>
                   <input type="radio" name="theme" hidden>
                 </label>
               </li>
@@ -108,7 +108,7 @@
 
       <div class="dropdown">
         <button class="dropdown-label" tabindex="0">
-          <span class="dropdown-name"><span class="material-symbols-outlined">draft</span>ファイル</span>
+          <span class="dropdown-name"><span class="material-symbols-outlined">draft</span><span data-locale="file">ファイル</span></span>
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
 
@@ -116,20 +116,20 @@
 
           <li>
             <button id="new-button" class="item" tabindex="-1">
-              <span class="material-symbols-outlined">note_add</span>新規作成
+              <span class="material-symbols-outlined">note_add</span><span data-locale="newFile">新規作成</span>
             </button>
           </li>
 
           <li>
             <input type="file" id="load-input" accept=".json,application/json" hidden>
             <button id="load-button" class="item" tabindex="-1">
-              <span class="material-symbols-outlined">file_open</span>コンピューターから読み込む
+              <span class="material-symbols-outlined">file_open</span><span data-locale="load">コンピューターから読み込む</span>
             </button>
           </li>
 
           <li>
             <button id="save-button" class="item" tabindex="-1">
-              <span class="material-symbols-outlined">file_export</span>コンピューターに保存する
+              <span class="material-symbols-outlined">file_export</span><span data-locale="save">コンピューターに保存する</span>
             </button>
           </li>
 
@@ -138,7 +138,7 @@
 
       <div class="dropdown">
         <button class="dropdown-label" tabindex="0">
-          <span class="dropdown-name"><span class="material-symbols-outlined">code_blocks</span>サンプル</span>
+          <span class="dropdown-name"><span class="material-symbols-outlined">code_blocks</span><span data-locale="sample">サンプル</span></span>
           <span class="material-symbols-outlined">arrow_drop_down</span>
         </button>
 
@@ -146,7 +146,7 @@
 
           <li>
             <button class="item" data-sample="date" tabindex="-1">
-              <span class="material-symbols-outlined">code_blocks</span>日付検出
+              <span class="material-symbols-outlined">code_blocks</span><span data-locale="sampleDate">日付検出</span>
             </button>
           </li>
 
@@ -158,7 +158,7 @@
 
           <li>
             <button class="item" data-sample="num" tabindex="-1">
-              <span class="material-symbols-outlined">code_blocks</span>数字区切り
+              <span class="material-symbols-outlined">code_blocks</span><span data-locale="sampleNum">数字区切り</span>
             </button>
           </li>
 
@@ -174,33 +174,33 @@
     <aside>
 
       <section>
-        <h2>正規表現パターン</h2>
+        <h2 data-locale="regex">正規表現パターン</h2>
         <div class="pattern-container">
           <input type="text" id="regex-pattern" class="regex-pattern" readonly>
-          <button id="pattern-copy" class="copy-button" title="コピー">
+          <button id="pattern-copy" class="copy-button" title="コピー" data-locale="copy">
             <span class="material-symbols-outlined">content_copy</span>
           </button>
         </div>
       </section>
 
       <section>
-        <h2>置換文字列</h2>
+        <h2 data-locale="replace">置換文字列</h2>
         <div class="replace-container">
           <input type="text" id="replace-text" class="replace-text" readonly>
-          <button id="replace-copy" class="copy-button" title="コピー">
+          <button id="replace-copy" class="copy-button" title="コピー" data-locale="copy">
             <span class="material-symbols-outlined">content_copy</span>
           </button>
         </div>
       </section>
 
       <section>
-        <h2>対象テキスト</h2>
+        <h2 data-locale="target">対象テキスト</h2>
         <textarea id="target-text" class="target-text" placeholder="ここにテキストを入力（タブも入力可能）" spellcheck="false"
-          autocorrect="off" autocapitalize="off" autocomplete="off"></textarea>
+          autocorrect="off" autocapitalize="off" autocomplete="off" data-locale="targetPlaceholder"></textarea>
       </section>
 
       <section>
-        <h2>結果</h2>
+        <h2 data-locale="result">結果</h2>
         <div class="result-container">
           <pre id="result-text" class="result-text"></pre>
         </div>
