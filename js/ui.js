@@ -244,7 +244,20 @@ Blockly.inject("blockly-editor", {
 const workspace = Blockly.getMainWorkspace()
 const flyout = Blockly.Workspace.getAll()[2]
 const startScale = workspace.options.zoomOptions.startScale
-switchLanguage("ja")
+
+// 初期言語自動選択
+const userLang = navigator.language.slice(0, 2)
+const defaultLang = locales[userLang] ? userLang : "en"
+switchLanguage(defaultLang)
+
+// UIのラジオボタンも同期
+const langRadio = document.querySelector(
+  `label[data-lang="${defaultLang}"] > input`
+)
+if (langRadio) {
+  langRadio.checked = true
+}
+
 // 通常の場合使用されるフライアウト
 const dumyFlyout = workspace.getFlyout(false)
 
