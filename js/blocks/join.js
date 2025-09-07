@@ -27,3 +27,23 @@ Blockly.defineBlocksWithJsonArray([
     mutator: "choice_mutator",
   },
 ])
+
+// ミューテーター用の汎用ヘルパーブロックの定義
+Blockly.defineBlocksWithJsonArray([
+  {
+    type: "mutator_container",
+    message0: "%1",
+    args0: [{ type: "input_statement", name: "STACK" }],
+    style: "join",
+    tooltip: "ブロックの入力欄の数",
+  },
+  {
+    type: "mutator_item",
+    message0: "要素",
+    style: "join",
+    previousStatement: null,
+    nextStatement: null,
+    enableContextMenu: false,
+    tooltip: "入力枠",
+  },
+])
