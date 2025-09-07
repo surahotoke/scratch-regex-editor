@@ -137,7 +137,7 @@ nav {
   &:hover:not(:focus),
   :focus + &,
   &:has(.side-dropdown-label:focus),
-  &:has(.side-item:focus > :not(:checked)) {
+  &:has(.side-item:focus > input:not(:checked)) {
     display: block;
     .dropdown:has(:where(&, .side-dropdown-label:focus)) .dropdown-label {
       filter: brightness(var(--brightness));
@@ -150,7 +150,7 @@ nav {
   :focus + &,
   :focus + .dropdown-menu &:hover,
   .dropdown-menu:not(:focus-within) :hover + &,
-  &:has(.side-item:focus > :not(:checked)) {
+  &:has(.side-item:focus > input:not(:checked)) {
     display: block;
     .side-dropdown:has(> &) .side-dropdown-label {
       filter: brightness(var(--brightness));
