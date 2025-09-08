@@ -141,7 +141,7 @@ const toolbox = {
   contents: [
     {
       kind: "category",
-      name: "位置",
+      name: "%{BKY_CATEGORY_POSITION}",
       categorystyle: "position",
       contents: [
         { kind: "block", type: "anchor_start" },
@@ -152,7 +152,7 @@ const toolbox = {
     },
     {
       kind: "category",
-      name: "文字",
+      name: "%{BKY_CATEGORY_CHARS}",
       categorystyle: "chars",
       contents: [
         { kind: "block", type: "chars_input" },
@@ -170,7 +170,7 @@ const toolbox = {
     },
     {
       kind: "category",
-      name: "結合・選択",
+      name: "%{BKY_CATEGORY_JOIN}",
       categorystyle: "join",
       contents: [
         { kind: "block", type: "join" },
@@ -179,7 +179,7 @@ const toolbox = {
     },
     {
       kind: "category",
-      name: "グループ化",
+      name: "%{BKY_CATEGORY_GROUPS}",
       categorystyle: "groups",
       contents: [
         { kind: "block", type: "group_noncapturing" },
@@ -191,7 +191,7 @@ const toolbox = {
     },
     {
       kind: "category",
-      name: "繰り返し",
+      name: "%{BKY_CATEGORY_REPEAT}",
       categorystyle: "repeat",
       contents: [
         { kind: "block", type: "question" },
@@ -206,7 +206,7 @@ const toolbox = {
     },
     {
       kind: "category",
-      name: "置換",
+      name: "%{BKY_CATEGORY_SUBSTITUTE}",
       categorystyle: "substitute",
       contents: [
         { kind: "block", type: "substitute_join" },
@@ -264,9 +264,9 @@ const dumyFlyout = workspace.getFlyout(false)
 // フライアウトのzoomの変更を阻止
 flyout.addChangeListener((event) => {
   const newScale = workspace.scale
-  // newScale が 1 の場合も意味がないので無視
+  // newScale が 初期値 の場合も意味がないので無視
   if (event.type !== "viewport_change" || newScale === startScale) return
-  // 一旦 1 に戻してフライアウトを整える
+  // 一旦 初期値 に戻してフライアウトを整える
   workspace.scale = startScale
   dumyFlyout.reflow()
   // 本来のスケールに戻して再レイアウト
