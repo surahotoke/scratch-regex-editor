@@ -47,6 +47,7 @@ function updateBlocklyStrings(locale) {
   Object.assign(Blockly.Msg, locale)
   // 再描画
   const state = Blockly.serialization.workspaces.save(workspace)
+  workspace.updateToolbox(toolbox)
   Blockly.serialization.workspaces.load(state, workspace)
 }
 
@@ -366,7 +367,7 @@ saveButton.addEventListener("click", () => {
 // サンプルを読み込む
 async function loadSample(filePath) {
   try {
-    const response = await fetch(`../samples/${filePath}`)
+    const response = await fetch(`samples/${filePath}`)
     if (!response.ok) throw new Error("HTTPエラー " + response.status)
     const state = await response.json()
 
