@@ -46,10 +46,53 @@ document.querySelectorAll('input[name="language"]').forEach((input) => {
 function updateBlocklyStrings(locale) {
   Object.assign(Blockly.Msg, locale)
   // 再描画
-  workspace.updateToolbox(toolbox)
-  const state = Blockly.serialization.workspaces.save(workspace)
-  workspace.clear()
-  Blockly.serialization.workspaces.load(state, workspace)
+  let state
+
+  if (workspace) {
+    state = Blockly.serialization.workspaces.save(workspace)
+    // ワークスペースを破棄
+    Blockly.Workspace.getAll()[1].dispose()
+    workspace.dispose()
+  }
+  // ワークスペースを再作成
+  Blockly.inject("blockly-editor", {
+    renderer: "zelos",
+    theme: makeTheme(),
+    toolbox,
+    collapse: false,
+    comments: false,
+    disable: false,
+    modalInputs: false,
+    zoom: {
+      controls: true,
+      startScale: startScale,
+    },
+    plugins: {
+      flyoutsVerticalToolbox: "ContinuousFlyout",
+      metricsManager: "ContinuousMetrics",
+      toolbox: "ContinuousToolbox",
+    },
+  })
+  // Blocklyのワークスペースを取得
+  workspace = Blockly.getMainWorkspace()
+  flyout = Blockly.Workspace.getAll()[2]
+  // 通常の場合使用されるフライアウト
+  dumyFlyout = workspace.getFlyout(false)
+  if (state) {
+    Blockly.serialization.workspaces.load(state, workspace)
+  }
+  // フライアウトのzoomの変更を阻止
+  flyout.addChangeListener((event) => {
+    const newScale = workspace.scale
+    // newScale が 初期値 の場合も意味がないので無視
+    if (event.type !== "viewport_change" || newScale === startScale) return
+    // 一旦 初期値 に戻してフライアウトを整える
+    workspace.scale = startScale
+    dumyFlyout.reflow()
+    // 本来のスケールに戻して再レイアウト
+    workspace.scale = newScale
+    workspace.resize()
+  })
 }
 
 function updateUIStrings(locale) {
@@ -134,9 +177,6 @@ function applyTheme() {
   const newTheme = makeTheme()
   workspace.setTheme(newTheme)
 }
-
-// 初期テーマを作成
-const myTheme = makeTheme()
 
 const toolbox = {
   kind: "categoryToolbox",
@@ -223,29 +263,9 @@ const toolbox = {
   ],
 }
 
-Blockly.inject("blockly-editor", {
-  renderer: "zelos",
-  theme: myTheme,
-  toolbox,
-  collapse: false,
-  comments: false,
-  disable: false,
-  modalInputs: false,
-  zoom: {
-    controls: true,
-    startScale: 0.8,
-  },
-  plugins: {
-    flyoutsVerticalToolbox: "ContinuousFlyout",
-    metricsManager: "ContinuousMetrics",
-    toolbox: "ContinuousToolbox",
-  },
-})
-
 // Blocklyのワークスペースを取得
-const workspace = Blockly.getMainWorkspace()
-const flyout = Blockly.Workspace.getAll()[2]
-const startScale = workspace.options.zoomOptions.startScale
+let workspace, flyout, dumyFlyout
+const startScale = 0.8
 
 // 初期言語自動選択
 const userLang = navigator.language.slice(0, 2)
@@ -259,22 +279,6 @@ const langRadio = document.querySelector(
 if (langRadio) {
   langRadio.checked = true
 }
-
-// 通常の場合使用されるフライアウト
-const dumyFlyout = workspace.getFlyout(false)
-
-// フライアウトのzoomの変更を阻止
-flyout.addChangeListener((event) => {
-  const newScale = workspace.scale
-  // newScale が 初期値 の場合も意味がないので無視
-  if (event.type !== "viewport_change" || newScale === startScale) return
-  // 一旦 初期値 に戻してフライアウトを整える
-  workspace.scale = startScale
-  dumyFlyout.reflow()
-  // 本来のスケールに戻して再レイアウト
-  workspace.scale = newScale
-  workspace.resize()
-})
 
 // ルートブロックの設定
 const rootBlockDef = {
