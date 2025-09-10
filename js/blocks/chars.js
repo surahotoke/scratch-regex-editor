@@ -16,14 +16,14 @@ Blockly.defineBlocksWithJsonArray([
     output: ["regex", "charclass", "substitute"],
     style: "chars",
     tooltip:
-      "自由入力欄。特殊文字を入力する際は注意してください。置換でも使用可能",
+      "%{BKY_CHARS_INPUT_TOOLTIP}",
   },
   {
     type: "dot",
     message0: ".",
     output: "regex",
     style: "chars",
-    tooltip: "改行除く任意の1文字。文字クラス内では使用不可",
+    tooltip: "%{BKY_DOT_TOOLTIP}",
   },
   {
     type: "dw",
@@ -43,7 +43,7 @@ Blockly.defineBlocksWithJsonArray([
     ],
     output: ["regex", "charclass"],
     style: "chars",
-    tooltip: "数字[0-9]、英数字と_[a-zA-Z0-9_]",
+    tooltip: "%{BKY_DW_TOOLTIP}",
   },
   {
     type: "s",
@@ -60,7 +60,7 @@ Blockly.defineBlocksWithJsonArray([
     ],
     output: ["regex", "charclass"],
     style: "chars",
-    tooltip: "半角スペース、タブ文字、改行文字[ \\t\\n]",
+    tooltip: "%{BKY_S_TOOLTIP}",
   },
   {
     type: "unicode_property",
@@ -94,7 +94,7 @@ Blockly.defineBlocksWithJsonArray([
     output: ["regex", "charclass"],
     style: "chars",
     tooltip:
-      "Unicodeの文字プロパティ。P句読点、S記号や、Script=Hiraganaひらがな、Han漢字など色々指定可能。詳しくは右クリック→ヘルプ",
+      "%{BKY_UNICODE_PROPERTY_TOOLTIP}",
     helpUrl:
       "https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Regular_Expressions/Unicode_Property_Escapes",
     extensions: ["validate_unicode_property"],
@@ -104,14 +104,14 @@ Blockly.defineBlocksWithJsonArray([
     message0: "\\t",
     output: ["regex", "charclass", "substitute"],
     style: "chars",
-    tooltip: "タブ文字。置換でも使用可能",
+    tooltip: "%{BKY_TAB_TOOLTIP}",
   },
   {
     type: "newline",
     message0: "\\n",
     output: ["regex", "charclass", "substitute"],
     style: "chars",
-    tooltip: "改行文字。置換でも使用可能",
+    tooltip: "%{BKY_NEWLINE_TOOLTIP}",
   },
   {
     type: "escaped_special",
@@ -144,7 +144,7 @@ Blockly.defineBlocksWithJsonArray([
     output: ["regex", "charclass", "substitute"],
     style: "chars",
     tooltip:
-      "エスケープされた特殊文字。-は文字クラス内でのみ使用可能。置換でも使用可能（$は置換では使用不可）",
+      "%{BKY_ESCAPED_SPECIAL_TOOLTIP}",
   },
   {
     type: "char_class",
@@ -166,7 +166,7 @@ Blockly.defineBlocksWithJsonArray([
     ],
     output: "regex",
     style: "chars",
-    tooltip: "文字クラス。先頭に^で否定。自身と.以外の「文字」のものを使用可能",
+    tooltip: "%{BKY_CHAR_CLASS_TOOLTIP}",
   },
   {
     type: "char_class_join",
@@ -178,7 +178,7 @@ Blockly.defineBlocksWithJsonArray([
     inputsInline: true,
     output: "charclass",
     style: "charclass",
-    tooltip: "文字クラス内でのみ使用可能な連結ブロック",
+    tooltip: "%{BKY_CHAR_CLASS_JOIN_TOOLTIP}",
     mutator: "char_class_join_mutator",
   },
   {
@@ -190,7 +190,7 @@ Blockly.defineBlocksWithJsonArray([
     ],
     output: "charclass",
     style: "charclass",
-    tooltip: "範囲指定(例：a-z)。どちらも1文字。文字クラス内のみ使用可能",
+    tooltip: "%{BKY_CHAR_CLASS_RANGE_TOOLTIP}",
     extensions: ["validate_char_range"],
   },
 ])

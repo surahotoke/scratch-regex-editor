@@ -2,7 +2,7 @@
 Blockly.defineBlocksWithJsonArray([
   {
     type: "root",
-    message0: '%{BKY_ROOT_MESSAGE0}',
+    message0: "%{BKY_ROOT_MESSAGE0}",
     args0: [
       {
         type: "input_value",
@@ -18,7 +18,7 @@ Blockly.defineBlocksWithJsonArray([
         type: "input_end_row",
       }
     ],
-    message1: '%{BKY_ROOT_MESSAGE1}',
+    message1: "%{BKY_ROOT_MESSAGE1}",
     args1: [
       {
         type: "input_value",
@@ -27,7 +27,7 @@ Blockly.defineBlocksWithJsonArray([
       },
     ],
     style: "root",
-    tooltip: '%{BKY_ROOT_TOOLTIP}',
+    tooltip: "%{BKY_ROOT_TOOLTIP}",
   },
   {
     type: "regex_input",
@@ -43,6 +43,6 @@ Blockly.defineBlocksWithJsonArray([
       },
     ],
     output: "regex",
-    tooltip: '%{BKY_REGEX_INPUT_TOOLTIP}',
+    tooltip: "%{BKY_REGEX_INPUT_TOOLTIP}",
   },
 ])

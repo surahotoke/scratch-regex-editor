@@ -10,7 +10,7 @@ Blockly.defineBlocksWithJsonArray([
     inputsInline: true,
     output: "regex",
     style: "join",
-    tooltip: "複数の要素を並べて連結",
+    tooltip: "%{BKY_JOIN_TOOLTIP}",
     mutator: "join_mutator",
   },
   {
@@ -23,7 +23,7 @@ Blockly.defineBlocksWithJsonArray([
     inputsInline: true,
     output: "regex",
     style: "join",
-    tooltip: "複数の要素のうち、いずれかにマッチ。左から順に評価する",
+    tooltip: "%{BKY_CHOICE_TOOLTIP}",
     mutator: "choice_mutator",
   },
 ])
@@ -35,15 +35,15 @@ Blockly.defineBlocksWithJsonArray([
     message0: "%1",
     args0: [{ type: "input_statement", name: "STACK" }],
     style: "join",
-    tooltip: "ブロックの入力欄の数",
+    tooltip: "%{BKY_MUTATOR_CONTAINER_TOOLTIP}",
   },
   {
     type: "mutator_item",
-    message0: "要素",
+    message0: "%{BKY_MUTATOR_ITEM_MESSAGE0}",
     style: "join",
     previousStatement: null,
     nextStatement: null,
     enableContextMenu: false,
-    tooltip: "入力枠",
+    tooltip: "%{BKY_MUTATOR_ITEM_TOOLTIP}",
   },
 ])

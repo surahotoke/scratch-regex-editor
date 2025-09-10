@@ -46,8 +46,9 @@ document.querySelectorAll('input[name="language"]').forEach((input) => {
 function updateBlocklyStrings(locale) {
   Object.assign(Blockly.Msg, locale)
   // 再描画
-  const state = Blockly.serialization.workspaces.save(workspace)
   workspace.updateToolbox(toolbox)
+  const state = Blockly.serialization.workspaces.save(workspace)
+  workspace.clear()
   Blockly.serialization.workspaces.load(state, workspace)
 }
 

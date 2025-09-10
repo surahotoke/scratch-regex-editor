@@ -12,7 +12,7 @@ Blockly.defineBlocksWithJsonArray([
     ],
     output: "regex",
     style: "groups",
-    tooltip: "キャプチャしないグループ化",
+    tooltip: "%{BKY_GROUP_NONCAPTURING_TOOLTIP}",
   },
   {
     type: "group",
@@ -26,7 +26,7 @@ Blockly.defineBlocksWithJsonArray([
     ],
     output: "regex",
     style: "groups",
-    tooltip: "グループ化",
+    tooltip: "%{BKY_GROUP_TOOLTIP}",
   },
   {
     type: "group_named",
@@ -45,7 +45,7 @@ Blockly.defineBlocksWithJsonArray([
     ],
     output: "regex",
     style: "groups",
-    tooltip: "名前付きグループ化",
+    tooltip: "%{BKY_GROUP_NAMED_TOOLTIP}",
   },
   {
     type: "backreference",
@@ -61,7 +61,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "groups",
     tooltip:
-      "グループの後方参照。グループ番号を選択します。注意：名前付きのグループも含めたグループ番号です",
+      "%{BKY_BACKREFERENCE_TOOLTIP}",
     extensions: ["dynamic_backreference"],
   },
   {
@@ -76,6 +76,6 @@ Blockly.defineBlocksWithJsonArray([
     ],
     output: "regex",
     style: "groups",
-    tooltip: "名前付きグループの後方参照",
+    tooltip: "%{BKY_BACKREFERENCE_NAMED_TOOLTIP}",
   },
 ])

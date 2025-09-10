@@ -5,14 +5,14 @@ Blockly.defineBlocksWithJsonArray([
     message0: "^",
     output: "regex",
     style: "position",
-    tooltip: "行頭位置",
+    tooltip: "%{BKY_ANCHOR_START_TOOLTIP}",
   },
   {
     type: "anchor_end",
     message0: "$",
     output: "regex",
     style: "position",
-    tooltip: "行末位置",
+    tooltip: "%{BKY_ANCHOR_END_TOOLTIP}",
   },
   {
     type: "boundary",
@@ -29,7 +29,7 @@ Blockly.defineBlocksWithJsonArray([
     ],
     output: "regex",
     style: "position",
-    tooltip: "単語境界（\\wと\\Wの間の位置）",
+    tooltip: "%{BKY_BOUNDARY_TOOLTIP}",
   },
   {
     type: "look",
@@ -60,6 +60,6 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "position",
     tooltip:
-      "=先読み・!否定先読み・<後読み・<!否定後読み。先読みは直後がこれになるような位置を表します",
+      "%{BKY_LOOK_TOOLTIP}",
   },
 ])

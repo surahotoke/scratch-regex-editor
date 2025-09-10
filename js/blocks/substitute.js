@@ -2,10 +2,10 @@
 Blockly.defineBlocksWithJsonArray([
   {
     type: "no_substitute",
-    message0: "置換しない",
+    message0: "%{BKY_NO_SUBSTITUTE_MESSAGE0}",
     output: "substitute",
     style: "substituteShadow",
-    tooltip: "マッチさせる",
+    tooltip: "%{BKY_NO_SUBSTITUTE_TOOLTIP}",
   },
   {
     type: "substitute_join",
@@ -18,7 +18,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "substitute",
     style: "substitute",
     tooltip:
-      "置換内でのみ使用可能な連結ブロック。置換以外では自由入力、タブ、改行、エスケープ文字も可能です",
+      "%{BKY_SUBSTITUTE_JOIN_TOOLTIP}",
     mutator: "substitute_join_mutator",
   },
   {
@@ -26,28 +26,28 @@ Blockly.defineBlocksWithJsonArray([
     message0: "$$",
     output: "substitute",
     style: "substitute",
-    tooltip: "置換内の$のエスケープ",
+    tooltip: "%{BKY_DOLLAR_TOOLTIP}",
   },
   {
     type: "ampersand",
     message0: "$&",
     output: "substitute",
     style: "substitute",
-    tooltip: "マッチした部分文字列（または位置）",
+    tooltip: "%{BKY_AMPERSAND_TOOLTIP}",
   },
   {
     type: "match_before",
     message0: "$`",
     output: "substitute",
     style: "substitute",
-    tooltip: "マッチした部分文字列の前の文字列（または位置）",
+    tooltip: "%{BKY_MATCH_BEFORE_TOOLTIP}",
   },
   {
     type: "match_after",
     message0: "$'",
     output: "substitute",
     style: "substitute",
-    tooltip: "マッチした部分文字列の後ろの文字列（または位置）",
+    tooltip: "%{BKY_MATCH_AFTER_TOOLTIP}",
   },
   {
     type: "match_backreference",
@@ -63,7 +63,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "substitute",
     style: "substitute",
     tooltip:
-      "グループの置換の参照。注意：名前付きのグループも含めたグループ番号です",
+      "%{BKY_MATCH_BACKREFERENCE_TOOLTIP}",
     extensions: ["dynamic_substitute_backreference"],
   },
   {
@@ -78,6 +78,6 @@ Blockly.defineBlocksWithJsonArray([
     ],
     output: "substitute",
     style: "substitute",
-    tooltip: "名前付きグループの置換の参照",
+    tooltip: "%{BKY_MATCH_NAMED_BACKREFERENCE_TOOLTIP}",
   },
 ])
