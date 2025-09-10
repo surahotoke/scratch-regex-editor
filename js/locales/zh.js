@@ -16,7 +16,7 @@ const ui = {
   sampleDate: "日期检测",
   sampleNum: "数字分隔",
   regex: "正则表达式模式",
-  cppy: "复制",
+  copy: "复制",
   replace: "替换字符串",
   target: "目标文本",
   targetPlaceholder: "在这里输入文本（支持制表符）",

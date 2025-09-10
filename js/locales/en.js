@@ -16,7 +16,7 @@ const ui = {
   sampleDate: "Date Detection",
   sampleNum: "Number Separator",
   regex: "Regular Expression Pattern",
-  cppy: "Copy",
+  copy: "Copy",
   replace: "Replacement String",
   target: "Target Text",
   targetPlaceholder: "Enter text here (tabs are also supported)",

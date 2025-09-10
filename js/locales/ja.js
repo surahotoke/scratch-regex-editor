@@ -16,7 +16,7 @@ const ui = {
   sampleDate: "日付検出",
   sampleNum: "数字区切り",
   regex: "正規表現パターン",
-  cppy: "コピー",
+  copy: "コピー",
   replace: "置換文字列",
   target: "対象テキスト",
   targetPlaceholder: "ここにテキストを入力（タブも入力可能）",

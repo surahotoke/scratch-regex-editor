@@ -17,7 +17,7 @@ const ui = {
   sampleDate: "Detección de fecha",
   sampleNum: "Separador de números",
   regex: "Patrón de expresión regular",
-  cppy: "Copiar",
+  copy: "Copiar",
   replace: "Cadena de reemplazo",
   target: "Texto de destino",
   targetPlaceholder: "Escribe el texto aquí (también se permite tabulación)",

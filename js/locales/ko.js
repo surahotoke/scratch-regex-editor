@@ -16,7 +16,7 @@ const ui = {
   sampleDate: "날짜 감지",
   sampleNum: "숫자 구분",
   regex: "정규식 패턴",
-  cppy: "복사",
+  copy: "복사",
   replace: "바꿀 문자열",
   target: "대상 텍스트",
   targetPlaceholder: "여기에 텍스트 입력 (탭도 입력 가능)",
