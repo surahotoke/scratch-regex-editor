@@ -1,5 +1,9 @@
 import ja from "./locales/ja.js"
 import en from "./locales/en.js"
+import zh from "./locales/zh.js"
+import es from "./locales/es.js"
+import ko from "./locales/ko.js"
+import hi from "./locales/hi.js"
 import { regexGenerator } from "./generator.js"
 
 registerContinuousToolbox()
@@ -23,6 +27,10 @@ const resultText = document.getElementById("result-text")
 const locales = {
   ja,
   en,
+  zh,
+  es,
+  ko,
+  hi,
 }
 
 function switchLanguage(lang) {
@@ -81,6 +89,8 @@ function updateBlocklyStrings(locale) {
   if (state) {
     Blockly.serialization.workspaces.load(state, workspace)
   }
+  // 入力値やフラグの監視
+  workspace.addChangeListener(evaluateRegex)
   // フライアウトのzoomの変更を阻止
   flyout.addChangeListener((event) => {
     const newScale = workspace.scale

@@ -1,3 +1,4 @@
+// html関連（textContent, placeholder, titleなど）
 const ui = {
   pageName: "Scratch Regex Editor",
   title: "Scratch Regex Editor",
@@ -22,6 +23,7 @@ const ui = {
   result: "Result",
 }
 
+// blockly関連
 const blockly = {
   CATEGORY_POSITION: "Position",
   CATEGORY_CHARS: "Characters",
@@ -89,5 +91,4 @@ const blockly = {
     "Reference a captured group in replacement. Note: Includes both normal and named groups.",
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "Reference a named group in replacement",
 }
-
 export default { ui, blockly }

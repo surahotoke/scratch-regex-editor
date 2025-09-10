@@ -1,0 +1,86 @@
+// html関連（textContent, placeholder, titleなど）
+const ui = {
+  pageName: "类 Scratch 正则表达式编辑器",
+  title: "类 Scratch 正则表达式编辑器",
+  setting: "设置",
+  language: "语言",
+  theme: "主题",
+  autoTheme: "自动",
+  lightTheme: "浅色",
+  darkTheme: "深色",
+  file: "文件",
+  newFile: "新建文件",
+  load: "从电脑加载",
+  save: "保存到电脑",
+  sample: "示例",
+  sampleDate: "日期检测",
+  sampleNum: "数字分隔",
+  regex: "正则表达式模式",
+  cppy: "复制",
+  replace: "替换字符串",
+  target: "目标文本",
+  targetPlaceholder: "在此输入文本（支持制表符）",
+  result: "结果",
+}
+
+// blockly関連
+const blockly = {
+  CATEGORY_POSITION: "位置",
+  CATEGORY_CHARS: "字符",
+  CATEGORY_JOIN: "连接 / 选择",
+  CATEGORY_GROUPS: "分组",
+  CATEGORY_REPEAT: "重复",
+  CATEGORY_SUBSTITUTE: "替换",
+  ROOT_MESSAGE0: "正则表达式: /%1/%2%3",
+  ROOT_MESSAGE1: "替换: %1",
+  ROOT_TOOLTIP: "正则表达式的根块。连接其他块来构建模式。",
+  REGEX_INPUT_TOOLTIP: "正则输入块。也可以直接输入文本。",
+  ANCHOR_START_TOOLTIP: "行首",
+  ANCHOR_END_TOOLTIP: "行尾",
+  BOUNDARY_TOOLTIP: "单词边界（在 \\w 与 \\W 之间）",
+  LOOK_TOOLTIP:
+    "= 正向先行断言, ! 否定先行, < 后行断言, <! 否定后行。匹配位置取决于前后内容。",
+  CHARS_INPUT_TOOLTIP: "自由输入。注意特殊字符。替换中也可使用。",
+  DOT_TOOLTIP: "除换行外的任意单个字符。字符类中不可用。",
+  DW_TOOLTIP: "数字 [0-9]、字母与下划线 [a-zA-Z0-9_]",
+  S_TOOLTIP: "空白字符: 空格、制表符、换行符 [ \\t\\n]",
+  UNICODE_PROPERTY_TOOLTIP:
+    "Unicode 属性。例如: P 标点符号，S 符号，Script=Hiragana 平假名，Han 汉字等。右键 → 帮助查看更多。",
+  TAB_TOOLTIP: "制表符。替换中也可使用。",
+  NEWLINE_TOOLTIP: "换行符。替换中也可使用。",
+  ESCAPED_SPECIAL_TOOLTIP:
+    "转义的特殊字符。'-' 仅能在字符类中使用。替换中也可使用（但 $ 不允许）。",
+  CHAR_CLASS_TOOLTIP:
+    "字符类。开头用 ^ 表示取反。可包含除自身和 '.' 外的字符。",
+  CHAR_CLASS_JOIN_TOOLTIP: "仅能在字符类中连接。",
+  CHAR_CLASS_RANGE_TOOLTIP:
+    "范围 (例如 a-z)。两端必须为单个字符。仅在字符类中可用。",
+  JOIN_TOOLTIP: "将多个元素顺序连接。",
+  CHOICE_TOOLTIP: "匹配多个元素之一。从左到右检查。",
+  MUTATOR_CONTAINER_TOOLTIP: "块的输入槽数量。",
+  MUTATOR_ITEM_MESSAGE0: "元素",
+  MUTATOR_ITEM_TOOLTIP: "输入槽。",
+  GROUP_NONCAPTURING_TOOLTIP: "不捕获的分组",
+  GROUP_TOOLTIP: "分组",
+  GROUP_NAMED_TOOLTIP: "命名分组",
+  BACKREFERENCE_TOOLTIP: "对分组的反向引用。选择组号。注意：包括命名组。",
+  BACKREFERENCE_NAMED_TOOLTIP: "对命名组的反向引用",
+  QUESTION_TOOLTIP:
+    "可选（如果可能则匹配一次，否则为零次）。加 ? 表示尽量少匹配。例：/^a??a/ 匹配 'aa'。",
+  STAR_PLUS_TOOLTIP:
+    "多次重复: * = 0 次或更多, + = 1 次或更多。加 ? 表示尽量少匹配。",
+  QUANTIT_EXACT_TOOLTIP: "精确重复 N 次 {N}",
+  QUANTIT_MIN_TOOLTIP: "至少重复 N 次 {N,}。加 ? 表示尽量少匹配。",
+  QUANTIT_RANGE_TOOLTIP: "重复 N~M 次 {N,M}。加 ? 表示尽量少匹配。",
+  NO_SUBSTITUTE_MESSAGE0: "不替换",
+  NO_SUBSTITUTE_TOOLTIP: "仅匹配，不替换。",
+  SUBSTITUTE_JOIN_TOOLTIP:
+    "仅能在替换中使用的连接块。替换外可使用自由输入、制表符、换行或转义。",
+  DOLLAR_TOOLTIP: "替换中对 $ 转义",
+  AMPERSAND_TOOLTIP: "匹配的文本（或位置）",
+  MATCH_BEFORE_TOOLTIP: "匹配部分前的文本（或位置）",
+  MATCH_AFTER_TOOLTIP: "匹配部分后的文本（或位置）",
+  MATCH_BACKREFERENCE_TOOLTIP: "在替换中引用分组。注意：包括命名组。",
+  MATCH_NAMED_BACKREFERENCE_TOOLTIP: "在替换中引用命名分组",
+}
+export default { ui, blockly }

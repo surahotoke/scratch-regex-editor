@@ -13,7 +13,6 @@
   - 3つのサンプル
 
 - 今後やること
-  - ローカライズ
   - `ui.js`の整理・分離
 
 リンク：https://surahotoke.github.io/scratch-regex-editor/
@@ -36,7 +35,6 @@ Create regular expressions with a Scratch-style visual editor.
   - 3 sample patterns included
 
 - Future Work
-  - Localization
   - Refactor/separate `ui.js`
 
 Demo: https://surahotoke.github.io/scratch-regex-editor/
