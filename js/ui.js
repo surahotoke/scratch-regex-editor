@@ -33,6 +33,16 @@ const locales = {
   hi,
 }
 
+function getLang() {
+  const nowLang = document.querySelector(
+    "label:has(>input[name=language]:checked)"
+  )
+  return nowLang.dataset.lang
+}
+function getLocale() {
+  return locales[getLang()].others
+}
+
 function switchLanguage(lang) {
   if (!locales[lang]) {
     console.warn(`Language ${lang} is not implemented`)
@@ -348,10 +358,8 @@ loadInput.addEventListener("change", (event) => {
       if (state.workspace)
         Blockly.serialization.workspaces.load(state.workspace, workspace)
     } catch (e) {
-      console.error("ファイルの読み込みに失敗しました:", e)
-      alert(
-        "ファイルの読み込みに失敗しました。有効なJSONファイルではありません。"
-      )
+      console.error(getLocale().fileLoadError, e)
+      alert(getLocale().fileLoadAlert)
     }
   }
   reader.readAsText(file)
@@ -374,8 +382,8 @@ saveButton.addEventListener("click", () => {
     a.click()
     URL.revokeObjectURL(url)
   } catch (e) {
-    console.error("保存に失敗しました:", e)
-    alert("ワークスペースの保存に失敗しました。")
+    console.error(getLocale().fileSaveError, e)
+    alert(getLocale().fileSaveAlert)
   }
 })
 
@@ -383,7 +391,7 @@ saveButton.addEventListener("click", () => {
 async function loadSample(filePath) {
   try {
     const response = await fetch(`samples/${filePath}`)
-    if (!response.ok) throw new Error("HTTPエラー " + response.status)
+    if (!response.ok) throw new Error(response.status)
     const state = await response.json()
 
     if (state.targetText) targetText.value = state.targetText
@@ -391,8 +399,8 @@ async function loadSample(filePath) {
       Blockly.serialization.workspaces.load(state.workspace, workspace)
     }
   } catch (e) {
-    console.error("サンプルの読み込みに失敗しました:", e)
-    alert("サンプルの読み込みに失敗しました。")
+    console.error(getLocale().sampleLoadError, e)
+    alert(getLocale().sampleLoadAlert)
   }
 }
 
@@ -429,7 +437,7 @@ patternCopyButton.addEventListener("click", async () => {
     setTimeout(() => (patternCopyButton.disabled = false), 300)
     setTimeout(() => (icon.textContent = "content_copy"), 900)
   } catch (e) {
-    console.error("クリップボードへのコピーに失敗:", e)
+    console.error(getLocale().copyError, e)
   }
 })
 
@@ -444,7 +452,7 @@ replaceCopyButton.addEventListener("click", async () => {
     setTimeout(() => (replaceCopyButton.disabled = false), 300)
     setTimeout(() => (icon.textContent = "content_copy"), 900)
   } catch (e) {
-    console.error("クリップボードへのコピーに失敗:", e)
+    console.error(getLocale().copyError, e)
   }
 })
 
@@ -489,7 +497,7 @@ function evaluateRegex() {
     // 空白文字を可視化
     resultText.innerHTML = visualizeWhitespace(resultText.innerHTML)
   } catch (e) {
-    resultText.textContent = `エラー：${e.message}`
+    resultText.textContent = e.message
   }
 }
 

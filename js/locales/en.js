@@ -25,6 +25,18 @@ const ui = {
 
 // blockly related
 const blockly = {
+  DUPLICATE_BLOCK: "Duplicate",
+  EXTERNAL_INPUTS: "External Inputs",
+  DELETE_BLOCK: "Delete Block",
+  UNDO: "Undo",
+  REDO: "Redo",
+  CLEAN_UP: "Clean up Blocks",
+  DELETE_X_BLOCKS: "Delete %1 Blocks",
+  DELETE_ALL_BLOCKS: "Delete all %1 blocks?",
+  HELP: "Help",
+  RENAME_VARIABLE: "Rename group…",
+  DELETE_VARIABLE: "Delete group '%1'",
+  DELETE_VARIABLE_CONFIRMATION: "Delete group '%2' used in %1 places?",
   CATEGORY_POSITION: "Position",
   CATEGORY_CHARS: "Characters",
   CATEGORY_JOIN: "Join / Choice",
@@ -98,4 +110,21 @@ const blockly = {
     "Note: Includes both normal and named groups.",
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "Reuse a named group in replacement",
 }
-export default { ui, blockly }
+
+// Custom messages and error texts
+export const others = {
+  CREATE_VARIABLE: "Create group name…",
+  CREATE_VARIABLE_MESSAGE: "New group name",
+  RENAME_VARIABLE_MESSAGE: "Rename group name '%1'",
+  VARIDATE_VARIABLE_ALERT:
+    "Group name must start with a letter and contain only letters, numbers, and underscores",
+  DUPLICATE_VARIABLE_ALERT: "That group name already exists",
+  fileLoadError: "Failed to load file:",
+  fileLoadAlert: "Failed to load file. The file is not a valid JSON.",
+  fileSaveError: "Failed to save:",
+  fileSaveAlert: "Failed to save workspace.",
+  sampleLoadError: "Failed to load sample:",
+  sampleLoadAlert: "Failed to load sample.",
+  copyError: "Failed to copy to clipboard:",
+}
+export default { ui, blockly, others }

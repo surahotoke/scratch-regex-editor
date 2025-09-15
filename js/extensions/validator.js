@@ -1,5 +1,29 @@
 // バリデーション
+import { others as ja } from "../locales/ja.js"
+import { others as en } from "../locales/en.js"
+import { others as zh } from "../locales/zh.js"
+import { others as es } from "../locales/es.js"
+import { others as ko } from "../locales/ko.js"
+import { others as hi } from "../locales/hi.js"
 
+const locales = {
+  ja,
+  en,
+  zh,
+  es,
+  ko,
+  hi,
+}
+
+function getLang() {
+  const nowLang = document.querySelector(
+    "label:has(>input[name=language]:checked)"
+  )
+  return nowLang.dataset.lang
+}
+function getLocale() {
+  return locales[getLang()]
+}
 // Unicode プロパティ名のバリデーション
 Blockly.Extensions.register("validate_unicode_property", function () {
   const field = this.getField("PROPERTY")
@@ -41,15 +65,10 @@ class FieldVariableWithCreation extends Blockly.FieldVariable {
   getOptions(useCache) {
     const options = super.getOptions(useCache)
     const optionIndex = options.length - 2
-    options.splice(optionIndex, 0, ["グループ名を作成...", CREATE_VARIABLE_ID])
-    options[optionIndex + 1][0] = options[optionIndex + 1][0].replace(
-      "変数",
-      "グループ名"
-    )
-    options[optionIndex + 2][0] = options[optionIndex + 2][0].replace(
-      "変数",
-      "グループ名"
-    )
+    options.splice(optionIndex, 0, [
+      getLocale().CREATE_VARIABLE,
+      CREATE_VARIABLE_ID,
+    ])
     return options
   }
 
@@ -61,13 +80,11 @@ class FieldVariableWithCreation extends Blockly.FieldVariable {
       Blockly.Variables.promptName(message, initialName, (newName) => {
         if (!newName) return // キャンセル
         if (!/^[a-zA-Z]\w*$/.test(newName)) {
-          alert(
-            "グループ名は英字で始まり、英数字とアンダースコアのみ使用できます"
-          )
+          alert(getLocale().VARIDATE_VARIABLE_ALERT)
           return promptForValidName(message, newName, callback)
         }
         if (workspace.getVariableMap().getVariable(newName)) {
-          alert("そのグループ名はすでに存在します")
+          alert(getLocale().DUPLICATE_VARIABLE_ALERT)
           return promptForValidName(message, newName, callback)
         }
         callback(newName)
@@ -75,15 +92,19 @@ class FieldVariableWithCreation extends Blockly.FieldVariable {
     }
 
     if (value === CREATE_VARIABLE_ID) {
-      promptForValidName("新しいグループ名", "", (validName) => {
-        const model = workspace.getVariableMap().createVariable(validName)
-        this.setValue(model.getId())
-      })
+      promptForValidName(
+        getLocale().CREATE_VARIABLE_MESSAGE,
+        "",
+        (validName) => {
+          const model = workspace.getVariableMap().createVariable(validName)
+          this.setValue(model.getId())
+        }
+      )
     } else if (value === Blockly.RENAME_VARIABLE_ID) {
       const oldName = this.getText()
       const varModel = this.getVariable()
       promptForValidName(
-        `グループ名'${oldName}'を変更`,
+        getLocale().RENAME_VARIABLE_MESSAGE.replace("%1", oldName),
         oldName,
         (validName) => {
           workspace.getVariableMap().renameVariable(varModel, validName)

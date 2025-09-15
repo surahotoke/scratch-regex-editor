@@ -25,6 +25,18 @@ const ui = {
 
 // blockly相关
 const blockly = {
+  DUPLICATE_BLOCK: "复制",
+  EXTERNAL_INPUTS: "外部输入",
+  DELETE_BLOCK: "删除块",
+  UNDO: "撤销",
+  REDO: "重做",
+  CLEAN_UP: "整理块",
+  DELETE_X_BLOCKS: "删除 %1 个块",
+  DELETE_ALL_BLOCKS: "要删除所有 %1 个块吗？",
+  HELP: "帮助",
+  RENAME_VARIABLE: "重命名组…",
+  DELETE_VARIABLE: "删除组“%1”",
+  DELETE_VARIABLE_CONFIRMATION: "要删除在 %1 处使用的组“%2”吗？",
   CATEGORY_POSITION: "位置",
   CATEGORY_CHARS: "字符",
   CATEGORY_JOIN: "连接 / 选择",
@@ -83,4 +95,20 @@ const blockly = {
   MATCH_BACKREFERENCE_TOOLTIP: "在替换中引用分组。注意：包括普通组和命名组。",
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "在替换中引用命名分组",
 }
-export default { ui, blockly }
+
+// 自定义消息和错误文本
+export const others = {
+  CREATE_VARIABLE: "创建组名…",
+  CREATE_VARIABLE_MESSAGE: "新的组名",
+  RENAME_VARIABLE_MESSAGE: "重命名组名“%1”",
+  VARIDATE_VARIABLE_ALERT: "组名必须以字母开头，并且只能包含字母、数字和下划线",
+  DUPLICATE_VARIABLE_ALERT: "该组名已存在",
+  fileLoadError: "文件加载失败:",
+  fileLoadAlert: "文件加载失败。不是有效的 JSON 文件。",
+  fileSaveError: "保存失败:",
+  fileSaveAlert: "保存工作区失败。",
+  sampleLoadError: "示例加载失败:",
+  sampleLoadAlert: "示例加载失败。",
+  copyError: "复制到剪贴板失败:",
+}
+export default { ui, blockly, others }

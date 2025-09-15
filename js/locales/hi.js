@@ -25,6 +25,19 @@ const ui = {
 
 // Blockly से जुड़ा
 const blockly = {
+  DUPLICATE_BLOCK: "प्रतिलिपि करें",
+  EXTERNAL_INPUTS: "बाहरी इनपुट",
+  DELETE_BLOCK: "ब्लॉक हटाएँ",
+  UNDO: "पूर्ववत करें",
+  REDO: "फिर से करें",
+  CLEAN_UP: "ब्लॉकों को व्यवस्थित करें",
+  DELETE_X_BLOCKS: "%1 ब्लॉक हटाएँ",
+  DELETE_ALL_BLOCKS: "क्या आप सभी %1 ब्लॉक हटाना चाहते हैं?",
+  HELP: "सहायता",
+  RENAME_VARIABLE: "समूह का नाम बदलें…",
+  DELETE_VARIABLE: "समूह '%1' हटाएँ",
+  DELETE_VARIABLE_CONFIRMATION:
+    "क्या आप %1 स्थानों पर उपयोग किए गए समूह '%2' को हटाना चाहते हैं?",
   CATEGORY_POSITION: "स्थिति",
   CATEGORY_CHARS: "अक्षर",
   CATEGORY_JOIN: "जोड़ / विकल्प",
@@ -85,4 +98,21 @@ const blockly = {
   MATCH_BACKREFERENCE_TOOLTIP: "बदलाव में समूह संदर्भ। नाम वाले समूह भी शामिल।",
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "बदलाव में नामित समूह संदर्भ",
 }
-export default { ui, blockly }
+
+// कस्टम संदेश और त्रुटि टेक्स्ट
+export const others = {
+  CREATE_VARIABLE: "समूह नाम बनाएँ…",
+  CREATE_VARIABLE_MESSAGE: "नया समूह नाम",
+  RENAME_VARIABLE_MESSAGE: "समूह नाम '%1' बदलें",
+  VARIDATE_VARIABLE_ALERT:
+    "समूह नाम अक्षर से शुरू होना चाहिए और केवल अक्षर, अंक और अंडरस्कोर का उपयोग कर सकता है",
+  DUPLICATE_VARIABLE_ALERT: "यह समूह नाम पहले से मौजूद है",
+  fileLoadError: "फ़ाइल लोड करने में विफल:",
+  fileLoadAlert: "फ़ाइल लोड करने में विफल। यह मान्य JSON फ़ाइल नहीं है।",
+  fileSaveError: "सहेजने में विफल:",
+  fileSaveAlert: "वर्कस्पेस सहेजने में विफल।",
+  sampleLoadError: "नमूना लोड करने में विफल:",
+  sampleLoadAlert: "नमूना लोड करने में विफल।",
+  copyError: "क्लिपबोर्ड पर कॉपी करने में विफल:",
+}
+export default { ui, blockly, others }

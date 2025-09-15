@@ -26,6 +26,18 @@ const ui = {
 
 // Blockly relacionado
 const blockly = {
+  DUPLICATE_BLOCK: "Duplicar",
+  EXTERNAL_INPUTS: "Entradas externas",
+  DELETE_BLOCK: "Eliminar bloque",
+  UNDO: "Deshacer",
+  REDO: "Rehacer",
+  CLEAN_UP: "Organizar bloques",
+  DELETE_X_BLOCKS: "Eliminar %1 bloques",
+  DELETE_ALL_BLOCKS: "¿Eliminar todos los %1 bloques?",
+  HELP: "Ayuda",
+  RENAME_VARIABLE: "Cambiar nombre del grupo…",
+  DELETE_VARIABLE: "Eliminar grupo '%1'",
+  DELETE_VARIABLE_CONFIRMATION: "¿Eliminar el grupo '%2' usado en %1 lugares?",
   CATEGORY_POSITION: "Posición",
   CATEGORY_CHARS: "Caracteres",
   CATEGORY_JOIN: "Unir / Opción",
@@ -92,4 +104,21 @@ const blockly = {
   MATCH_NAMED_BACKREFERENCE_TOOLTIP:
     "Referencia a grupo con nombre en reemplazo",
 }
-export default { ui, blockly }
+
+// Mensajes personalizados y textos de error
+export const others = {
+  CREATE_VARIABLE: "Crear nombre de grupo…",
+  CREATE_VARIABLE_MESSAGE: "Nuevo nombre de grupo",
+  RENAME_VARIABLE_MESSAGE: "Renombrar nombre de grupo '%1'",
+  VARIDATE_VARIABLE_ALERT:
+    "El nombre del grupo debe comenzar con una letra y solo puede contener letras, números y guiones bajos",
+  DUPLICATE_VARIABLE_ALERT: "Ese nombre de grupo ya existe",
+  fileLoadError: "Error al cargar el archivo:",
+  fileLoadAlert: "Error al cargar el archivo. No es un JSON válido.",
+  fileSaveError: "Error al guardar:",
+  fileSaveAlert: "Error al guardar el espacio de trabajo.",
+  sampleLoadError: "Error al cargar el ejemplo:",
+  sampleLoadAlert: "Error al cargar el ejemplo.",
+  copyError: "Error al copiar al portapapeles:",
+}
+export default { ui, blockly, others }

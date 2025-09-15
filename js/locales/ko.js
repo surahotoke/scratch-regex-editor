@@ -25,6 +25,19 @@ const ui = {
 
 // Blockly 관련
 const blockly = {
+  DUPLICATE_BLOCK: "복제",
+  EXTERNAL_INPUTS: "외부 입력",
+  DELETE_BLOCK: "블록 삭제",
+  UNDO: "실행 취소",
+  REDO: "다시 실행",
+  CLEAN_UP: "블록 정리",
+  DELETE_X_BLOCKS: "%1개의 블록 삭제",
+  DELETE_ALL_BLOCKS: "%1개의 모든 블록을 삭제하시겠습니까?",
+  HELP: "도움말",
+  RENAME_VARIABLE: "그룹 이름 바꾸기…",
+  DELETE_VARIABLE: "그룹 '%1' 삭제",
+  DELETE_VARIABLE_CONFIRMATION:
+    "%1곳에서 사용 중인 그룹 '%2'를 삭제하시겠습니까?",
   CATEGORY_POSITION: "위치",
   CATEGORY_CHARS: "문자",
   CATEGORY_JOIN: "연결 / 선택",
@@ -83,4 +96,21 @@ const blockly = {
   MATCH_BACKREFERENCE_TOOLTIP: "치환에서 그룹 참조. 이름 있는 그룹도 포함.",
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "치환에서 이름 있는 그룹 참조",
 }
-export default { ui, blockly }
+
+// 사용자 정의 메시지 및 오류 텍스트
+export const others = {
+  CREATE_VARIABLE: "그룹 이름 만들기…",
+  CREATE_VARIABLE_MESSAGE: "새 그룹 이름",
+  RENAME_VARIABLE_MESSAGE: "그룹 이름 '%1' 변경",
+  VARIDATE_VARIABLE_ALERT:
+    "그룹 이름은 영문자로 시작해야 하며, 영문자, 숫자, 밑줄만 사용할 수 있습니다",
+  DUPLICATE_VARIABLE_ALERT: "이미 존재하는 그룹 이름입니다",
+  fileLoadError: "파일 불러오기 실패:",
+  fileLoadAlert: "파일 불러오기 실패. 유효한 JSON 파일이 아닙니다.",
+  fileSaveError: "저장 실패:",
+  fileSaveAlert: "작업 영역 저장에 실패했습니다.",
+  sampleLoadError: "샘플 불러오기 실패:",
+  sampleLoadAlert: "샘플 불러오기에 실패했습니다.",
+  copyError: "클립보드에 복사 실패:",
+}
+export default { ui, blockly, others }

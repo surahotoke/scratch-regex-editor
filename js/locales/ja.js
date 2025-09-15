@@ -25,6 +25,19 @@ const ui = {
 
 // blockly関連
 const blockly = {
+  DUPLICATE_BLOCK: "複製",
+  EXTERNAL_INPUTS: "外部入力",
+  DELETE_BLOCK: "ブロックを削除",
+  UNDO: "取り消す",
+  REDO: "やり直す",
+  CLEAN_UP: "ブロックを整理する",
+  DELETE_X_BLOCKS: "%1個のブロックを削除",
+  DELETE_ALL_BLOCKS: "%1個あるすべてのブロックを削除しますか？",
+  HELP: "ヘルプ",
+  RENAME_VARIABLE: "グループの名前を変える…",
+  DELETE_VARIABLE: "グループ '%1' を削除",
+  DELETE_VARIABLE_CONFIRMATION:
+    "%1か所で使われているグループ '%2' を削除しますか？",
   CATEGORY_POSITION: "位置",
   CATEGORY_CHARS: "文字",
   CATEGORY_JOIN: "結合・選択",
@@ -89,4 +102,22 @@ const blockly = {
     "グループの置換の参照。注意：名前付きのグループも含めたグループ番号です",
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "名前付きグループの置換の参照",
 }
-export default { ui, blockly }
+
+// 自作メッセージ、エラーなど
+export const others = {
+  CREATE_VARIABLE: "グループ名を作成…",
+  CREATE_VARIABLE_MESSAGE: "新しいグループ名",
+  RENAME_VARIABLE_MESSAGE: "グループ名'%1'を変更",
+  VARIDATE_VARIABLE_ALERT:
+    "グループ名は英字で始まり、英数字とアンダースコアのみ使用できます",
+  DUPLICATE_VARIABLE_ALERT: "そのグループ名はすでに存在します",
+  fileLoadError: "ファイルの読み込みに失敗しました:",
+  fileLoadAlert:
+    "ファイルの読み込みに失敗しました。有効なJSONファイルではありません。",
+  fileSaveError: "保存に失敗しました:",
+  fileSaveAlert: "ワークスペースの保存に失敗しました。",
+  sampleLoadError: "サンプルの読み込みに失敗しました:",
+  sampleLoadAlert: "サンプルの読み込みに失敗しました。",
+  copyError: "クリップボードへのコピーに失敗:",
+}
+export default { ui, blockly, others }
