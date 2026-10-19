@@ -64,7 +64,6 @@ const blockly = {
     "转义的特殊字符。例如‘-’只在字符类中有效。替换中也可用（但 $ 不可用）。",
   CHAR_CLASS_TOOLTIP:
     "字符类。开头加^表示取反。可以包含除自身和‘.’之外的字符。",
-  CHAR_CLASS_JOIN_TOOLTIP: "仅能在字符类中连接。",
   CHAR_CLASS_RANGE_TOOLTIP:
     "范围(例: a-z)。两端必须为单个字符，仅在字符类中使用。",
   JOIN_TOOLTIP: "按顺序连接多个元素。",

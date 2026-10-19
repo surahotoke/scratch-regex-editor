@@ -15,8 +15,7 @@ Blockly.defineBlocksWithJsonArray([
     ],
     output: ["regex", "charclass", "substitute"],
     style: "chars",
-    tooltip:
-      "%{BKY_CHARS_INPUT_TOOLTIP}",
+    tooltip: "%{BKY_CHARS_INPUT_TOOLTIP}",
   },
   {
     type: "dot",
@@ -93,8 +92,7 @@ Blockly.defineBlocksWithJsonArray([
     ],
     output: ["regex", "charclass"],
     style: "chars",
-    tooltip:
-      "%{BKY_UNICODE_PROPERTY_TOOLTIP}",
+    tooltip: "%{BKY_UNICODE_PROPERTY_TOOLTIP}",
     helpUrl:
       "https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Regular_Expressions/Unicode_Property_Escapes",
     extensions: ["validate_unicode_property"],
@@ -143,8 +141,7 @@ Blockly.defineBlocksWithJsonArray([
     ],
     output: ["regex", "charclass", "substitute"],
     style: "chars",
-    tooltip:
-      "%{BKY_ESCAPED_SPECIAL_TOOLTIP}",
+    tooltip: "%{BKY_ESCAPED_SPECIAL_TOOLTIP}",
   },
   {
     type: "char_class",
@@ -158,28 +155,13 @@ Blockly.defineBlocksWithJsonArray([
           ["^", "^"],
         ],
       },
-      {
-        type: "input_value",
-        name: "CONTENT",
-        check: "charclass",
-      },
+      { type: "input_value", name: "ADD0", check: "charclass" },
     ],
+    inputsInline: true,
     output: "regex",
     style: "chars",
     tooltip: "%{BKY_CHAR_CLASS_TOOLTIP}",
-  },
-  {
-    type: "char_class_join",
-    message0: "%1%2",
-    args0: [
-      { type: "input_value", name: "ADD0", check: "charclass" },
-      { type: "input_value", name: "ADD1", check: "charclass" },
-    ],
-    inputsInline: true,
-    output: "charclass",
-    style: "charclass",
-    tooltip: "%{BKY_CHAR_CLASS_JOIN_TOOLTIP}",
-    mutator: "char_class_join_mutator",
+    mutator: "char_class_mutator",
   },
   {
     type: "char_class_range",

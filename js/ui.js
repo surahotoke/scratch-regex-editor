@@ -223,7 +223,6 @@ const toolbox = {
         { kind: "block", type: "newline" },
         { kind: "block", type: "escaped_special" },
         { kind: "block", type: "char_class" },
-        { kind: "block", type: "char_class_join" },
         { kind: "block", type: "char_class_range" },
       ],
     },

@@ -121,35 +121,27 @@
                                     "NEGATE": "^"
                                   },
                                   "inputs": {
-                                    "CONTENT": {
+                                    "ADD0": {
                                       "block": {
-                                        "type": "char_class_join",
-                                        "id": "30m(`.$RoCue1J,-sbWO",
-                                        "extraState": {
-                                          "itemCount": 2
-                                        },
-                                        "inputs": {
-                                          "ADD0": {
-                                            "block": {
-                                              "type": "s",
-                                              "id": "pJaS2mQ/.HT3aLKnWlB+",
-                                              "fields": {
-                                                "KIND": "s"
-                                              }
-                                            }
-                                          },
-                                          "ADD1": {
-                                            "block": {
-                                              "type": "escaped_special",
-                                              "id": "6(9K~zHh=Ho)Tz4nzR?u",
-                                              "fields": {
-                                                "CHAR": "/"
-                                              }
-                                            }
-                                          }
+                                        "type": "s",
+                                        "id": "pJaS2mQ/.HT3aLKnWlB+",
+                                        "fields": {
+                                          "KIND": "s"
+                                        }
+                                      }
+                                    },
+                                    "ADD1": {
+                                      "block": {
+                                        "type": "escaped_special",
+                                        "id": "6(9K~zHh=Ho)Tz4nzR?u",
+                                        "fields": {
+                                          "CHAR": "/"
                                         }
                                       }
                                     }
+                                  },
+                                  "extraState": {
+                                    "itemCount": 2
                                   }
                                 }
                               }

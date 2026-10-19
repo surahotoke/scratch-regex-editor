@@ -69,7 +69,6 @@ const blockly = {
     "Carácter especial escapado. Ej: '-' solo en clase de caracteres. También en reemplazo (excepto $).",
   CHAR_CLASS_TOOLTIP:
     "Clase de caracteres. ^ al inicio para negar. Puede incluir todo menos sí mismo y '.'.",
-  CHAR_CLASS_JOIN_TOOLTIP: "Solo dentro de clase de caracteres.",
   CHAR_CLASS_RANGE_TOOLTIP:
     "Rango (ej: a-z). Ambos deben ser un carácter. Solo en clase de caracteres.",
   JOIN_TOOLTIP: "Unir varios elementos en secuencia.",

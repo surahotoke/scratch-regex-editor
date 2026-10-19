@@ -66,7 +66,6 @@ const blockly = {
     "이스케이프된 특수문자. 예: '-'는 문자 클래스 안에서만 사용. 치환에서도 가능 ($는 제외).",
   CHAR_CLASS_TOOLTIP:
     "문자 클래스. ^로 시작하면 부정. 자기 자신과 '.'은 포함할 수 없음.",
-  CHAR_CLASS_JOIN_TOOLTIP: "문자 클래스 안에서만 연결 가능.",
   CHAR_CLASS_RANGE_TOOLTIP:
     "범위 (예: a-z). 양쪽은 문자 하나여야 함. 문자 클래스 안에서만 사용.",
   JOIN_TOOLTIP: "여러 요소를 차례로 연결.",

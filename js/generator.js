@@ -88,17 +88,12 @@ regexGenerator.forBlock["escaped_special"] = function (block) {
 }
 regexGenerator.forBlock["char_class"] = function (block) {
   const negate = block.getFieldValue("NEGATE")
-  const content = regexGenerator.valueToCode(block, "CONTENT", Order.ATOMIC)
-  const code = `[${negate}${content}]`
-  return [code, Order.ATOMIC]
-}
-regexGenerator.forBlock["char_class_join"] = function (block) {
   const inputs = []
   for (let i = 0; i < block.itemCount_; i++) {
     const input = regexGenerator.valueToCode(block, `ADD${i}`, Order.ATOMIC)
     inputs.push(input)
   }
-  const code = inputs.join("")
+  const code = `[${negate}${inputs.join("")}]`
   return [code, Order.ATOMIC]
 }
 regexGenerator.forBlock["char_class_range"] = function (block) {

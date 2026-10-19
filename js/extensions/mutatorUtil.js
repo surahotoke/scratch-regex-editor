@@ -2,6 +2,7 @@
  * ミューテーター生成用の汎用関数
  * @param {string | null} config.inputCheck - 入力に接続できるブロックの型
  * @param {string | undefined} config.appendField - 入力の間に追加するテキスト
+ * @param {number | undefined} config.defaultCount - 入力数の初期値（省略時は2）
  * @returns {object} Blockly.Extensions.registerMutatorに渡すオブジェクト
  */
 export default function (config) {
@@ -13,7 +14,7 @@ export default function (config) {
 
     // ブロックの状態を読み込む（新規作成時も呼ばれる）
     loadExtraState: function (state) {
-      this.itemCount_ = state["itemCount"] ?? 2
+      this.itemCount_ = state["itemCount"] ?? config.defaultCount ?? 2
       this.updateShape_()
     },
 
@@ -80,8 +81,14 @@ export default function (config) {
       for (let i = 0; i < this.itemCount_; i++) {
         if (!this.getInput("ADD" + i)) {
           const input = this.appendValueInput("ADD" + i).setCheck(config.inputCheck)
-          // 区切り文字が設定されていれば、入力の前に追加する
-          if (config.appendField) input.appendField(config.appendField)
+          // 区切り文字が設定されていれば、入力の間に追加する
+          if (config.appendField && i > 0) input.appendField(config.appendField)
+          // 直前の入力（ADD0 なら MUTATOR_MARKER）の隣に移動する
+          const prevName = i === 0 ? "MUTATOR_MARKER" : "ADD" + (i - 1)
+          const prevIndex = this.inputList.indexOf(this.getInput(prevName))
+          const lastIndex = this.inputList.length - 1
+          if (prevIndex !== -1 && prevIndex + 1 !== lastIndex)
+            this.moveNumberedInputBefore(lastIndex, prevIndex + 1)
         }
       }
       // 多すぎる分の入力を削除する
@@ -91,5 +98,22 @@ export default function (config) {
         i++
       }
     },
+  }
+}
+
+/**
+ * ミューテーター付きブロックの先頭に空のダミー入力 MUTATOR_MARKER を追加する
+ * （入力欄の位置をブロック間で揃え、ADD0 を置く位置の目印にするため）
+ * Blockly.Extensions.registerMutatorの第3引数に渡す
+ */
+export function addMarkerInput() {
+  const marker = this.appendDummyInput("MUTATOR_MARKER")
+  this.moveNumberedInputBefore(this.inputList.length - 1, 0)
+  // ADD0 の前に書かれたフィールド（[ や ^ など）をマーカーに移し、入力0個でも残るようにする
+  // 描画前に呼ばれるので、fieldRow の中身を移すだけで済む
+  const first = this.getInput("ADD0")
+  if (first) {
+    marker.fieldRow.push(...first.fieldRow)
+    first.fieldRow.length = 0
   }
 }

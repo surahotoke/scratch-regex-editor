@@ -67,7 +67,6 @@ const blockly = {
     "エスケープされた特殊文字。-は文字クラス内でのみ使用可能。置換でも使用可能（$は置換では使用不可）",
   CHAR_CLASS_TOOLTIP:
     "文字クラス。先頭に^で否定。自身と.以外の「文字」のものを使用可能",
-  CHAR_CLASS_JOIN_TOOLTIP: "文字クラス内でのみ使用可能な連結ブロック",
   CHAR_CLASS_RANGE_TOOLTIP:
     "範囲指定(例：a-z)。どちらも1文字。文字クラス内のみ使用可能",
   JOIN_TOOLTIP: "複数の要素を並べて連結",

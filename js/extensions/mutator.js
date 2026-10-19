@@ -1,8 +1,9 @@
-import createMutatorMixin from "../extensions/mutatorUtil.js"
+import createMutatorMixin, { addMarkerInput } from "../extensions/mutatorUtil.js"
 
 // ミューテータ設定
-const charClassJoinMutatorMixin = createMutatorMixin({
+const charClassMutatorMixin = createMutatorMixin({
   inputCheck: "charclass",
+  defaultCount: 1,
 })
 const joinMutatorMixin = createMutatorMixin({ inputCheck: "regex" })
 const substituteJoinMutatorMixin = createMutatorMixin({
@@ -14,9 +15,9 @@ const choiceMutatorMixin = createMutatorMixin({
 })
 
 Blockly.Extensions.registerMutator(
-  "char_class_join_mutator",
-  charClassJoinMutatorMixin,
-  undefined,
+  "char_class_mutator",
+  charClassMutatorMixin,
+  addMarkerInput,
   ["mutator_item"]
 )
 
@@ -24,20 +25,20 @@ Blockly.Extensions.registerMutator(
 Blockly.Extensions.registerMutator(
   "join_mutator",
   joinMutatorMixin,
-  undefined,
+  addMarkerInput,
   ["mutator_item"]
 )
 
 Blockly.Extensions.registerMutator(
   "choice_mutator",
   choiceMutatorMixin,
-  undefined,
+  addMarkerInput,
   ["mutator_item"]
 )
 
 Blockly.Extensions.registerMutator(
   "substitute_join_mutator",
   substituteJoinMutatorMixin,
-  undefined,
+  addMarkerInput,
   ["mutator_item"]
 )

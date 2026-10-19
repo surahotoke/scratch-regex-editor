@@ -70,7 +70,6 @@ const blockly = {
     "Also usable in replacement (but $ is not allowed there).",
   CHAR_CLASS_TOOLTIP:
     "Character class. Use ^ at the beginning to negate. Can include everything except itself and '.'.",
-  CHAR_CLASS_JOIN_TOOLTIP: "Join inside a character class only.",
   CHAR_CLASS_RANGE_TOOLTIP:
     "Range (e.g., a-z). Both ends must be a single character. Only works inside a character class.",
   JOIN_TOOLTIP: "Put multiple elements together in order.",
