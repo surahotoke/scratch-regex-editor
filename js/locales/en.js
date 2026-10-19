@@ -110,6 +110,11 @@ const blockly = {
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "Reuse a named group in replacement",
   CONVERT_TO_BLOCKS: "Convert to blocks",
   CONVERT_TO_TEXT: "Convert to text",
+  GROUP_ITEMS: "Group %1 items",
+  GROUP_ITEMS_MORE: "Group %1 or more items…",
+  GROUP_ITEMS_PROMPT: "Number of items to group (2–%1)",
+  GROUP_ITEMS_INVALID: "Enter a whole number from 2 to %1",
+  UNGROUP_ITEMS: "Ungroup",
 }
 
 // Custom messages and error texts

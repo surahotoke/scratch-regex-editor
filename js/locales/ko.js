@@ -96,6 +96,11 @@ const blockly = {
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "치환에서 이름 있는 그룹 참조",
   CONVERT_TO_BLOCKS: "블록으로 변환",
   CONVERT_TO_TEXT: "텍스트로 변환",
+  GROUP_ITEMS: "%1개 묶기",
+  GROUP_ITEMS_MORE: "%1개 이상 묶기…",
+  GROUP_ITEMS_PROMPT: "묶을 개수 (2~%1)",
+  GROUP_ITEMS_INVALID: "2~%1 사이의 정수를 입력하세요",
+  UNGROUP_ITEMS: "묶음 해제",
 }
 
 // 사용자 정의 메시지 및 오류 텍스트

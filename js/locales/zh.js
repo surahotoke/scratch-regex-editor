@@ -95,6 +95,11 @@ const blockly = {
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "在替换中引用命名分组",
   CONVERT_TO_BLOCKS: "转换为积木",
   CONVERT_TO_TEXT: "转换为文本",
+  GROUP_ITEMS: "合并%1个",
+  GROUP_ITEMS_MORE: "合并%1个以上…",
+  GROUP_ITEMS_PROMPT: "要合并的个数（2〜%1）",
+  GROUP_ITEMS_INVALID: "请输入2〜%1之间的整数",
+  UNGROUP_ITEMS: "取消合并",
 }
 
 // 自定义消息和错误文本

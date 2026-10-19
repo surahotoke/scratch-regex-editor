@@ -98,6 +98,11 @@ const blockly = {
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "बदलाव में नामित समूह संदर्भ",
   CONVERT_TO_BLOCKS: "ब्लॉक में बदलें",
   CONVERT_TO_TEXT: "टेक्स्ट में बदलें",
+  GROUP_ITEMS: "%1 को समूहित करें",
+  GROUP_ITEMS_MORE: "%1 या अधिक को समूहित करें…",
+  GROUP_ITEMS_PROMPT: "समूहित करने की संख्या (2–%1)",
+  GROUP_ITEMS_INVALID: "2 से %1 तक की पूर्ण संख्या दर्ज करें",
+  UNGROUP_ITEMS: "समूह हटाएँ",
 }
 
 // कस्टम संदेश और त्रुटि टेक्स्ट

@@ -104,6 +104,11 @@ const blockly = {
     "Referencia a grupo con nombre en reemplazo",
   CONVERT_TO_BLOCKS: "Convertir en bloques",
   CONVERT_TO_TEXT: "Convertir en texto",
+  GROUP_ITEMS: "Agrupar %1 elementos",
+  GROUP_ITEMS_MORE: "Agrupar %1 o más elementos…",
+  GROUP_ITEMS_PROMPT: "Número de elementos a agrupar (2–%1)",
+  GROUP_ITEMS_INVALID: "Introduce un número entero entre 2 y %1",
+  UNGROUP_ITEMS: "Desagrupar",
 }
 
 // Mensajes personalizados y textos de error

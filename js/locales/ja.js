@@ -102,6 +102,11 @@ const blockly = {
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "名前付きグループの置換の参照",
   CONVERT_TO_BLOCKS: "ブロック化",
   CONVERT_TO_TEXT: "テキスト化",
+  GROUP_ITEMS: "%1個まとめる",
+  GROUP_ITEMS_MORE: "%1個以上まとめる…",
+  GROUP_ITEMS_PROMPT: "まとめる個数（2〜%1）",
+  GROUP_ITEMS_INVALID: "2〜%1の整数を入力してください",
+  UNGROUP_ITEMS: "まとめを解除",
 }
 
 // 自作メッセージ、エラーなど
