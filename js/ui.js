@@ -8,6 +8,21 @@ import { regexGenerator } from "./generator.js"
 
 registerContinuousToolbox()
 
+// ワークスペースの初期倍率（フライアウトは常にこの倍率で表示する）
+const startScale = 0.8
+
+/** ワークスペースの拡大縮小に連動せず、常に一定の倍率で表示するフライアウト */
+class FixedScaleFlyout extends ContinuousFlyout {
+  getFlyoutScale() {
+    return startScale
+  }
+}
+Blockly.registry.register(
+  Blockly.registry.Type.FLYOUTS_VERTICAL_TOOLBOX,
+  "FixedScaleFlyout",
+  FixedScaleFlyout
+)
+
 // UI要素の取得
 const autoRadio = document.querySelector('#auto-theme > input[type="radio"]')
 const autoThemeQuery = window.matchMedia("(prefers-color-scheme: dark)")
@@ -63,17 +78,16 @@ document.querySelectorAll('input[name="language"]').forEach((input) => {
 
 function updateBlocklyStrings(locale) {
   Object.assign(Blockly.Msg, locale)
-  // 再描画
+  // 再描画（描画済みのブロックには新しい文言が反映されないので、保存して作り直す）
   let state
 
   if (workspace) {
     state = Blockly.serialization.workspaces.save(workspace)
-    // ワークスペースを破棄
-    Blockly.Workspace.getAll()[1].dispose()
+    // ワークスペースを破棄（ツールボックスやフライアウトも一緒に破棄される）
     workspace.dispose()
   }
   // ワークスペースを再作成
-  Blockly.inject("blockly-editor", {
+  workspace = Blockly.inject("blockly-editor", {
     renderer: "zelos",
     theme: makeTheme(),
     toolbox,
@@ -86,33 +100,16 @@ function updateBlocklyStrings(locale) {
       startScale: startScale,
     },
     plugins: {
-      flyoutsVerticalToolbox: "ContinuousFlyout",
+      flyoutsVerticalToolbox: "FixedScaleFlyout",
       metricsManager: "ContinuousMetrics",
       toolbox: "ContinuousToolbox",
     },
   })
-  // Blocklyのワークスペースを取得
-  workspace = Blockly.getMainWorkspace()
-  flyout = Blockly.Workspace.getAll()[2]
-  // 通常の場合使用されるフライアウト
-  dumyFlyout = workspace.getFlyout(false)
   if (state) {
     Blockly.serialization.workspaces.load(state, workspace)
   }
   // 入力値やフラグの監視
   workspace.addChangeListener(evaluateRegex)
-  // フライアウトのzoomの変更を阻止
-  flyout.addChangeListener((event) => {
-    const newScale = workspace.scale
-    // newScale が 初期値 の場合も意味がないので無視
-    if (event.type !== "viewport_change" || newScale === startScale) return
-    // 一旦 初期値 に戻してフライアウトを整える
-    workspace.scale = startScale
-    dumyFlyout.reflow()
-    // 本来のスケールに戻して再レイアウト
-    workspace.scale = newScale
-    workspace.resize()
-  })
 }
 
 function updateUIStrings(locale) {
@@ -283,9 +280,8 @@ const toolbox = {
   ],
 }
 
-// Blocklyのワークスペースを取得
-let workspace, flyout, dumyFlyout
-const startScale = 0.8
+// Blocklyのワークスペース
+let workspace
 
 // 初期言語自動選択
 const userLang = navigator.language.slice(0, 2)
