@@ -94,6 +94,8 @@ const blockly = {
   MATCH_AFTER_TOOLTIP: "매칭 후 문자열 (또는 위치)",
   MATCH_BACKREFERENCE_TOOLTIP: "치환에서 그룹 참조. 이름 있는 그룹도 포함.",
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "치환에서 이름 있는 그룹 참조",
+  CONVERT_TO_BLOCKS: "블록으로 변환",
+  CONVERT_TO_TEXT: "텍스트로 변환",
 }
 
 // 사용자 정의 메시지 및 오류 텍스트

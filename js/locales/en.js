@@ -108,6 +108,8 @@ const blockly = {
     "Reuse the text captured by a group in replacement.\n" +
     "Note: Includes both normal and named groups.",
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "Reuse a named group in replacement",
+  CONVERT_TO_BLOCKS: "Convert to blocks",
+  CONVERT_TO_TEXT: "Convert to text",
 }
 
 // Custom messages and error texts

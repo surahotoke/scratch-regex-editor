@@ -102,6 +102,8 @@ const blockly = {
     "Referencia a grupo en reemplazo. Incluye normales y con nombre.",
   MATCH_NAMED_BACKREFERENCE_TOOLTIP:
     "Referencia a grupo con nombre en reemplazo",
+  CONVERT_TO_BLOCKS: "Convertir en bloques",
+  CONVERT_TO_TEXT: "Convertir en texto",
 }
 
 // Mensajes personalizados y textos de error

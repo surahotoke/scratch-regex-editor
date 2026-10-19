@@ -93,6 +93,8 @@ const blockly = {
   MATCH_AFTER_TOOLTIP: "匹配部分后的文本（或位置）",
   MATCH_BACKREFERENCE_TOOLTIP: "在替换中引用分组。注意：包括普通组和命名组。",
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "在替换中引用命名分组",
+  CONVERT_TO_BLOCKS: "转换为积木",
+  CONVERT_TO_TEXT: "转换为文本",
 }
 
 // 自定义消息和错误文本

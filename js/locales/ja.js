@@ -100,6 +100,8 @@ const blockly = {
   MATCH_BACKREFERENCE_TOOLTIP:
     "グループの置換の参照。注意：名前付きのグループも含めたグループ番号です",
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "名前付きグループの置換の参照",
+  CONVERT_TO_BLOCKS: "ブロック化",
+  CONVERT_TO_TEXT: "テキスト化",
 }
 
 // 自作メッセージ、エラーなど

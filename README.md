@@ -11,6 +11,7 @@
   - スマホでも操作可能（Scratchを参考にした）
   - テーマ（自動/ライト/ダーク）の切り替え
   - 3つのサンプル
+  - 右クリックでテキストとブロックの相互変換（ブロック化/テキスト化）
 
 - 今後やること
   - `ui.js`の整理・分離
@@ -33,6 +34,7 @@ Create regular expressions with a Scratch-style visual editor.
   - Usable on mobile (inspired by Scratch)
   - Theme switching (auto / light / dark)
   - 3 sample patterns included
+  - Convert between text and blocks from the right-click menu
 
 - Future Work
   - Refactor/separate `ui.js`

@@ -96,6 +96,8 @@ const blockly = {
   MATCH_AFTER_TOOLTIP: "मेल के बाद का टेक्स्ट (या स्थिति)",
   MATCH_BACKREFERENCE_TOOLTIP: "बदलाव में समूह संदर्भ। नाम वाले समूह भी शामिल।",
   MATCH_NAMED_BACKREFERENCE_TOOLTIP: "बदलाव में नामित समूह संदर्भ",
+  CONVERT_TO_BLOCKS: "ब्लॉक में बदलें",
+  CONVERT_TO_TEXT: "टेक्स्ट में बदलें",
 }
 
 // कस्टम संदेश और त्रुटि टेक्स्ट
