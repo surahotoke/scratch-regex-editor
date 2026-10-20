@@ -16,6 +16,7 @@ Blockly.defineBlocksWithJsonArray([
     output: ["regex", "charclass", "substitute"],
     style: "chars",
     tooltip: "%{BKY_CHARS_INPUT_TOOLTIP}",
+    helpUrl: "reference/blocks.html#chars_input",
   },
   {
     type: "dot",
@@ -23,6 +24,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "chars",
     tooltip: "%{BKY_DOT_TOOLTIP}",
+    helpUrl: "reference/blocks.html#dot",
   },
   {
     type: "dw",
@@ -43,6 +45,7 @@ Blockly.defineBlocksWithJsonArray([
     output: ["regex", "charclass"],
     style: "chars",
     tooltip: "%{BKY_DW_TOOLTIP}",
+    helpUrl: "reference/blocks.html#dw",
   },
   {
     type: "s",
@@ -60,6 +63,7 @@ Blockly.defineBlocksWithJsonArray([
     output: ["regex", "charclass"],
     style: "chars",
     tooltip: "%{BKY_S_TOOLTIP}",
+    helpUrl: "reference/blocks.html#s",
   },
   {
     type: "unicode_property",
@@ -93,8 +97,7 @@ Blockly.defineBlocksWithJsonArray([
     output: ["regex", "charclass"],
     style: "chars",
     tooltip: "%{BKY_UNICODE_PROPERTY_TOOLTIP}",
-    helpUrl:
-      "https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Regular_Expressions/Unicode_Property_Escapes",
+    helpUrl: "reference/blocks.html#unicode_property",
     extensions: ["validate_unicode_property"],
   },
   {
@@ -103,6 +106,7 @@ Blockly.defineBlocksWithJsonArray([
     output: ["regex", "charclass", "substitute"],
     style: "chars",
     tooltip: "%{BKY_TAB_TOOLTIP}",
+    helpUrl: "reference/blocks.html#tab",
   },
   {
     type: "newline",
@@ -110,6 +114,7 @@ Blockly.defineBlocksWithJsonArray([
     output: ["regex", "charclass", "substitute"],
     style: "chars",
     tooltip: "%{BKY_NEWLINE_TOOLTIP}",
+    helpUrl: "reference/blocks.html#newline",
   },
   {
     type: "escaped_special",
@@ -142,6 +147,7 @@ Blockly.defineBlocksWithJsonArray([
     output: ["regex", "charclass", "substitute"],
     style: "chars",
     tooltip: "%{BKY_ESCAPED_SPECIAL_TOOLTIP}",
+    helpUrl: "reference/blocks.html#escaped_special",
   },
   {
     type: "char_class",
@@ -161,6 +167,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "chars",
     tooltip: "%{BKY_CHAR_CLASS_TOOLTIP}",
+    helpUrl: "reference/blocks.html#char_class",
     mutator: "char_class_mutator",
   },
   {
@@ -173,6 +180,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "charclass",
     style: "charclass",
     tooltip: "%{BKY_CHAR_CLASS_RANGE_TOOLTIP}",
+    helpUrl: "reference/blocks.html#char_class_range",
     extensions: ["validate_char_range"],
   },
 ])

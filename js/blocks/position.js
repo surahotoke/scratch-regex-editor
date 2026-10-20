@@ -6,6 +6,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "position",
     tooltip: "%{BKY_ANCHOR_START_TOOLTIP}",
+    helpUrl: "reference/blocks.html#anchor_start",
   },
   {
     type: "anchor_end",
@@ -13,6 +14,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "position",
     tooltip: "%{BKY_ANCHOR_END_TOOLTIP}",
+    helpUrl: "reference/blocks.html#anchor_end",
   },
   {
     type: "boundary",
@@ -30,6 +32,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "position",
     tooltip: "%{BKY_BOUNDARY_TOOLTIP}",
+    helpUrl: "reference/blocks.html#boundary",
   },
   {
     type: "look",
@@ -61,5 +64,6 @@ Blockly.defineBlocksWithJsonArray([
     style: "position",
     tooltip:
       "%{BKY_LOOK_TOOLTIP}",
+    helpUrl: "reference/blocks.html#look",
   },
 ])
