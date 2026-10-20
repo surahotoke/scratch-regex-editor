@@ -400,6 +400,13 @@ async function loadSample(filePath) {
 }
 
 // ボタンとファイルパスの対応をまとめて登録
+// ヘルプのリファレンスを開く（作りかけのブロックが消えないよう、新しいタブで開く）
+document.querySelectorAll("button[data-help]").forEach((button) => {
+  button.addEventListener("click", () => {
+    window.open(`reference/${button.dataset.help}.html`, "_blank", "noopener")
+  })
+})
+
 document.querySelectorAll("button[data-sample]").forEach((button) => {
   button.addEventListener("click", () => {
     const file = button.dataset.sample + ".json"

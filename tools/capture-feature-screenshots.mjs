@@ -242,6 +242,11 @@ const SHOTS = {
     label.focus(); await __sleep(200)
     return __rectOf([label, label.nextElementSibling])
   `,
+  "menu-help": `
+    const label = [...document.querySelectorAll(".dropdown-label")].find((e) => e.textContent.includes("ヘルプ"))
+    label.focus(); await __sleep(200)
+    return __rectOf([label, label.nextElementSibling])
+  `,
   "menu-setting": `
     const label = [...document.querySelectorAll(".dropdown-label")].find((e) => e.textContent.includes("設定"))
     label.focus(); await __sleep(200)

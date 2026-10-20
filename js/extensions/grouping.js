@@ -1,4 +1,5 @@
 // 連結ブロックの中身をまとめる・まとめを解除する（右クリックメニュー）
+import { textWithHelp } from "./menuHelp.js"
 
 // 入れ子にしても意味が変わらないブロック（[ ] は入れ子にすると意味が変わるので対象外）
 const GROUPABLE_TYPES = ["join", "choice", "substitute_join"]
@@ -115,7 +116,11 @@ for (let count = 2; count <= MAX_GROUP_COUNT; count++) {
     id: `group_items_${count}`,
     scopeType: Blockly.ContextMenuRegistry.ScopeType.BLOCK,
     weight: 110 + count,
-    displayText: () => Blockly.Msg.GROUP_ITEMS.replace("%1", count),
+    // 「?」は常に出る「2個まとめる」にだけ付ける（全部に付けると目障りなので）
+    displayText: () => {
+      const text = Blockly.Msg.GROUP_ITEMS.replace("%1", count)
+      return count === 2 ? textWithHelp(text, "group-items") : text
+    },
     preconditionFn: ({ block }) => {
       const position = getPosition(block)
       if (!position) return "hidden"
@@ -144,7 +149,7 @@ Blockly.ContextMenuRegistry.registry.register({
   id: "ungroup_items",
   scopeType: Blockly.ContextMenuRegistry.ScopeType.BLOCK,
   weight: 110,
-  displayText: () => Blockly.Msg.UNGROUP_ITEMS,
+  displayText: () => textWithHelp(Blockly.Msg.UNGROUP_ITEMS, "group-items"),
   preconditionFn: ({ block }) => {
     const position = getPosition(block)
     return position?.parent.type === block.type ? "enabled" : "hidden"

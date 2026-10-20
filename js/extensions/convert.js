@@ -1,6 +1,7 @@
 // テキストとブロックの相互変換（右クリックメニュー）
 import { RegExpParser } from "https://unpkg.com/@eslint-community/regexpp@4/index.mjs"
 import { regexGenerator } from "../generator.js"
+import { textWithHelp } from "./menuHelp.js"
 
 const parser = new RegExpParser()
 
@@ -279,7 +280,7 @@ Blockly.ContextMenuRegistry.registry.register({
   id: "convert_to_blocks",
   scopeType: Blockly.ContextMenuRegistry.ScopeType.BLOCK,
   weight: 100,
-  displayText: () => Blockly.Msg.CONVERT_TO_BLOCKS,
+  displayText: () => textWithHelp(Blockly.Msg.CONVERT_TO_BLOCKS, "blockify"),
   preconditionFn: ({ block }) => {
     const target = getConvertTarget(block)
     if (!target) return "hidden"
@@ -294,7 +295,7 @@ Blockly.ContextMenuRegistry.registry.register({
   id: "convert_to_text",
   scopeType: Blockly.ContextMenuRegistry.ScopeType.BLOCK,
   weight: 101,
-  displayText: () => Blockly.Msg.CONVERT_TO_TEXT,
+  displayText: () => textWithHelp(Blockly.Msg.CONVERT_TO_TEXT, "blockify"),
   preconditionFn: ({ block }) => {
     const target = getConvertTarget(block)
     if (!target) return "hidden"
