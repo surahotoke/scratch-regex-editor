@@ -309,7 +309,8 @@ ins {
 }
 .sp-mark,
 .tb-mark,
-.nl-mark {
+.nl-mark,
+.fw-mark {
   position: relative;
   &::before {
     position: absolute;
@@ -335,4 +336,11 @@ ins {
 .nl-mark::before {
   content: "⏎";
   font-size: 0.7em;
+}
+.fw-mark::before {
+  content: "□";
+  font-size: 0.9em;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
 }

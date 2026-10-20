@@ -20,7 +20,7 @@ class FixedScaleFlyout extends ContinuousFlyout {
 Blockly.registry.register(
   Blockly.registry.Type.FLYOUTS_VERTICAL_TOOLBOX,
   "FixedScaleFlyout",
-  FixedScaleFlyout
+  FixedScaleFlyout,
 )
 
 // UI要素の取得
@@ -50,7 +50,7 @@ const locales = {
 
 function getLang() {
   const nowLang = document.querySelector(
-    "label:has(>input[name=language]:checked)"
+    "label:has(>input[name=language]:checked)",
   )
   return nowLang.dataset.lang
 }
@@ -289,7 +289,7 @@ switchLanguage(defaultLang)
 
 // UIのラジオボタンも同期
 const langRadio = document.querySelector(
-  `label[data-lang="${defaultLang}"] > input`
+  `label[data-lang="${defaultLang}"] > input`,
 )
 if (langRadio) {
   langRadio.checked = true
@@ -477,13 +477,13 @@ function evaluateRegex() {
         markTextRange(
           resultText.firstChild,
           match.index,
-          match.index + match[0].length
+          match.index + match[0].length,
         )
       }
     } else {
       // 置換する場合は置換して表示し、置換した部分をハイライト
       const substitute = JSON.parse(
-        JSON.stringify(regexJson.substitute).replaceAll("\\\\", "\\")
+        JSON.stringify(regexJson.substitute).replaceAll("\\\\", "\\"),
       )
       showReplaced(resultText.textContent, regex, substitute)
     }
@@ -504,11 +504,11 @@ const REPLACED_END = "\uFDD1"
 function showReplaced(text, regex, substitute) {
   const replaced = text.replace(
     regex,
-    REPLACED_START + substitute + REPLACED_END
+    REPLACED_START + substitute + REPLACED_END,
   )
   resultText.textContent = ""
   const parts = replaced.split(
-    new RegExp(`${REPLACED_START}([^${REPLACED_END}]*)${REPLACED_END}`)
+    new RegExp(`${REPLACED_START}([^${REPLACED_END}]*)${REPLACED_END}`),
   )
   // split の結果は「置換していない部分」と「置換した部分」が交互に並ぶ
   parts.forEach((part, i) => {
@@ -530,10 +530,11 @@ function markTextRange(node, start, end) {
   range.surroundContents(mark)
 }
 
-// 空白文字を可視化する関数（置き換えるものがスペース、タブ、改行のみなのでinnerHTMLでエスケープしても問題ない）
+// 空白文字を可視化する関数（置き換えるものが半角・全角スペース、タブ、改行のみなのでinnerHTMLでエスケープしても問題ない）
 function visualizeWhitespace(str) {
   return str
     .replace(/ /g, '<span class="sp-mark"> </span>') // 半角スペース → ␣
     .replace(/\t/g, '<span class="tb-mark">\t</span>') // タブ → ⇥
     .replace(/\n/g, '<span class="nl-mark">\n</span>') // 改行 → ⏎
+    .replace(/\u3000/g, '<span class="fw-mark">　</span>') // 全角スペース → □
 }
