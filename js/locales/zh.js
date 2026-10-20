@@ -23,6 +23,10 @@ const ui = {
   result: "结果",
 }
 
+// 繰り返しブロック共通の注意書き
+const REPEAT_NOTE =
+  "\n放入多个字符时只会重复最后一个字符。要整体重复请用(?:)包起来。"
+
 // blockly相关
 const blockly = {
   DUPLICATE_BLOCK: "复制",
@@ -67,22 +71,24 @@ const blockly = {
   CHAR_CLASS_RANGE_TOOLTIP:
     "范围(例: a-z)。两端必须为单个字符，仅在字符类中使用。",
   JOIN_TOOLTIP: "按顺序连接多个元素。",
-  CHOICE_TOOLTIP: "从多个元素中匹配一个。按从左到右检查。",
+  CHOICE_TOOLTIP: "从多个元素中匹配一个。按从左到右检查。" +
+    "\n与其他积木连接时请用(?:)包起来。",
   MUTATOR_CONTAINER_TOOLTIP: "块的输入槽数量。",
   MUTATOR_ITEM_MESSAGE0: "元素",
   MUTATOR_ITEM_TOOLTIP: "输入槽。",
-  GROUP_NONCAPTURING_TOOLTIP: "不捕获的分组",
+  GROUP_NONCAPTURING_TOOLTIP:
+    "不捕获的分组。不会自动分组，想确定重复或选择（|）的范围时用它包起来。",
   GROUP_TOOLTIP: "分组",
   GROUP_NAMED_TOOLTIP: "命名分组",
   BACKREFERENCE_TOOLTIP:
     "对分组的后向引用。选择组号。注意：包括普通组和命名组。",
   BACKREFERENCE_NAMED_TOOLTIP: "命名组的后向引用",
   QUESTION_TOOLTIP:
-    "可选（尽量匹配1次，否则为0）。加?表示尽量少匹配。例：/^a??a/ 应用于 'aa'。",
-  STAR_PLUS_TOOLTIP: "* = 0次或更多, + = 1次或更多。加?表示尽量少。",
-  QUANTIT_EXACT_TOOLTIP: "恰好重复N次 {N}",
-  QUANTIT_MIN_TOOLTIP: "至少重复N次 {N,}。加?表示尽量少。",
-  QUANTIT_RANGE_TOOLTIP: "重复N~M次 {N,M}。加?表示尽量少。",
+    "可选（尽量匹配1次，否则为0）。加?表示尽量少匹配。例：/^a??a/ 应用于 'aa'。" + REPEAT_NOTE,
+  STAR_PLUS_TOOLTIP: "* = 0次或更多, + = 1次或更多。加?表示尽量少。" + REPEAT_NOTE,
+  QUANTIT_EXACT_TOOLTIP: "恰好重复N次 {N}" + REPEAT_NOTE,
+  QUANTIT_MIN_TOOLTIP: "至少重复N次 {N,}。加?表示尽量少。" + REPEAT_NOTE,
+  QUANTIT_RANGE_TOOLTIP: "重复N~M次 {N,M}。加?表示尽量少。" + REPEAT_NOTE,
   NO_SUBSTITUTE_MESSAGE0: "不替换",
   NO_SUBSTITUTE_TOOLTIP: "只匹配，不替换。",
   SUBSTITUTE_JOIN_TOOLTIP:

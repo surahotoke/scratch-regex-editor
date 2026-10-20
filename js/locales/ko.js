@@ -23,6 +23,10 @@ const ui = {
   result: "결과",
 }
 
+// 繰り返しブロック共通の注意書き
+const REPEAT_NOTE =
+  "\n여러 글자를 넣으면 마지막 한 글자만 반복됨. 묶어서 반복하려면 (?:)로 감싸기."
+
 // Blockly 관련
 const blockly = {
   DUPLICATE_BLOCK: "복제",
@@ -69,21 +73,23 @@ const blockly = {
   CHAR_CLASS_RANGE_TOOLTIP:
     "범위 (예: a-z). 양쪽은 문자 하나여야 함. 문자 클래스 안에서만 사용.",
   JOIN_TOOLTIP: "여러 요소를 차례로 연결.",
-  CHOICE_TOOLTIP: "여러 요소 중 하나에 일치. 왼쪽부터 검사.",
+  CHOICE_TOOLTIP: "여러 요소 중 하나에 일치. 왼쪽부터 검사." +
+    "\n다른 블록과 연결할 때는 (?:)로 감싸기.",
   MUTATOR_CONTAINER_TOOLTIP: "블록 입력 칸의 개수.",
   MUTATOR_ITEM_MESSAGE0: "요소",
   MUTATOR_ITEM_TOOLTIP: "입력 칸.",
-  GROUP_NONCAPTURING_TOOLTIP: "캡처하지 않는 그룹",
+  GROUP_NONCAPTURING_TOOLTIP:
+    "캡처하지 않는 그룹. 자동으로 묶지 않으므로 반복이나 선택(|)의 범위를 정할 때 감싸기.",
   GROUP_TOOLTIP: "그룹",
   GROUP_NAMED_TOOLTIP: "이름 붙은 그룹",
   BACKREFERENCE_TOOLTIP: "그룹 참조. 그룹 번호 선택. 이름 있는 그룹도 포함.",
   BACKREFERENCE_NAMED_TOOLTIP: "이름 있는 그룹 참조",
   QUESTION_TOOLTIP:
-    "있으면 1번, 없으면 0번. ?를 붙이면 적게 매칭하려고 함. 예: /^a??a/ 'aa'에 적용.",
-  STAR_PLUS_TOOLTIP: "* = 0회 이상, + = 1회 이상. ?를 붙이면 적게 매칭하려 함.",
-  QUANTIT_EXACT_TOOLTIP: "정확히 N번 반복 {N}",
-  QUANTIT_MIN_TOOLTIP: "최소 N번 {N,}. ?로 적게 반복.",
-  QUANTIT_RANGE_TOOLTIP: "N~M번 반복 {N,M}. ?로 적게 반복.",
+    "있으면 1번, 없으면 0번. ?를 붙이면 적게 매칭하려고 함. 예: /^a??a/ 'aa'에 적용." + REPEAT_NOTE,
+  STAR_PLUS_TOOLTIP: "* = 0회 이상, + = 1회 이상. ?를 붙이면 적게 매칭하려 함." + REPEAT_NOTE,
+  QUANTIT_EXACT_TOOLTIP: "정확히 N번 반복 {N}" + REPEAT_NOTE,
+  QUANTIT_MIN_TOOLTIP: "최소 N번 {N,}. ?로 적게 반복." + REPEAT_NOTE,
+  QUANTIT_RANGE_TOOLTIP: "N~M번 반복 {N,M}. ?로 적게 반복." + REPEAT_NOTE,
   NO_SUBSTITUTE_MESSAGE0: "치환 없음",
   NO_SUBSTITUTE_TOOLTIP: "매칭만 하고 치환하지 않음.",
   SUBSTITUTE_JOIN_TOOLTIP:

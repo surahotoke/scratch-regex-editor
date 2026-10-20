@@ -23,6 +23,10 @@ const ui = {
   result: "परिणाम",
 }
 
+// 繰り返しブロック共通の注意書き
+const REPEAT_NOTE =
+  "\nअंदर कई अक्षर हों तो केवल आखिरी अक्षर दोहराया जाता है। साथ में दोहराने के लिए उन्हें (?:) में रखें।"
+
 // Blockly से जुड़ा
 const blockly = {
   DUPLICATE_BLOCK: "प्रतिलिपि करें",
@@ -70,22 +74,24 @@ const blockly = {
   CHAR_CLASS_RANGE_TOOLTIP:
     "सीमा (उदा: a-z)। दोनों ओर एक अक्षर। केवल अक्षर वर्ग में।",
   JOIN_TOOLTIP: "कई तत्वों को क्रम में जोड़ें।",
-  CHOICE_TOOLTIP: "कई तत्वों में से एक से मेल खाएँ। बाएँ से दाएँ जाँच।",
+  CHOICE_TOOLTIP: "कई तत्वों में से एक से मेल खाएँ। बाएँ से दाएँ जाँच।" +
+    "\nदूसरे ब्लॉकों से जोड़ते समय (?:) में रखें।",
   MUTATOR_CONTAINER_TOOLTIP: "ब्लॉक के इनपुट स्लॉट की संख्या।",
   MUTATOR_ITEM_MESSAGE0: "तत्व",
   MUTATOR_ITEM_TOOLTIP: "इनपुट स्लॉट।",
-  GROUP_NONCAPTURING_TOOLTIP: "कैप्चर न करने वाला समूह",
+  GROUP_NONCAPTURING_TOOLTIP:
+    "कैप्चर न करने वाला समूह। अपने आप समूह नहीं बनता, इसलिए दोहराव या विकल्प (|) की सीमा तय करने के लिए इसमें रखें।",
   GROUP_TOOLTIP: "समूह",
   GROUP_NAMED_TOOLTIP: "नामित समूह",
   BACKREFERENCE_TOOLTIP:
     "समूह का बैकरेफ़रेंस। समूह संख्या चुनें। नाम वाले समूह भी शामिल।",
   BACKREFERENCE_NAMED_TOOLTIP: "नामित समूह का बैकरेफ़रेंस",
   QUESTION_TOOLTIP:
-    "यदि हो तो 1 बार, अन्यथा 0 बार। ? से कम मेल खाता है। उदाहरण: /^a??a/ 'aa' पर लागू।",
-  STAR_PLUS_TOOLTIP: "* = 0 या अधिक, + = 1 या अधिक। ? से कम मेल खाता है।",
-  QUANTIT_EXACT_TOOLTIP: "ठीक N बार दोहराएँ {N}",
-  QUANTIT_MIN_TOOLTIP: "कम से कम N बार {N,}। ? से कम।",
-  QUANTIT_RANGE_TOOLTIP: "N से M बार {N,M}। ? से कम।",
+    "यदि हो तो 1 बार, अन्यथा 0 बार। ? से कम मेल खाता है। उदाहरण: /^a??a/ 'aa' पर लागू।" + REPEAT_NOTE,
+  STAR_PLUS_TOOLTIP: "* = 0 या अधिक, + = 1 या अधिक। ? से कम मेल खाता है।" + REPEAT_NOTE,
+  QUANTIT_EXACT_TOOLTIP: "ठीक N बार दोहराएँ {N}" + REPEAT_NOTE,
+  QUANTIT_MIN_TOOLTIP: "कम से कम N बार {N,}। ? से कम।" + REPEAT_NOTE,
+  QUANTIT_RANGE_TOOLTIP: "N से M बार {N,M}। ? से कम।" + REPEAT_NOTE,
   NO_SUBSTITUTE_MESSAGE0: "कोई बदलाव नहीं",
   NO_SUBSTITUTE_TOOLTIP: "केवल मेल खाएँ, बदलाव न करें।",
   SUBSTITUTE_JOIN_TOOLTIP:

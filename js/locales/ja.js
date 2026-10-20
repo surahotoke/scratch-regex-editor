@@ -23,6 +23,10 @@ const ui = {
   result: "結果",
 }
 
+// 繰り返しブロック共通の注意書き
+const REPEAT_NOTE =
+  "\n複数の文字を入れると最後の1文字だけ繰り返す。まとめて繰り返すには(?:)を使用"
+
 // blockly関連
 const blockly = {
   DUPLICATE_BLOCK: "複製",
@@ -70,25 +74,27 @@ const blockly = {
   CHAR_CLASS_RANGE_TOOLTIP:
     "範囲指定(例：a-z)。どちらも1文字。文字クラス内のみ使用可能",
   JOIN_TOOLTIP: "複数の要素を並べて連結",
-  CHOICE_TOOLTIP: "複数の要素のうち、いずれかにマッチ。左から順に評価する",
+  CHOICE_TOOLTIP: "複数の要素のうち、いずれかにマッチ。左から順に評価する" +
+    "\n他のブロックと連結するときは(?:)を使用",
   MUTATOR_CONTAINER_TOOLTIP: "ブロックの入力欄の数",
   MUTATOR_ITEM_MESSAGE0: "要素",
   MUTATOR_ITEM_TOOLTIP: "入力枠",
-  GROUP_NONCAPTURING_TOOLTIP: "キャプチャしないグループ化",
+  GROUP_NONCAPTURING_TOOLTIP:
+    "キャプチャしないグループ化。自動ではまとめないので、繰り返しや選択（|）の範囲をまとめたいときに使用",
   GROUP_TOOLTIP: "グループ化",
   GROUP_NAMED_TOOLTIP: "名前付きグループ化",
   BACKREFERENCE_TOOLTIP:
     "グループの後方参照。グループ番号を選択します。注意：名前付きのグループも含めたグループ番号です",
   BACKREFERENCE_NAMED_TOOLTIP: "名前付きグループの後方参照",
   QUESTION_TOOLTIP:
-    "なるべくあれば1回取り入れる（なければ無し）。？でなるべく取り入れないになります。例：/^a??a/をaaに適用",
+    "なるべくあれば1回取り入れる（なければ無し）。？でなるべく取り入れないになります。例：/^a??a/をaaに適用" + REPEAT_NOTE,
   STAR_PLUS_TOOLTIP:
-    "0回以上（*）、1回以上（+）なるべく繰り返す。？でなるべく少なくになります",
-  QUANTIT_EXACT_TOOLTIP: "ピッタリN回繰り返す{N}",
+    "0回以上（*）、1回以上（+）なるべく繰り返す。？でなるべく少なくになります" + REPEAT_NOTE,
+  QUANTIT_EXACT_TOOLTIP: "ピッタリN回繰り返す{N}" + REPEAT_NOTE,
   QUANTIT_MIN_TOOLTIP:
-    "最低N回、なるべく多く繰り返す{N,}。？でなるべく少なくなります",
+    "最低N回、なるべく多く繰り返す{N,}。？でなるべく少なくなります" + REPEAT_NOTE,
   QUANTIT_RANGE_TOOLTIP:
-    "N~M回、なるべく多く繰り返す{N,M}。？でなるべく少なくなります",
+    "N~M回、なるべく多く繰り返す{N,M}。？でなるべく少なくなります" + REPEAT_NOTE,
   NO_SUBSTITUTE_MESSAGE0: "置換しない",
   NO_SUBSTITUTE_TOOLTIP: "マッチさせる",
   SUBSTITUTE_JOIN_TOOLTIP:

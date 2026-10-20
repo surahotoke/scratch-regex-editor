@@ -23,6 +23,10 @@ const ui = {
   result: "Result",
 }
 
+// 繰り返しブロック共通の注意書き
+const REPEAT_NOTE =
+  "\nWith several characters inside, only the last one repeats. Wrap them in (?:) to repeat them together."
+
 // blockly related
 const blockly = {
   DUPLICATE_BLOCK: "Duplicate",
@@ -73,11 +77,13 @@ const blockly = {
   CHAR_CLASS_RANGE_TOOLTIP:
     "Range (e.g., a-z). Both ends must be a single character. Only works inside a character class.",
   JOIN_TOOLTIP: "Put multiple elements together in order.",
-  CHOICE_TOOLTIP: "Match one of several elements. Checked from left to right.",
+  CHOICE_TOOLTIP: "Match one of several elements. Checked from left to right." +
+    "\nWrap in (?:) when joining with other blocks.",
   MUTATOR_CONTAINER_TOOLTIP: "Number of input slots of the block.",
   MUTATOR_ITEM_MESSAGE0: "element",
   MUTATOR_ITEM_TOOLTIP: "An input slot.",
-  GROUP_NONCAPTURING_TOOLTIP: "Grouping without capturing",
+  GROUP_NONCAPTURING_TOOLTIP:
+    "Grouping without capturing. Blocks are not grouped automatically, so wrap parts in this to set the range of a repeat or a choice (|).",
   GROUP_TOOLTIP: "Grouping",
   GROUP_NAMED_TOOLTIP: "Named grouping",
   BACKREFERENCE_TOOLTIP:
@@ -86,15 +92,15 @@ const blockly = {
   BACKREFERENCE_NAMED_TOOLTIP: "Backreference to a named group",
   QUESTION_TOOLTIP:
     "Optional (match once if possible, or none). With ? it tries to match less.\n" +
-    "Example: /^a??a/ applied to 'aa'.",
+    "Example: /^a??a/ applied to 'aa'." + REPEAT_NOTE,
   STAR_PLUS_TOOLTIP:
     "Repeat many times: * = 0 or more, + = 1 or more.\n" +
-    "With ? it tries to repeat less.",
-  QUANTIT_EXACT_TOOLTIP: "Repeat exactly N times {N}",
+    "With ? it tries to repeat less." + REPEAT_NOTE,
+  QUANTIT_EXACT_TOOLTIP: "Repeat exactly N times {N}" + REPEAT_NOTE,
   QUANTIT_MIN_TOOLTIP:
-    "Repeat at least N times {N,}. With ? it tries to repeat less.",
+    "Repeat at least N times {N,}. With ? it tries to repeat less." + REPEAT_NOTE,
   QUANTIT_RANGE_TOOLTIP:
-    "Repeat between N and M times {N,M}. With ? it tries to repeat less.",
+    "Repeat between N and M times {N,M}. With ? it tries to repeat less." + REPEAT_NOTE,
   NO_SUBSTITUTE_MESSAGE0: "No replacement",
   NO_SUBSTITUTE_TOOLTIP: "Only match, do not replace.",
   SUBSTITUTE_JOIN_TOOLTIP:

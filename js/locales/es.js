@@ -24,6 +24,10 @@ const ui = {
   result: "Resultado",
 }
 
+// 繰り返しブロック共通の注意書き
+const REPEAT_NOTE =
+  "\nCon varios caracteres dentro, solo se repite el último. Envuélvelos en (?:) para repetirlos juntos."
+
 // Blockly relacionado
 const blockly = {
   DUPLICATE_BLOCK: "Duplicar",
@@ -73,23 +77,25 @@ const blockly = {
     "Rango (ej: a-z). Ambos deben ser un carácter. Solo en clase de caracteres.",
   JOIN_TOOLTIP: "Unir varios elementos en secuencia.",
   CHOICE_TOOLTIP:
-    "Coincide con uno de varios elementos. Se evalúa de izquierda a derecha.",
+    "Coincide con uno de varios elementos. Se evalúa de izquierda a derecha." +
+    "\nEnvuélvelo en (?:) al unirlo con otros bloques.",
   MUTATOR_CONTAINER_TOOLTIP: "Número de entradas del bloque.",
   MUTATOR_ITEM_MESSAGE0: "elemento",
   MUTATOR_ITEM_TOOLTIP: "Un espacio de entrada.",
-  GROUP_NONCAPTURING_TOOLTIP: "Agrupación sin captura",
+  GROUP_NONCAPTURING_TOOLTIP:
+    "Agrupación sin captura. No se agrupa automáticamente: úsala para delimitar el alcance de una repetición o de una alternativa (|).",
   GROUP_TOOLTIP: "Agrupación",
   GROUP_NAMED_TOOLTIP: "Agrupación con nombre",
   BACKREFERENCE_TOOLTIP:
     "Referencia hacia atrás a un grupo. Elige el número. Incluye normales y con nombre.",
   BACKREFERENCE_NAMED_TOOLTIP: "Referencia a grupo con nombre",
   QUESTION_TOOLTIP:
-    "Opcional (si es posible una vez, si no ninguna). Con ? intenta menos coincidencias.",
+    "Opcional (si es posible una vez, si no ninguna). Con ? intenta menos coincidencias." + REPEAT_NOTE,
   STAR_PLUS_TOOLTIP:
-    "* = 0 o más, + = 1 o más. Con ? intenta menos coincidencias.",
-  QUANTIT_EXACT_TOOLTIP: "Exactamente N repeticiones {N}",
-  QUANTIT_MIN_TOOLTIP: "Al menos N repeticiones {N,}. Con ? menos.",
-  QUANTIT_RANGE_TOOLTIP: "Entre N y M repeticiones {N,M}. Con ? menos.",
+    "* = 0 o más, + = 1 o más. Con ? intenta menos coincidencias." + REPEAT_NOTE,
+  QUANTIT_EXACT_TOOLTIP: "Exactamente N repeticiones {N}" + REPEAT_NOTE,
+  QUANTIT_MIN_TOOLTIP: "Al menos N repeticiones {N,}. Con ? menos." + REPEAT_NOTE,
+  QUANTIT_RANGE_TOOLTIP: "Entre N y M repeticiones {N,M}. Con ? menos." + REPEAT_NOTE,
   NO_SUBSTITUTE_MESSAGE0: "Sin reemplazo",
   NO_SUBSTITUTE_TOOLTIP: "Solo coincidir, no reemplazar.",
   SUBSTITUTE_JOIN_TOOLTIP:
