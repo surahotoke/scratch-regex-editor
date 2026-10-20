@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ブロック画像の書き出し（開発用）</title>
+  <script src="https://unpkg.com/blockly@13/blockly.min.js"></script>
+  <script src="https://unpkg.com/blockly@13/msg/ja.js"></script>
+  <script src="https://unpkg.com/@blockly/field-grid-dropdown@13"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 16px;
+    }
+    /* 文字の幅を測るために描画は必要なので、画面外に置く */
+    #workspace {
+      position: absolute;
+      left: -10000px;
+      top: 0;
+      width: 2000px;
+      height: 1000px;
+    }
+    #preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    figure {
+      margin: 0;
+      padding: 8px;
+      border: 1px solid #ccc;
+      /* 透過を確認しやすいように市松模様にする */
+      background: repeating-conic-gradient(#ddd 0 25%, #fff 0 50%) 0 0 / 16px 16px;
+    }
+    figcaption {
+      font-size: 12px;
+      background: #fff;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>ブロック画像の書き出し（開発用）</h1>
+  <p>
+    全ブロックを背景透過の PNG（2倍解像度）で書き出します。
+    「フォルダに保存」で <code>reference/images/</code> を選ぶと、<code>&lt;type名&gt;.png</code> がまとめて書き込まれます（Chrome などのみ）。
+  </p>
+  <button id="save-folder" disabled>フォルダに保存</button>
+  <button id="save-each" disabled>1枚ずつダウンロード</button>
+  <span id="status">描画中…</span>
+  <!-- js/extensions/validator.js が今の言語をこのラジオボタンから読むので、日本語を選んだ状態で置いておく -->
+  <label data-lang="ja" hidden><input type="radio" name="language" checked></label>
+  <div id="workspace"></div>
+  <div id="preview"></div>
+
+  <script type="module">
+    import "../js/extensions/validator.js"
+    import "../js/extensions/dynamic.js"
+    import "../js/extensions/mutator.js"
+    import "../js/blocks/root.js"
+    import "../js/blocks/position.js"
+    import "../js/blocks/chars.js"
+    import "../js/blocks/join.js"
+    import "../js/blocks/groups.js"
+    import "../js/blocks/repeat.js"
+    import "../js/blocks/substitute.js"
+    import ja from "../js/locales/ja.js"
+
+    // 書き出すブロック（リファレンスに載せる順。ツールボックスのカテゴリ順の先頭に root を足したもの）
+    // root の中の regex_input と no_substitute は、root の画像で見せるので書き出さない
+    const BLOCK_TYPES = [
+      "root",
+      "anchor_start", "anchor_end", "boundary", "look",
+      "chars_input", "dot", "dw", "s", "unicode_property", "tab", "newline",
+      "escaped_special", "char_class", "char_class_range",
+      "join", "choice",
+      "group_noncapturing", "group", "group_named", "backreference", "backreference_named",
+      "question", "star_plus", "quantit_exact", "quantit_min", "quantit_range",
+      "substitute_join", "dollar", "ampersand", "match_before",
+      "match_after", "match_backreference", "match_named_backreference",
+    ]
+
+    // 書き出す倍率（高解像度の画面でもにじまないように2倍）
+    const SCALE = 2
+
+    // 画像に写す見た目に必要な CSS プロパティ（クラスで当たっているスタイルを直接書き込む）
+    const STYLE_PROPS = [
+      "fill", "fill-opacity", "stroke", "stroke-width", "stroke-opacity",
+      "opacity", "font-family", "font-size", "font-weight", "font-style",
+      "dominant-baseline", "text-anchor", "visibility", "display",
+    ]
+
+    Object.assign(Blockly.Msg, ja.blockly)
+
+    // ブロックの色は js/ui.js の makeTheme と合わせる
+    const theme = Blockly.Theme.defineTheme("exportTheme", {
+      blockStyles: {
+        root: { colourPrimary: "#546E7A" },
+        position: { colourPrimary: "#3F51B5" },
+        chars: { colourPrimary: "#2196F3" },
+        charclass: { colourPrimary: "#00BCD4" },
+        join: { colourPrimary: "#009688" },
+        groups: { colourPrimary: "#4CAF50" },
+        repeat: { colourPrimary: "#FFC107" },
+        substitute: { colourPrimary: "#FF5722" },
+        substituteShadow: { colourPrimary: "#FF9C7A" },
+      },
+    })
+
+    const workspace = Blockly.inject("workspace", { renderer: "zelos", theme })
+
+    /** 元の要素のスタイルを複製先に書き込む（子要素も同じ順で辿る） */
+    function inlineStyles(source, target) {
+      const computed = getComputedStyle(source)
+      const style = STYLE_PROPS.map((p) => `${p}:${computed.getPropertyValue(p)}`).join(";")
+      target.setAttribute("style", style)
+      for (let i = 0; i < source.children.length; i++)
+        inlineStyles(source.children[i], target.children[i])
+    }
+
+    /** 外部の画像（アイコンなど）を data URL にして、SVG 単体で表示できるようにする */
+    async function embedImages(svg) {
+      for (const image of svg.querySelectorAll("image")) {
+        const href = image.getAttribute("href") ?? image.getAttribute("xlink:href")
+        if (!href || href.startsWith("data:")) continue
+        const blob = await fetch(href).then((r) => r.blob())
+        const dataUrl = await new Promise((resolve) => {
+          const reader = new FileReader()
+          reader.onload = () => resolve(reader.result)
+          reader.readAsDataURL(blob)
+        })
+        image.setAttribute("href", dataUrl)
+      }
+    }
+
+    /** ブロックを背景なしの PNG にする */
+    async function blockToPng(block) {
+      const root = block.getSvgRoot()
+      const box = root.getBBox()
+      const clone = root.cloneNode(true)
+      inlineStyles(root, clone)
+      clone.removeAttribute("transform")
+
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+      svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
+      svg.setAttribute("width", box.width)
+      svg.setAttribute("height", box.height)
+      svg.setAttribute("viewBox", `${box.x} ${box.y} ${box.width} ${box.height}`)
+      svg.appendChild(clone)
+      await embedImages(svg)
+
+      const url = URL.createObjectURL(
+        new Blob([new XMLSerializer().serializeToString(svg)], { type: "image/svg+xml" })
+      )
+      const image = new Image()
+      await new Promise((resolve, reject) => {
+        image.onload = resolve
+        image.onerror = reject
+        image.src = url
+      })
+      URL.revokeObjectURL(url)
+
+      const canvas = document.createElement("canvas")
+      canvas.width = Math.ceil(box.width * SCALE)
+      canvas.height = Math.ceil(box.height * SCALE)
+      const context = canvas.getContext("2d")
+      context.scale(SCALE, SCALE)
+      context.drawImage(image, 0, 0)
+      return new Promise((resolve) => canvas.toBlob(resolve, "image/png"))
+    }
+
+    // エディターと同じ見た目にするための初期状態（root は js/ui.js の rootBlockDef と合わせる）
+    const BLOCK_STATES = {
+      root: {
+        type: "root",
+        inputs: {
+          PATTERN: { shadow: { type: "regex_input" } },
+          SUBSTITUTE: { shadow: { type: "no_substitute" } },
+        },
+      },
+    }
+
+    /** 書き出し用にブロックを作る（後方参照は番号が選べるように、先にグループを置いておく） */
+    function createBlock(type) {
+      const block = Blockly.serialization.blocks.append(
+        BLOCK_STATES[type] ?? { type },
+        workspace
+      )
+      if (type === "backreference" || type === "match_backreference")
+        block.setFieldValue("1", "NUMBER")
+      return block
+    }
+
+    const images = []
+    // 後方参照のドロップダウンに番号を出すためのグループ（画像にはしない）
+    Blockly.serialization.blocks.append({ type: "group" }, workspace)
+    for (const type of BLOCK_TYPES) {
+      const block = createBlock(type)
+      await Blockly.renderManagement.finishQueuedRenders()
+      const png = await blockToPng(block)
+      images.push({ name: `${type}.png`, png })
+      block.dispose()
+
+      const figure = document.createElement("figure")
+      const img = document.createElement("img")
+      img.src = URL.createObjectURL(png)
+      img.srcset = `${img.src} ${SCALE}x`
+      const caption = document.createElement("figcaption")
+      caption.textContent = type
+      figure.append(img, caption)
+      document.getElementById("preview").append(figure)
+    }
+
+    const status = document.getElementById("status")
+    status.textContent = `${images.length}個のブロックを描画しました`
+    const saveFolderButton = document.getElementById("save-folder")
+    const saveEachButton = document.getElementById("save-each")
+    saveFolderButton.disabled = !window.showDirectoryPicker
+    saveEachButton.disabled = false
+
+    saveFolderButton.addEventListener("click", async () => {
+      const directory = await window.showDirectoryPicker({ mode: "readwrite" })
+      for (const { name, png } of images) {
+        const file = await directory.getFileHandle(name, { create: true })
+        const writable = await file.createWritable()
+        await writable.write(png)
+        await writable.close()
+      }
+      status.textContent = `${images.length}枚を保存しました`
+    })
+
+    saveEachButton.addEventListener("click", () => {
+      for (const { name, png } of images) {
+        const a = document.createElement("a")
+        a.href = URL.createObjectURL(png)
+        a.download = name
+        a.click()
+      }
+    })
+  </script>
+</body>
+
+</html>
