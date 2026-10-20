@@ -80,7 +80,9 @@ html {
   top: 0;
   z-index: 1;
   display: flex;
-  flex-wrap: wrap;
+  /* 折り返すと高さが変わり、ジャンプ先の見出しが隠れるので、1行にして横にスクロールさせる */
+  overflow-x: auto;
+  white-space: nowrap;
   gap: 4px 8px;
   margin: 0;
   padding: 12px 0;
@@ -170,6 +172,44 @@ h2 {
   flex-wrap: wrap;
   align-items: center;
   gap: 4px 12px;
+}
+
+/* 機能紹介の画面のスクリーンショット（ライトテーマで撮っているので、枠線で境目を分かるようにする） */
+.screenshot {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-block: 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+/* 見比べる画像を横に並べる */
+.screenshots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px;
+  figure {
+    margin: 0;
+  }
+  figcaption {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+}
+
+/* 機能紹介の「場所」（どこから使うか） */
+.where {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.where-label {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.8rem;
 }
 
 /* 使える場所のタグ */
