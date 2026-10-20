@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Funciones - Editor Regex estilo Scratch</title>
+  <link rel="stylesheet" href="../reference.css">
+</head>
+
+<body>
+  <header>
+    <h1>Funciones</h1>
+    <nav>
+      <a href="../../index.html">Volver al editor</a>
+      <a href="blocks.html">Lista de bloques</a>
+      <span class="langs">
+        <a href="../ja/features.html" hreflang="ja" lang="ja">日本語</a>
+        <a href="../en/features.html" hreflang="en" lang="en">English</a>
+        <a href="../zh/features.html" hreflang="zh-Hans" lang="zh-Hans">简体中文</a>
+        <a href="../ko/features.html" hreflang="ko" lang="ko">한국어</a>
+        <a href="../hi/features.html" hreflang="hi" lang="hi">हिंदी</a>
+      </span>
+    </nav>
+  </header>
+
+  <main>
+    <ul class="toc">
+      <li><a href="#cat-screen">Diseño de la pantalla</a></li>
+      <li><a href="#cat-result">Visualización del resultado</a></li>
+      <li><a href="#cat-menu">Menú del clic derecho</a></li>
+      <li><a href="#cat-blocks">Trabajar con bloques</a></li>
+      <li><a href="#cat-file">Archivo</a></li>
+      <li><a href="#cat-sample">Ejemplo</a></li>
+      <li><a href="#cat-setting">Configuración</a></li>
+      <li><a href="#cat-other">Otros</a></li>
+    </ul>
+
+    <!-- Screen layout -->
+    <h2 id="cat-screen">Diseño de la pantalla</h2>
+    <p>
+      A la izquierda construyes los bloques, y a la derecha aparecen la regex y su resultado sobre el texto de destino.
+    </p>
+    <img class="screenshot" src="../images/features/es/overview.png" srcset="../images/features/es/overview.png 2x" alt="La pantalla completa del editor">
+
+    <section class="block" id="workspace">
+      <div class="block-head">
+        <h3>Espacio de trabajo y caja de herramientas</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Lado izquierdo de la pantalla</p>
+      <p>
+        Arrastra bloques desde la caja de herramientas, en el extremo izquierdo, y suéltalos en el espacio de trabajo.
+        El espacio de trabajo empieza con el bloque <a href="blocks.html#root">raíz</a>, y la regex se construye a partir de los bloques conectados a él.
+        Haz clic en el nombre de una categoría de la caja de herramientas para saltar a sus bloques.
+      </p>
+    </section>
+
+    <section class="block" id="panel">
+      <div class="block-head">
+        <h3>Patrón de expresión regular, Cadena de reemplazo, Texto de destino y Resultado</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Lado derecho de la pantalla</p>
+      <ul>
+        <li>Patrón de expresión regular: la regex que construiste, mostrada como <code>/patrón/flags</code></li>
+        <li>Cadena de reemplazo: el reemplazo construido con los bloques conectados al hueco de Reemplazar de la raíz</li>
+        <li>Texto de destino: escribe el texto con el que quieres probar la regex</li>
+        <li>Resultado: el resultado de aplicar la regex al texto de destino (consulta <a href="#cat-result">Visualización del resultado</a>)</li>
+      </ul>
+      <p>Al cambiar los bloques o el texto de destino, la pantalla se actualiza al instante.</p>
+    </section>
+
+    <!-- Result display -->
+    <h2 id="cat-result">Visualización del resultado</h2>
+    <p>
+      El resultado muestra las coincidencias mientras el hueco de Reemplazar de la raíz está en "Sin reemplazo", y el texto reemplazado cuando conectas bloques de reemplazo.
+    </p>
+
+    <section class="block" id="match-highlight">
+      <div class="block-head">
+        <h3>Resaltado de coincidencias</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Resultado (cuando el hueco de Reemplazar está en "Sin reemplazo")</p>
+      <img class="screenshot" src="../images/features/es/match.png" srcset="../images/features/es/match.png 2x" alt="Resultado con las partes coincidentes en naranja">
+      <p>Las partes del texto de destino que coinciden con la regex se muestran en naranja.</p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>\d+</code> → <code>a<mark>1</mark> b<mark>22</mark></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="replace-highlight">
+      <div class="block-head">
+        <h3>Resaltado de reemplazos</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Resultado (cuando hay bloques conectados al hueco de Reemplazar)</p>
+      <img class="screenshot" src="../images/features/es/replace.png" srcset="../images/features/es/replace.png 2x" alt="Resultado con las partes reemplazadas en verde">
+      <p>Se muestra el texto reemplazado, con las partes reemplazadas en verde.</p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>Regex <code>\d+</code>, reemplazo <code>[$&amp;]</code> → <code>a<ins>[1]</ins> b<ins>[22]</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="whitespace">
+      <div class="block-head">
+        <h3>Espacios en blanco visibles</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Resultado</p>
+      <img class="screenshot" src="../images/features/es/whitespace.png" srcset="../images/features/es/whitespace.png 2x" alt="Resultado con los espacios en blanco mostrados como símbolos">
+      <p>Los espacios en blanco invisibles se muestran como símbolos tenues.</p>
+      <ul>
+        <li><code>␣</code>: espacio</li>
+        <li><code>□</code>: espacio de ancho completo</li>
+        <li><code>⇥</code>: tabulación</li>
+        <li><code>⏎</code>: salto de línea</li>
+      </ul>
+      <div class="caution">
+        <h4>Nota</h4>
+        <p>Los símbolos son solo para mostrar. Si copias desde el resultado, no se incluyen (se copian los espacios en blanco originales).</p>
+      </div>
+    </section>
+
+    <section class="block" id="error">
+      <div class="block-head">
+        <h3>Visualización de errores</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Resultado</p>
+      <p>
+        Cuando la regex no es válida (por ejemplo, un <code>(</code> sin cerrar), el mensaje de error aparece en el resultado.
+      </p>
+    </section>
+
+    <!-- Right-click menu -->
+    <h2 id="cat-menu">Menú del clic derecho</h2>
+    <p>
+      Haz clic derecho en un bloque (mantén pulsado en el móvil) para abrir un menú con acciones para ese bloque.
+      Las acciones que no se pueden usar aparecen atenuadas.
+      En los elementos con un <code>?</code> a la derecha, al hacer clic en el <code>?</code> se abre en una pestaña nueva la explicación de esa función en esta página.
+    </p>
+
+    <section class="block" id="blockify">
+      <div class="block-head">
+        <h3>Convertir en bloques / Convertir en texto</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Clic derecho en un bloque → "Convertir en bloques" / "Convertir en texto"</p>
+      <div class="screenshots">
+        <figure><img class="screenshot" src="../images/features/es/menu-blockify.png" srcset="../images/features/es/menu-blockify.png 2x" alt="Menú del clic derecho de la raíz (Convertir en bloques / Convertir en texto)"><figcaption>Menú del clic derecho</figcaption></figure>
+        <figure><img class="screenshot" src="../images/features/es/after-blockify.png" srcset="../images/features/es/after-blockify.png 2x" alt="La raíz después de convertir ^[a-f]+$ en bloques"><figcaption>Después de "Convertir en bloques"</figcaption></figure>
+      </div>
+      <p>Convierte entre una regex escrita como texto y bloques, en ambos sentidos.</p>
+      <ul>
+        <li>
+          Convertir en bloques: convierte un bloque de <a href="blocks.html#chars_input">texto</a>, o la regex escrita en el hueco de Regex de la raíz, en una combinación de bloques.
+          Si haces clic derecho en la raíz, se convierte el contenido de su hueco de Regex.
+        </li>
+        <li>
+          Convertir en texto: convierte el bloque en el que hiciste clic derecho, junto con los bloques que tiene dentro, en un solo bloque de texto.
+          Si el bloque está conectado al hueco de Regex de la raíz, la raíz vuelve al estado en que la regex se escribe directamente en ella.
+        </li>
+      </ul>
+      <p>Ambas acciones se pueden deshacer con un solo Ctrl+Z (⌘+Z en Mac).</p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>Escribe <code>^[a-f]+$</code> en el hueco de Regex de la raíz y conviértelo en bloques → se convierte en una combinación de bloques de inicio de línea, clase de caracteres, rango, <code>+</code> y fin de línea</li>
+      </ul>
+      <div class="caution">
+        <h4>Nota</h4>
+        <ul>
+          <li>Los bloques de texto dentro de un bloque <code>[ ]</code> o en el hueco de Reemplazar no se pueden convertir por separado (escribe todo <code>[a-f]</code> como texto para convertirlo)</li>
+          <li>Al convertir en texto y volver a bloques, no se recuperan ajustes de visualización como Entradas externas</li>
+          <li>Las partes que no tienen un bloque correspondiente (como <code>\x41</code>) se quedan como bloques de texto</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block" id="group-items">
+      <div class="block-head">
+        <h3>Agrupar N elementos / Desagrupar</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Clic derecho en un bloque dentro de Unir, Opción o Unir en el reemplazo → de "Agrupar 2 elementos" a "Agrupar 5 elementos", "Agrupar 6 o más elementos…", "Desagrupar"</p>
+      <div class="screenshots">
+        <figure><img class="screenshot" src="../images/features/es/menu-group.png" srcset="../images/features/es/menu-group.png 2x" alt="Menú del clic derecho de un bloque dentro de Unir (Agrupar N elementos)"><figcaption>Menú del clic derecho</figcaption></figure>
+        <figure><img class="screenshot" src="../images/features/common/after-group.png" srcset="../images/features/common/after-group.png 2x" alt="El bloque Unir después de agrupar 4 elementos desde a"><figcaption>Después de "Agrupar 4 elementos" en a</figcaption></figure>
+      </div>
+      <p>
+        Reorganiza el contenido de un bloque Unir sin arrastrar.
+      </p>
+      <ul>
+        <li>Agrupar N elementos: mete N elementos, empezando por el bloque en el que hiciste clic derecho y avanzando hacia la derecha, en un bloque nuevo del mismo tipo</li>
+        <li>Agrupar 6 o más elementos…: pregunta el número de elementos y luego los agrupa</li>
+        <li>Desagrupar: saca el contenido de un bloque interior del mismo tipo al bloque exterior, en la misma posición</li>
+      </ul>
+      <p>
+        Agrupar no cambia la regex que se construye.
+        Combinado con <a href="#inputs">Entradas externas / Entradas en línea</a>, te ayuda a organizar una regex larga y compleja en partes con sentido, más fáciles de leer.
+      </p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>En un bloque Unir con "a" a "h", clic derecho en a → "Agrupar 4 elementos" → queda "(a b c d)", "e", "f", "g", "h"</li>
+      </ul>
+      <div class="caution">
+        <h4>Nota</h4>
+        <p>No se puede usar dentro de una clase de caracteres <code>[ ]</code> (poner <code>[ ]</code> dentro de <code>[ ]</code> significaría otra cosa).</p>
+      </div>
+    </section>
+
+    <section class="block" id="inputs">
+      <div class="block-head">
+        <h3>Entradas externas / Entradas en línea</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Clic derecho en un bloque con varios huecos → "Entradas externas" / "Entradas en línea"</p>
+      <div class="screenshots">
+        <figure><img class="screenshot" src="../images/features/common/inputs-inline.png" srcset="../images/features/common/inputs-inline.png 2x" alt="Un bloque Unir con entradas en línea"><figcaption>Entradas en línea</figcaption></figure>
+        <figure><img class="screenshot" src="../images/features/common/inputs-external.png" srcset="../images/features/common/inputs-external.png 2x" alt="Un bloque Unir con entradas externas"><figcaption>Entradas externas</figcaption></figure>
+      </div>
+      <p>
+        Cambia cómo se colocan los huecos de un bloque. "Entradas externas" apila los huecos en vertical, y "Entradas en línea" los vuelve a poner en una fila.
+        Así es más fácil leer un Unir o una Opción cuando se hacen largos. No cambia la regex que se construye.
+      </p>
+    </section>
+
+    <section class="block" id="help">
+      <div class="block-head">
+        <h3>Ayuda</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Clic derecho en un bloque → "Ayuda"</p>
+      <p>Abre la explicación de ese bloque en la <a href="blocks.html">Lista de bloques</a>.</p>
+    </section>
+
+    <!-- Working with blocks -->
+    <h2 id="cat-blocks">Trabajar con bloques</h2>
+    <p>
+      Las operaciones básicas con bloques son las mismas que en Scratch. En el móvil, puedes hacer lo mismo tocando y arrastrando.
+    </p>
+
+    <section class="block" id="basic">
+      <div class="block-head">
+        <h3>Operaciones básicas</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Espacio de trabajo</p>
+      <ul>
+        <li>Conectar: arrastra un bloque a un hueco (la parte vacía) de otro bloque</li>
+        <li>Desconectar: arrastra hacia fuera un bloque conectado</li>
+        <li>Eliminar: arrastra un bloque a la caja de herramientas o a la papelera, o selecciónalo y pulsa la tecla Delete</li>
+        <li>Duplicar: clic derecho → "Duplicar". También puedes usar Ctrl+C / Ctrl+V (⌘+C / ⌘+V en Mac)</li>
+        <li>Deshacer / rehacer: Ctrl+Z / Ctrl+Shift+Z (⌘+Z / ⌘+Shift+Z en Mac). También puedes hacer clic derecho en una zona vacía del espacio de trabajo</li>
+        <li>Ordenar: clic derecho en una zona vacía del espacio de trabajo → "Organizar bloques"</li>
+        <li>Acercar / alejar: los botones <code>+</code> <code>-</code> de abajo a la derecha</li>
+      </ul>
+    </section>
+
+    <section class="block" id="mutator">
+      <div class="block-head">
+        <h3>Cambiar el número de huecos</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Haz clic en el icono del engranaje de un bloque que lo tenga (Unir, Opción, Clase de caracteres, Unir en el reemplazo)</p>
+      <img class="screenshot" src="../images/features/es/mutator.png" srcset="../images/features/es/mutator.png 2x" alt="El editor que se abre desde el icono del engranaje">
+      <p>
+        Se abre un pequeño editor. Al añadir o quitar los bloques "elemento" de dentro, cambia el número de huecos.
+        Si reordenas los bloques "elemento", también se reordenan los huecos.
+      </p>
+    </section>
+
+    <section class="block" id="group-name">
+      <div class="block-head">
+        <h3>Crear, renombrar y eliminar nombres de grupo</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>El menú desplegable de un grupo con nombre, una referencia hacia atrás con nombre o una referencia a grupo con nombre</p>
+      <img class="screenshot" src="../images/features/es/group-name.png" srcset="../images/features/es/group-name.png 2x" alt="El menú desplegable del nombre de grupo">
+      <ul>
+        <li>Crear: elige "Crear nombre de grupo…" y escribe un nombre</li>
+        <li>Renombrar: elige "Cambiar nombre del grupo…". El nombre también cambia en todos los bloques que lo usan</li>
+        <li>Eliminar: elige "Eliminar grupo 'nombre'". También se eliminan los bloques que usan ese nombre</li>
+      </ul>
+      <div class="caution">
+        <h4>Nota</h4>
+        <p>El nombre debe empezar por una letra y solo puede contener letras, dígitos y <code>_</code>. No puedes usar un nombre que ya existe.</p>
+      </div>
+    </section>
+
+    <!-- File -->
+    <h2 id="cat-file">Archivo</h2>
+    <p>
+      Se usan desde "Archivo" en el menú superior. Puedes guardar la regex que construiste como archivo y volver a cargarla.
+    </p>
+    <img class="screenshot" src="../images/features/es/menu-file.png" srcset="../images/features/es/menu-file.png 2x" alt="El menú Archivo">
+
+    <section class="block" id="new-file">
+      <div class="block-head">
+        <h3>Nuevo archivo</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Archivo → "Nuevo archivo"</p>
+      <p>Vacía el espacio de trabajo y el texto de destino, y vuelve al estado inicial.</p>
+      <div class="caution">
+        <h4>Nota</h4>
+        <p>Todo se borra sin pedir confirmación, y no se puede deshacer con Ctrl+Z. Guarda antes lo que quieras conservar.</p>
+      </div>
+    </section>
+
+    <section class="block" id="save">
+      <div class="block-head">
+        <h3>Guardar</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Archivo → "Guardar en el ordenador"</p>
+      <p>
+        Descarga los bloques del espacio de trabajo y el texto de destino como un archivo JSON llamado <code>regex_workspace.json</code>.
+      </p>
+    </section>
+
+    <section class="block" id="load">
+      <div class="block-head">
+        <h3>Cargar</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Archivo → "Cargar desde el ordenador"</p>
+      <p>Elige un archivo JSON guardado para recuperar los bloques y el texto de destino tal como estaban al guardarlos.</p>
+      <div class="caution">
+        <h4>Nota</h4>
+        <p>El contenido actual del espacio de trabajo se sustituye por el contenido cargado.</p>
+      </div>
+    </section>
+
+    <!-- Sample -->
+    <h2 id="cat-sample">Ejemplo</h2>
+    <p>
+      Carga ejemplos desde "Ejemplo" en el menú superior. Después de cargar uno, cambia los bloques para ver cómo cambia el resultado.
+    </p>
+    <img class="screenshot" src="../images/features/es/menu-sample.png" srcset="../images/features/es/menu-sample.png 2x" alt="El menú Ejemplo">
+    <div class="caution">
+      <h4>Nota</h4>
+      <p>El contenido actual del espacio de trabajo se sustituye por el ejemplo.</p>
+    </div>
+
+    <section class="block" id="sample-date">
+      <div class="block-head">
+        <h3>Detección de fecha</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Ejemplo → "Detección de fecha"</p>
+      <p>
+        Divide fechas y horas como <code>2025-08-20 14:21:03</code> en año, mes, día, hora y minuto con grupos, y las reorganiza como <code>2025/08/20⇥14:21</code> con un reemplazo.
+      </p>
+    </section>
+
+    <section class="block" id="sample-url">
+      <div class="block-head">
+        <h3>URL</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Ejemplo → "URL"</p>
+      <p>Extrae el dominio y la ruta de las URL con grupos con nombre, y los convierte en "dominio→ruta" con un reemplazo.</p>
+    </section>
+
+    <section class="block" id="sample-html">
+      <div class="block-head">
+        <h3>HTML</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Ejemplo → "HTML"</p>
+      <p>
+        Elimina solo las etiquetas HTML con <code>&lt;.+?&gt;</code>.
+        Quita el <code>?</code> del bloque <code>+</code> para ver cómo se elimina todo (<a href="blocks.html#star_plus">coincidencia perezosa</a>).
+      </p>
+    </section>
+
+    <section class="block" id="sample-num">
+      <div class="block-head">
+        <h3>Separador de números</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Ejemplo → "Separador de números"</p>
+      <p>
+        Usa mirar atrás y mirar adelante para coincidir con las posiciones entre dígitos, y separa <code>1340</code> en <code>1, 3, 4, 0</code>, dígito a dígito.
+      </p>
+    </section>
+
+    <!-- Settings -->
+    <h2 id="cat-setting">Configuración</h2>
+    <p>Se usan desde "Configuración" en el menú superior.</p>
+    <img class="screenshot" src="../images/features/es/menu-setting.png" srcset="../images/features/es/menu-setting.png 2x" alt="El menú Configuración (Tema)">
+    <div class="caution">
+      <h4>Nota</h4>
+      <p>La configuración no se guarda, así que vuelve a los valores predeterminados al abrir de nuevo la página.</p>
+    </div>
+
+    <section class="block" id="theme">
+      <div class="block-head">
+        <h3>Tema</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Configuración → "Tema"</p>
+      <ul>
+        <li>Automático: cambia entre claro y oscuro según la configuración de tu dispositivo</li>
+        <li>Claro: usa colores claros</li>
+        <li>Oscuro: usa colores oscuros</li>
+      </ul>
+    </section>
+
+    <section class="block" id="language">
+      <div class="block-head">
+        <h3>Idioma</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Configuración → "Idioma"</p>
+      <p>
+        Cambia el idioma de la pantalla y de los bloques. Puedes elegir entre 日本語, English, 简体中文, Español, 한국어 y हिंदी.
+        Al principio, sigue el idioma de tu navegador (inglés si ese idioma no está disponible).
+      </p>
+    </section>
+
+    <!-- Other -->
+    <h2 id="cat-other">Otros</h2>
+
+    <section class="block" id="reference">
+      <div class="block-head">
+        <h3>Abrir la referencia</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Ayuda → "Lista de bloques" / "Funciones"</p>
+      <img class="screenshot" src="../images/features/es/menu-help.png" srcset="../images/features/es/menu-help.png 2x" alt="El menú Ayuda">
+      <p>
+        Abre la <a href="blocks.html">Lista de bloques</a> o esta página (Funciones) en una pestaña nueva.
+        Los bloques con los que estás trabajando se quedan como están.
+      </p>
+      <div class="caution">
+        <h4>Nota</h4>
+        <p>La referencia está disponible en los mismos seis idiomas que el editor, y se abre en el idioma elegido en el editor.</p>
+      </div>
+    </section>
+
+    <section class="block" id="copy">
+      <div class="block-head">
+        <h3>Copiar</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Los botones a la derecha de Patrón de expresión regular y Cadena de reemplazo</p>
+      <p>
+        Copia el patrón de la regex (como <code>/patrón/flags</code>) o la cadena de reemplazo al portapapeles.
+        Puedes pegarlo en tu propio programa.
+      </p>
+    </section>
+
+    <section class="block" id="tab-input">
+      <div class="block-head">
+        <h3>Escribir tabulaciones en el texto de destino</h3>
+      </div>
+      <p class="where"><span class="where-label">Dónde</span>Texto de destino</p>
+      <p>
+        Al pulsar la tecla Tab en el campo Texto de destino, se inserta un carácter de tabulación en lugar de pasar a otro campo.
+        Es útil para probar datos separados por tabulaciones.
+      </p>
+    </section>
+  </main>
+</body>
+
+</html>

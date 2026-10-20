@@ -16,8 +16,8 @@ const ui = {
   sampleDate: "날짜 감지",
   sampleNum: "숫자 구분",
   help: "도움말",
-  helpBlocks: "블록 목록 (영어)",
-  helpFeatures: "기능 소개 (영어)",
+  helpBlocks: "블록 목록",
+  helpFeatures: "기능 소개",
   regex: "정규식 패턴",
   copy: "복사",
   replace: "바꿀 문자열",
@@ -115,7 +115,7 @@ const blockly = {
   GROUP_ITEMS_PROMPT: "묶을 개수 (2~%1)",
   GROUP_ITEMS_INVALID: "2~%1 사이의 정수를 입력하세요",
   UNGROUP_ITEMS: "묶음 해제",
-  REFERENCE_DIR: "en",
+  REFERENCE_DIR: "ko",
 }
 
 // 사용자 정의 메시지 및 오류 텍스트

@@ -52,8 +52,15 @@ header {
   nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 4px 16px;
     font-size: 0.9rem;
+  }
+  /* 言語の切り替えは、ページを移動するリンクと分けて右端に置く（狭い画面では次の行に折り返す） */
+  .langs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin-left: auto;
   }
 }
 

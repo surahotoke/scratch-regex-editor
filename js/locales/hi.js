@@ -16,8 +16,8 @@ const ui = {
   sampleDate: "तारीख़ पहचान",
   sampleNum: "संख्या विभाजक",
   help: "सहायता",
-  helpBlocks: "ब्लॉक सूची (अंग्रेज़ी)",
-  helpFeatures: "सुविधाएँ (अंग्रेज़ी)",
+  helpBlocks: "ब्लॉक सूची",
+  helpFeatures: "सुविधाएँ",
   regex: "रेगुलर एक्सप्रेशन पैटर्न",
   copy: "कॉपी",
   replace: "बदलने वाला टेक्स्ट",
@@ -118,7 +118,7 @@ const blockly = {
   GROUP_ITEMS_PROMPT: "समूहित करने की संख्या (2–%1)",
   GROUP_ITEMS_INVALID: "2 से %1 तक की पूर्ण संख्या दर्ज करें",
   UNGROUP_ITEMS: "समूह हटाएँ",
-  REFERENCE_DIR: "en",
+  REFERENCE_DIR: "hi",
 }
 
 // कस्टम संदेश और त्रुटि टेक्स्ट

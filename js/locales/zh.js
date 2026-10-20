@@ -16,8 +16,8 @@ const ui = {
   sampleDate: "日期检测",
   sampleNum: "数字分隔",
   help: "帮助",
-  helpBlocks: "积木列表（英语）",
-  helpFeatures: "功能介绍（英语）",
+  helpBlocks: "积木列表",
+  helpFeatures: "功能介绍",
   regex: "正则表达式模式",
   copy: "复制",
   replace: "替换字符串",
@@ -114,7 +114,7 @@ const blockly = {
   GROUP_ITEMS_PROMPT: "要合并的个数（2〜%1）",
   GROUP_ITEMS_INVALID: "请输入2〜%1之间的整数",
   UNGROUP_ITEMS: "取消合并",
-  REFERENCE_DIR: "en",
+  REFERENCE_DIR: "zh",
 }
 
 // 自定义消息和错误文本

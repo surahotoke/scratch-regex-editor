@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>功能介绍 - Scratch风格正则编辑器</title>
+  <link rel="stylesheet" href="../reference.css">
+</head>
+
+<body>
+  <header>
+    <h1>功能介绍</h1>
+    <nav>
+      <a href="../../index.html">返回编辑器</a>
+      <a href="blocks.html">积木列表</a>
+      <span class="langs">
+        <a href="../ja/features.html" hreflang="ja" lang="ja">日本語</a>
+        <a href="../en/features.html" hreflang="en" lang="en">English</a>
+        <a href="../es/features.html" hreflang="es" lang="es">Español</a>
+        <a href="../ko/features.html" hreflang="ko" lang="ko">한국어</a>
+        <a href="../hi/features.html" hreflang="hi" lang="hi">हिंदी</a>
+      </span>
+    </nav>
+  </header>
+
+  <main>
+    <ul class="toc">
+      <li><a href="#cat-screen">界面布局</a></li>
+      <li><a href="#cat-result">结果显示</a></li>
+      <li><a href="#cat-menu">右键菜单</a></li>
+      <li><a href="#cat-blocks">积木操作</a></li>
+      <li><a href="#cat-file">文件</a></li>
+      <li><a href="#cat-sample">示例</a></li>
+      <li><a href="#cat-setting">设置</a></li>
+      <li><a href="#cat-other">其他</a></li>
+    </ul>
+
+    <!-- Screen layout -->
+    <h2 id="cat-screen">界面布局</h2>
+    <p>
+      在左侧拼搭积木，右侧会显示正则表达式以及它在目标文本上的结果。
+    </p>
+    <img class="screenshot" src="../images/features/zh/overview.png" srcset="../images/features/zh/overview.png 2x" alt="编辑器的整体界面">
+
+    <section class="block" id="workspace">
+      <div class="block-head">
+        <h3>工作区和工具箱</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>界面左侧</p>
+      <p>
+        从最左边的工具箱中拖出积木，放到工作区里。
+        工作区一开始就有<a href="blocks.html#root">根</a>积木，正则表达式由连接在它上面的积木生成。
+        点击工具箱中的分类名称，可以跳到该分类的积木。
+      </p>
+    </section>
+
+    <section class="block" id="panel">
+      <div class="block-head">
+        <h3>正则表达式模式、替换字符串、目标文本和结果</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>界面右侧</p>
+      <ul>
+        <li>正则表达式模式：以 <code>/模式/标志</code> 的形式显示拼好的正则表达式</li>
+        <li>替换字符串：由连接在根积木替换槽上的积木生成的替换字符串</li>
+        <li>目标文本：输入想用正则表达式测试的文本</li>
+        <li>结果：在目标文本上使用正则表达式的结果（参见<a href="#cat-result">结果显示</a>）</li>
+      </ul>
+      <p>修改积木或目标文本后，显示会立即更新。</p>
+    </section>
+
+    <!-- Result display -->
+    <h2 id="cat-result">结果显示</h2>
+    <p>
+      根积木的替换槽为“不替换”时，结果中显示匹配的部分；连接替换积木后，显示替换后的文本。
+    </p>
+
+    <section class="block" id="match-highlight">
+      <div class="block-head">
+        <h3>匹配高亮</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>结果（替换槽为“不替换”时）</p>
+      <img class="screenshot" src="../images/features/zh/match.png" srcset="../images/features/zh/match.png 2x" alt="匹配部分显示为橙色的结果">
+      <p>目标文本中与正则表达式匹配的部分显示为橙色。</p>
+      <h4>示例</h4>
+      <ul>
+        <li><code>\d+</code> → <code>a<mark>1</mark> b<mark>22</mark></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="replace-highlight">
+      <div class="block-head">
+        <h3>替换高亮</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>结果（替换槽连接了积木时）</p>
+      <img class="screenshot" src="../images/features/zh/replace.png" srcset="../images/features/zh/replace.png 2x" alt="替换部分显示为绿色的结果">
+      <p>显示替换后的文本，被替换的部分显示为绿色。</p>
+      <h4>示例</h4>
+      <ul>
+        <li>正则 <code>\d+</code>，替换 <code>[$&amp;]</code> → <code>a<ins>[1]</ins> b<ins>[22]</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="whitespace">
+      <div class="block-head">
+        <h3>空白字符可视化</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>结果</p>
+      <img class="screenshot" src="../images/features/zh/whitespace.png" srcset="../images/features/zh/whitespace.png 2x" alt="空白字符显示为符号的结果">
+      <p>看不见的空白字符会显示为淡色的符号。</p>
+      <ul>
+        <li><code>␣</code>：空格</li>
+        <li><code>□</code>：全角空格</li>
+        <li><code>⇥</code>：制表符</li>
+        <li><code>⏎</code>：换行</li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>这些符号仅用于显示。从结果中复制时不会包含它们（复制的是原来的空白字符）。</p>
+      </div>
+    </section>
+
+    <section class="block" id="error">
+      <div class="block-head">
+        <h3>错误显示</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>结果</p>
+      <p>
+        正则表达式无效时（例如 <code>(</code> 没有闭合），结果中会显示错误信息。
+      </p>
+    </section>
+
+    <!-- Right-click menu -->
+    <h2 id="cat-menu">右键菜单</h2>
+    <p>
+      右键点击积木（手机上长按），会打开针对该积木的操作菜单。
+      无法使用的操作会显示为灰色。
+      对于右侧带有 <code>?</code> 的项目，点击 <code>?</code> 会在新标签页中打开本页中对该功能的说明。
+    </p>
+
+    <section class="block" id="blockify">
+      <div class="block-head">
+        <h3>转换为积木 / 转换为文本</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>右键点击积木 →“转换为积木”/“转换为文本”</p>
+      <div class="screenshots">
+        <figure><img class="screenshot" src="../images/features/zh/menu-blockify.png" srcset="../images/features/zh/menu-blockify.png 2x" alt="根积木的右键菜单（转换为积木 / 转换为文本）"><figcaption>右键菜单</figcaption></figure>
+        <figure><img class="screenshot" src="../images/features/zh/after-blockify.png" srcset="../images/features/zh/after-blockify.png 2x" alt="把 ^[a-f]+$ 转换为积木后的根积木"><figcaption>“转换为积木”之后</figcaption></figure>
+      </div>
+      <p>在以文本书写的正则表达式和积木之间双向转换。</p>
+      <ul>
+        <li>
+          转换为积木：把<a href="blocks.html#chars_input">文本</a>积木，或在根积木正则槽中输入的正则表达式，变成积木的组合。
+          右键点击根积木时，会转换它的正则槽中的内容。
+        </li>
+        <li>
+          转换为文本：把右键点击的积木连同它里面的积木一起变成一个文本积木。
+          如果是连接在根积木正则槽上的积木，根积木会回到直接输入正则表达式的状态。
+        </li>
+      </ul>
+      <p>两种转换都可以用一次 Ctrl+Z（Mac 上为 ⌘+Z）撤销。</p>
+      <h4>示例</h4>
+      <ul>
+        <li>在根积木的正则槽中输入 <code>^[a-f]+$</code> 并转换为积木 → 会变成行首、字符类、范围、<code>+</code> 和行尾积木的组合</li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <ul>
+          <li><code>[ ]</code> 积木中或替换槽中的文本积木不能单独转换（要转换的话，请把整个 <code>[a-f]</code> 写成文本）</li>
+          <li>转换为文本后再转换回积木，外部输入等显示设置不会恢复</li>
+          <li>没有对应积木的部分（例如 <code>\x41</code>）会保留为文本积木</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block" id="group-items">
+      <div class="block-head">
+        <h3>合并 N 个 / 取消合并</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>右键点击连接、选择或替换连接中的积木 →“合并2个”到“合并5个”、“合并6个以上…”、“取消合并”</p>
+      <div class="screenshots">
+        <figure><img class="screenshot" src="../images/features/zh/menu-group.png" srcset="../images/features/zh/menu-group.png 2x" alt="连接积木中某个积木的右键菜单（合并 N 个）"><figcaption>右键菜单</figcaption></figure>
+        <figure><img class="screenshot" src="../images/features/common/after-group.png" srcset="../images/features/common/after-group.png 2x" alt="从 a 开始合并 4 个后的连接积木"><figcaption>在 a 上执行“合并4个”之后</figcaption></figure>
+      </div>
+      <p>
+        无需拖动就能重新整理连接积木中的内容。
+      </p>
+      <ul>
+        <li>合并 N 个：把从右键点击的积木开始向右的 N 个元素，放进一个同种类的新积木中</li>
+        <li>合并6个以上…：先询问要合并的个数，然后进行合并</li>
+        <li>取消合并：把内部同种类积木中的内容，在原来的位置展开到外层积木中</li>
+      </ul>
+      <p>
+        合并不会改变生成的正则表达式。
+        配合<a href="#inputs">外部输入 / 单行输入</a>使用，可以把又长又复杂的正则表达式整理成有意义的几块，更容易阅读。
+      </p>
+      <h4>示例</h4>
+      <ul>
+        <li>在包含“a”到“h”的连接中，右键点击 a →“合并4个”→ 变成“(a b c d)”、“e”、“f”、“g”、“h”</li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>不能在字符类 <code>[ ]</code> 中使用（在 <code>[ ]</code> 中放入 <code>[ ]</code> 会变成别的意思）。</p>
+      </div>
+    </section>
+
+    <section class="block" id="inputs">
+      <div class="block-head">
+        <h3>外部输入 / 单行输入</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>右键点击有多个槽的积木 →“外部输入”/“单行输入”</p>
+      <div class="screenshots">
+        <figure><img class="screenshot" src="../images/features/common/inputs-inline.png" srcset="../images/features/common/inputs-inline.png 2x" alt="单行输入状态的连接积木"><figcaption>单行输入</figcaption></figure>
+        <figure><img class="screenshot" src="../images/features/common/inputs-external.png" srcset="../images/features/common/inputs-external.png 2x" alt="外部输入状态的连接积木"><figcaption>外部输入</figcaption></figure>
+      </div>
+      <p>
+        切换积木中槽的排列方式。“外部输入”会把槽竖着排列，“单行输入”会把它们恢复为一行。
+        连接或选择变长时，这样更容易阅读。它不会改变生成的正则表达式。
+      </p>
+    </section>
+
+    <section class="block" id="help">
+      <div class="block-head">
+        <h3>帮助</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>右键点击积木 →“帮助”</p>
+      <p>打开<a href="blocks.html">积木列表</a>中对该积木的说明。</p>
+    </section>
+
+    <!-- Working with blocks -->
+    <h2 id="cat-blocks">积木操作</h2>
+    <p>
+      积木的基本操作与 Scratch 相同。在手机上也可以通过点按和拖动进行同样的操作。
+    </p>
+
+    <section class="block" id="basic">
+      <div class="block-head">
+        <h3>基本操作</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>工作区</p>
+      <ul>
+        <li>连接：把积木拖到另一个积木的槽（凹进去的部分）上</li>
+        <li>断开：把已连接的积木拖出来</li>
+        <li>删除：把积木拖到工具箱或垃圾桶上，或者选中后按 Delete 键</li>
+        <li>复制：右键 →“复制”。也可以使用 Ctrl+C / Ctrl+V（Mac 上为 ⌘+C / ⌘+V）</li>
+        <li>撤销 / 重做：Ctrl+Z / Ctrl+Shift+Z（Mac 上为 ⌘+Z / ⌘+Shift+Z）。也可以右键点击工作区的空白处</li>
+        <li>整理：右键点击工作区的空白处 →“整理块”</li>
+        <li>放大 / 缩小：右下角的 <code>+</code> <code>-</code> 按钮</li>
+      </ul>
+    </section>
+
+    <section class="block" id="mutator">
+      <div class="block-head">
+        <h3>改变槽的数量</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>点击带有齿轮图标的积木（连接、选择、字符类、替换连接）上的齿轮图标</p>
+      <img class="screenshot" src="../images/features/zh/mutator.png" srcset="../images/features/zh/mutator.png 2x" alt="点击齿轮图标后打开的编辑器">
+      <p>
+        会打开一个小编辑器。增加或删除其中的“元素”积木，就能改变槽的数量。
+        调整“元素”积木的顺序，槽的顺序也会随之改变。
+      </p>
+    </section>
+
+    <section class="block" id="group-name">
+      <div class="block-head">
+        <h3>创建、重命名和删除组名</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>命名分组、命名后向引用或命名分组引用的下拉菜单</p>
+      <img class="screenshot" src="../images/features/zh/group-name.png" srcset="../images/features/zh/group-name.png 2x" alt="组名的下拉菜单">
+      <ul>
+        <li>创建：选择“创建组名…”并输入名字</li>
+        <li>重命名：选择“重命名组…”。所有使用该名字的积木中的名字也会一起改变</li>
+        <li>删除：选择“删除组“名字””。使用该名字的积木也会一起被删除</li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>名字必须以字母开头，并且只能包含字母、数字和 <code>_</code>。不能使用已经存在的名字。</p>
+      </div>
+    </section>
+
+    <!-- File -->
+    <h2 id="cat-file">文件</h2>
+    <p>
+      从顶部菜单的“文件”中使用。可以把拼好的正则表达式保存为文件，之后再加载。
+    </p>
+    <img class="screenshot" src="../images/features/zh/menu-file.png" srcset="../images/features/zh/menu-file.png 2x" alt="文件菜单">
+
+    <section class="block" id="new-file">
+      <div class="block-head">
+        <h3>新建文件</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>文件 →“新建文件”</p>
+      <p>清空工作区和目标文本，回到初始状态。</p>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>所有内容都会在没有确认的情况下被清空，而且无法用 Ctrl+Z 撤销。请先保存需要保留的内容。</p>
+      </div>
+    </section>
+
+    <section class="block" id="save">
+      <div class="block-head">
+        <h3>保存</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>文件 →“保存到电脑”</p>
+      <p>
+        把工作区中的积木和目标文本下载为名为 <code>regex_workspace.json</code> 的 JSON 文件。
+      </p>
+    </section>
+
+    <section class="block" id="load">
+      <div class="block-head">
+        <h3>加载</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>文件 →“从电脑加载”</p>
+      <p>选择保存的 JSON 文件，把积木和目标文本恢复到保存时的状态。</p>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>工作区当前的内容会被加载的内容替换。</p>
+      </div>
+    </section>
+
+    <!-- Sample -->
+    <h2 id="cat-sample">示例</h2>
+    <p>
+      从顶部菜单的“示例”中加载示例。加载后，试着修改积木，看看结果如何变化。
+    </p>
+    <img class="screenshot" src="../images/features/zh/menu-sample.png" srcset="../images/features/zh/menu-sample.png 2x" alt="示例菜单">
+    <div class="caution">
+      <h4>注意</h4>
+      <p>工作区当前的内容会被示例替换。</p>
+    </div>
+
+    <section class="block" id="sample-date">
+      <div class="block-head">
+        <h3>日期检测</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>示例 →“日期检测”</p>
+      <p>
+        用分组把 <code>2025-08-20 14:21:03</code> 这样的日期时间拆分成年、月、日、时、分，再用替换重新排列成 <code>2025/08/20⇥14:21</code>。
+      </p>
+    </section>
+
+    <section class="block" id="sample-url">
+      <div class="block-head">
+        <h3>URL</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>示例 →“URL”</p>
+      <p>用命名分组从 URL 中提取域名和路径，再用替换变成“域名→路径”的形式。</p>
+    </section>
+
+    <section class="block" id="sample-html">
+      <div class="block-head">
+        <h3>HTML</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>示例 →“HTML”</p>
+      <p>
+        用 <code>&lt;.+?&gt;</code> 只删除 HTML 标签。
+        去掉 <code>+</code> 积木中的 <code>?</code>，可以看到所有内容都被删除（<a href="blocks.html#star_plus">非贪婪匹配</a>）。
+      </p>
+    </section>
+
+    <section class="block" id="sample-num">
+      <div class="block-head">
+        <h3>数字分隔</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>示例 →“数字分隔”</p>
+      <p>
+        用后顾和前瞻匹配数字之间的位置，把 <code>1340</code> 逐位分隔成 <code>1, 3, 4, 0</code>。
+      </p>
+    </section>
+
+    <!-- Settings -->
+    <h2 id="cat-setting">设置</h2>
+    <p>从顶部菜单的“设置”中使用。</p>
+    <img class="screenshot" src="../images/features/zh/menu-setting.png" srcset="../images/features/zh/menu-setting.png 2x" alt="设置菜单（主题）">
+    <div class="caution">
+      <h4>注意</h4>
+      <p>设置不会被保存，重新打开页面后会恢复为默认值。</p>
+    </div>
+
+    <section class="block" id="theme">
+      <div class="block-head">
+        <h3>主题</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>设置 →“主题”</p>
+      <ul>
+        <li>自动：根据设备的设置在浅色和深色之间切换</li>
+        <li>浅色：使用浅色配色</li>
+        <li>深色：使用深色配色</li>
+      </ul>
+    </section>
+
+    <section class="block" id="language">
+      <div class="block-head">
+        <h3>语言</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>设置 →“语言”</p>
+      <p>
+        切换界面和积木的语言。可以从 日本語、English、简体中文、Español、한국어 和 हिंदी 中选择。
+        一开始会跟随浏览器的语言（如果不支持该语言，则使用 English）。
+      </p>
+    </section>
+
+    <!-- Other -->
+    <h2 id="cat-other">其他</h2>
+
+    <section class="block" id="reference">
+      <div class="block-head">
+        <h3>打开参考文档</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>帮助 →“积木列表”/“功能介绍”</p>
+      <img class="screenshot" src="../images/features/zh/menu-help.png" srcset="../images/features/zh/menu-help.png 2x" alt="帮助菜单">
+      <p>
+        在新标签页中打开<a href="blocks.html">积木列表</a>或本页（功能介绍）。
+        正在编辑的积木会保持原样。
+      </p>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>参考文档提供与编辑器相同的六种语言，并以编辑器中选择的语言打开。</p>
+      </div>
+    </section>
+
+    <section class="block" id="copy">
+      <div class="block-head">
+        <h3>复制</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>正则表达式模式和替换字符串右侧的按钮</p>
+      <p>
+        把正则表达式模式（以 <code>/模式/标志</code> 的形式）或替换字符串复制到剪贴板。
+        可以粘贴到你自己的程序中使用。
+      </p>
+    </section>
+
+    <section class="block" id="tab-input">
+      <div class="block-head">
+        <h3>在目标文本中输入制表符</h3>
+      </div>
+      <p class="where"><span class="where-label">位置</span>目标文本</p>
+      <p>
+        在目标文本框中按 Tab 键会插入一个制表符，而不是移动到其他输入框。
+        这在测试用制表符分隔的数据时很方便。
+      </p>
+    </section>
+  </main>
+</body>
+
+</html>

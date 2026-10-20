@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="hi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ब्लॉक सूची - Scratch शैली Regex संपादक</title>
+  <link rel="stylesheet" href="../reference.css">
+</head>
+
+<body>
+  <header>
+    <h1>ब्लॉक सूची</h1>
+    <nav>
+      <a href="../../index.html">संपादक पर वापस जाएँ</a>
+      <a href="features.html">सुविधाएँ</a>
+      <span class="langs">
+        <a href="../ja/blocks.html" hreflang="ja" lang="ja">日本語</a>
+        <a href="../en/blocks.html" hreflang="en" lang="en">English</a>
+        <a href="../zh/blocks.html" hreflang="zh-Hans" lang="zh-Hans">简体中文</a>
+        <a href="../es/blocks.html" hreflang="es" lang="es">Español</a>
+        <a href="../ko/blocks.html" hreflang="ko" lang="ko">한국어</a>
+      </span>
+    </nav>
+  </header>
+
+  <main>
+    <ul class="toc">
+      <li><a href="#cat-root">मूल</a></li>
+      <li><a href="#cat-position">स्थिति</a></li>
+      <li><a href="#cat-chars">अक्षर</a></li>
+      <li><a href="#cat-join">जोड़ / विकल्प</a></li>
+      <li><a href="#cat-groups">समूह</a></li>
+      <li><a href="#cat-repeat">दोहराव</a></li>
+      <li><a href="#cat-substitute">बदलाव</a></li>
+    </ul>
+
+    <div class="legend">
+      कहाँ उपयोग कर सकते हैं:
+      <span class="tag pattern">पैटर्न</span>regex के अंदर (अक्षर वर्ग के बाहर)
+      <span class="tag charclass">अक्षर वर्ग</span><code>[ ]</code> के अंदर
+      <span class="tag substitute">बदलाव</span>बदलने वाले टेक्स्ट के अंदर
+    </div>
+
+    <!--
+      ブロック画像は2倍の解像度で書き出してある（tools/export-block-images.mjs）。
+      root だけは文字が言語で変わるので言語ごとのフォルダ、それ以外は images/blocks/common/ に置いている。
+      srcset の 1.4x で、エディターの約1.43倍（= 2 / 1.4）の大きさで表示する
+    -->
+
+    <!-- Root -->
+    <h2 id="cat-root">मूल</h2>
+    <p>
+      वह मूल ब्लॉक जिसमें regex और बदलने वाला टेक्स्ट रहता है। वर्कस्पेस में यह ठीक एक ही होता है।
+    </p>
+
+    <section class="block" id="root">
+      <div class="block-head">
+        <h3>मूल (Regex / बदलें)</h3>
+      </div>
+      <img src="../images/blocks/hi/root.png" srcset="../images/blocks/hi/root.png 1.4x" alt="मूल ब्लॉक">
+      <p>
+        regex और बदलने वाला टेक्स्ट बनाने का मूल ब्लॉक। यह हमेशा वर्कस्पेस में रहता है और इसे हटाया नहीं जा सकता।
+      </p>
+      <ul>
+        <li>
+          Regex स्लॉट: पैटर्न यहाँ रखें। शुरुआत में यह एक टेक्स्ट फ़ील्ड होता है, इसलिए आप regex सीधे लिख सकते हैं।
+          राइट-क्लिक → "ब्लॉक में बदलें" से लिखा हुआ regex ब्लॉकों में बदल जाता है।
+        </li>
+        <li>
+          बदलें स्लॉट: जब तक यह "कोई बदलाव नहीं" है, परिणाम में मेल खाने वाले हिस्से हाइलाइट होते हैं।
+          बदलाव ब्लॉक जोड़ने पर बदला हुआ परिणाम दिखता है।
+        </li>
+      </ul>
+      <p>flags <code>gmud</code> पर तय हैं।</p>
+      <ul>
+        <li><code>g</code> (global): केवल पहला ही नहीं, हर मेल ढूँढता है</li>
+        <li><code>m</code> (multiline): <code>^</code> और <code>$</code> पूरे टेक्स्ट के ही नहीं, हर पंक्ति की शुरुआत और अंत पर मेल खाते हैं</li>
+        <li><code>u</code> (unicode): इमोजी जैसे अक्षरों को एक अक्षर मानता है, और <code>\p{...}</code> को चालू करता है</li>
+        <li><code>d</code> (hasIndices): हर समूह कहाँ मेल खाया, यह भी दर्ज करता है (परिणाम के दिखने पर इसका असर नहीं होता)</li>
+      </ul>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li>Regex <code>5</code>, बदलें <code>6</code> → <code>1525</code> बन जाता है <code>1<ins>6</ins>2<ins>6</ins></code> (हर मेल बदल जाता है)</li>
+      </ul>
+    </section>
+
+    <!-- Position -->
+    <h2 id="cat-position">स्थिति</h2>
+    <p>
+      ये ब्लॉक किसी अक्षर से नहीं, बल्कि किसी स्थिति से मेल खाते हैं। ये शून्य अक्षरों से मेल खाते हैं, और दूसरे ब्लॉकों के साथ मिलाकर बताते हैं कि मेल कहाँ होना चाहिए।
+    </p>
+
+    <section class="block" id="anchor_start">
+      <div class="block-head">
+        <h3>पंक्ति की शुरुआत (^)</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/anchor_start.png" srcset="../images/blocks/common/anchor_start.png 1.4x" alt="^ ब्लॉक">
+      <p>
+        पंक्ति की शुरुआत की स्थिति। यह किसी अक्षर से नहीं, केवल स्थिति से मेल खाता है।
+        यह संपादक <code>m</code> flag का उपयोग करता है, इसलिए यह पूरे टेक्स्ट की शुरुआत पर ही नहीं, हर पंक्ति की शुरुआत पर मेल खाता है।
+      </p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>^a</code> → <code><mark>a</mark>aa</code> (केवल पहला a)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="anchor_end">
+      <div class="block-head">
+        <h3>पंक्ति का अंत ($)</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/anchor_end.png" srcset="../images/blocks/common/anchor_end.png 1.4x" alt="$ ब्लॉक">
+      <p>
+        पंक्ति के अंत की स्थिति। यह किसी अक्षर से नहीं, केवल स्थिति से मेल खाता है।
+        यह संपादक <code>m</code> flag का उपयोग करता है, इसलिए यह पूरे टेक्स्ट के अंत पर ही नहीं, हर पंक्ति के अंत पर मेल खाता है।
+      </p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>a$</code> → <code>aa<mark>a</mark></code> (केवल आखिरी a)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="boundary">
+      <div class="block-head">
+        <h3>शब्द की सीमा (\b / \B)</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/boundary.png" srcset="../images/blocks/common/boundary.png 1.4x" alt="\b ब्लॉक">
+      <p>शब्द के किनारे की स्थिति।</p>
+      <p>ड्रॉपडाउन से प्रकार चुनें।</p>
+      <ul>
+        <li><code>\b</code>: शब्द की सीमा, यानी <code>\w</code> अक्षर (अक्षर, अंक या <code>_</code>) और किसी दूसरे अक्षर (या टेक्स्ट के किनारे) के बीच की स्थिति</li>
+        <li><code>\B</code>: ऐसी स्थिति जो शब्द की सीमा नहीं है</li>
+      </ul>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>\bcat\b</code> → <code><mark>cat</mark> concat</code> (केवल पूरे शब्द के रूप में cat)</li>
+      </ul>
+      <div class="caution">
+        <h4>ध्यान दें</h4>
+        <p>
+          <code>\w</code> केवल ASCII अक्षरों, अंकों और <code>_</code> को शामिल करता है, इसलिए <code>é</code> जैसे चिह्न वाले अक्षर और देवनागरी जैसी गैर-लैटिन लिपियाँ शब्द के अक्षर नहीं मानी जातीं।
+          ऐसे टेक्स्ट में सीमा वहाँ नहीं हो सकती जहाँ आप उम्मीद करते हैं (उदाहरण के लिए, <code>\b</code> <code>café</code> के अंदर, <code>é</code> से ठीक पहले आती है)।
+        </p>
+      </div>
+    </section>
+
+    <section class="block" id="look">
+      <div class="block-head">
+        <h3>आगे देखना / पीछे देखना ((?=) / (?!) / (?&lt;=) / (?&lt;!))</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/look.png" srcset="../images/blocks/common/look.png 1.4x" alt="(?=) ब्लॉक">
+      <p>
+        जाँचता है कि अंदर का पैटर्न मौजूदा स्थिति के ठीक बाद (या ठीक पहले) आता है या नहीं।
+        यह केवल स्थिति बताता है, इसलिए अंदर का पैटर्न मेल का हिस्सा नहीं बनता।
+      </p>
+      <ul>
+        <li>पहला ड्रॉपडाउन: खाली हो तो आगे देखना (बाद में क्या है, यह जाँचता है), <code>&lt;</code> हो तो पीछे देखना (पहले क्या है, यह जाँचता है)</li>
+        <li>दूसरा ड्रॉपडाउन: <code>=</code> का अर्थ "है", <code>!</code> का अर्थ "नहीं है"</li>
+      </ul>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>\d+(?=px)</code> → <code><mark>100</mark>px and 200em</code> (केवल वे संख्याएँ जिनके बाद px है)</li>
+        <li><code>(?&lt;=\$)\d+</code> → <code>$<mark>30</mark> and 30€</code> (केवल $ के बाद की संख्याएँ)</li>
+      </ul>
+    </section>
+
+    <!-- Characters -->
+    <h2 id="cat-chars">अक्षर</h2>
+    <p>
+      ये ब्लॉक तय करते हैं कि किन अक्षरों से मेल खाना है। जो ब्लॉक अक्षर वर्ग <code>[ ]</code> के अंदर भी काम करते हैं, उन पर "अक्षर वर्ग" टैग लगा है।
+    </p>
+
+    <section class="block" id="chars_input">
+      <div class="block-head">
+        <h3>टेक्स्ट (स्वतंत्र इनपुट)</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+          <li class="tag charclass">अक्षर वर्ग</li>
+          <li class="tag substitute">बदलाव</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/chars_input.png" srcset="../images/blocks/common/chars_input.png 1.4x" alt="टेक्स्ट ब्लॉक">
+      <p>
+        आप जो लिखते हैं, वह वैसा ही regex (या बदलने वाले टेक्स्ट) का हिस्सा बन जाता है।
+        आप कितने भी अक्षर लिख सकते हैं।
+      </p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>cat</code> → <code><mark>cat</mark>s and dogs</code></li>
+      </ul>
+      <div class="caution">
+        <h4>ध्यान दें</h4>
+        <p>
+          <code>.</code> <code>*</code> <code>+</code> <code>?</code> <code>(</code> <code>[</code> जैसे अक्षरों का regex में विशेष अर्थ होता है।
+          उसी अक्षर से मेल खाने के लिए उसे <code>\.</code> की तरह एस्केप करें, या <a href="#escaped_special">एस्केप किया गया अक्षर</a> ब्लॉक का उपयोग करें।
+        </p>
+      </div>
+    </section>
+
+    <section class="block" id="dot">
+      <div class="block-head">
+        <h3>कोई भी अक्षर (.)</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/dot.png" srcset="../images/blocks/common/dot.png 1.4x" alt=". ब्लॉक">
+      <p>न्यूलाइन को छोड़कर किसी भी एक अक्षर से मेल खाता है।</p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>a.c</code> → <code><mark>abc</mark> <mark>a-c</mark> ac</code></li>
+      </ul>
+      <div class="caution">
+        <h4>ध्यान दें</h4>
+        <p>इसे अक्षर वर्ग के अंदर उपयोग नहीं किया जा सकता (<code>[.]</code> का अर्थ केवल बिंदु अक्षर है)।</p>
+      </div>
+    </section>
+
+    <section class="block" id="dw">
+      <div class="block-head">
+        <h3>अंक / शब्द अक्षर (\d / \D / \w / \W)</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+          <li class="tag charclass">अक्षर वर्ग</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/dw.png" srcset="../images/blocks/common/dw.png 1.4x" alt="\d ब्लॉक">
+      <p>ड्रॉपडाउन से प्रकार चुनें।</p>
+      <ul>
+        <li><code>\d</code>: एक अंक (<code>[0-9]</code>)</li>
+        <li><code>\D</code>: एक अक्षर जो अंक नहीं है</li>
+        <li><code>\w</code>: एक अक्षर, अंक या <code>_</code> (<code>[A-Za-z0-9_]</code>)</li>
+        <li><code>\W</code>: एक अक्षर जो अक्षर, अंक या <code>_</code> नहीं है</li>
+      </ul>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>\d+</code> → <code>Price: <mark>120</mark> USD</code></li>
+      </ul>
+      <div class="caution">
+        <h4>ध्यान दें</h4>
+        <p>
+          <code>\d</code> और <code>\w</code> केवल ASCII को शामिल करते हैं। चिह्न वाले अक्षर (<code>é</code>, <code>ü</code>), देवनागरी जैसी गैर-लैटिन लिपियाँ और फ़ुल-विड्थ अंक (<code>１２３</code>) शामिल नहीं हैं।
+          इनके लिए <a href="#unicode_property">Unicode गुण</a> का उपयोग करें।
+        </p>
+      </div>
+    </section>
+
+    <section class="block" id="s">
+      <div class="block-head">
+        <h3>व्हाइटस्पेस (\s / \S)</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+          <li class="tag charclass">अक्षर वर्ग</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/s.png" srcset="../images/blocks/common/s.png 1.4x" alt="\s ब्लॉक">
+      <p>ड्रॉपडाउन से प्रकार चुनें।</p>
+      <ul>
+        <li><code>\s</code>: एक व्हाइटस्पेस अक्षर (स्पेस, फ़ुल-विड्थ स्पेस, टैब, न्यूलाइन आदि)</li>
+        <li><code>\S</code>: एक अक्षर जो व्हाइटस्पेस नहीं है</li>
+      </ul>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>\S+</code> → <code><mark>foo</mark> <mark>bar</mark></code> (स्पेस से अलग किए गए दो शब्द)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="unicode_property">
+      <div class="block-head">
+        <h3>Unicode गुण (\p{} / \P{})</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+          <li class="tag charclass">अक्षर वर्ग</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/unicode_property.png" srcset="../images/blocks/common/unicode_property.png 1.4x" alt="\p{} ब्लॉक">
+      <p>किसी एक अक्षर से उसके प्रकार (उसके Unicode गुण) के आधार पर मेल खाता है।</p>
+      <ul>
+        <li>पहला ड्रॉपडाउन: <code>p</code> हो तो उस प्रकार के अक्षर, <code>P</code> हो तो उस प्रकार के अलावा अक्षर</li>
+        <li>दूसरा ड्रॉपडाउन: खाली हो तो सामान्य श्रेणी (अक्षर, संख्या, प्रतीक, ...), <code>Script=</code> हो तो लिपि (ग्रीक, सिरिलिक, ...)</li>
+        <li>टेक्स्ट फ़ील्ड: गुण का नाम</li>
+      </ul>
+      <p>अक्सर उपयोग होने वाले नाम:</p>
+      <ul>
+        <li>सामान्य श्रेणियाँ: <code>L</code> (अक्षर), <code>N</code> (संख्या), <code>P</code> (विराम चिह्न), <code>S</code> (प्रतीक)</li>
+        <li>लिपियाँ: <code>Latin</code>, <code>Greek</code>, <code>Cyrillic</code>, <code>Han</code> (चीनी अक्षर)</li>
+      </ul>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>\p{Script=Greek}+</code> → <code>alpha <mark>αβγ</mark></code></li>
+        <li><code>\p{L}+</code> → <code><mark>café</mark> 123</code> (<code>\w</code> के विपरीत, इसमें चिह्न वाले अक्षर भी शामिल हैं)</li>
+      </ul>
+      <div class="caution">
+        <h4>ध्यान दें</h4>
+        <p>
+          अंक, स्पेस और ज़्यादातर विराम चिह्न जैसे अक्षर, जो कई लिपियों में साझा होते हैं, किसी खास लिपि के नहीं बल्कि <code>Script=Common</code> के होते हैं।
+          इन्हें शामिल करने के लिए इन्हें अक्षर वर्ग में जोड़ें, जैसे <code>[\p{Script=Greek}\d]</code>।
+        </p>
+      </div>
+      <h4>बाहरी लिंक</h4>
+      <ul>
+        <li>
+          <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Regular_expressions/Unicode_character_class_escape">Unicode character class escape (MDN, अंग्रेज़ी)</a>:
+          <code>\p{}</code> कैसे लिखें और कौन-से गुण उपयोग कर सकते हैं (सामान्य श्रेणियाँ, <code>Script=</code> लिपियाँ, और <code>Emoji</code> जैसे गुण), इसकी जानकारी
+        </li>
+      </ul>
+    </section>
+
+    <section class="block" id="tab">
+      <div class="block-head">
+        <h3>टैब (\t)</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+          <li class="tag charclass">अक्षर वर्ग</li>
+          <li class="tag substitute">बदलाव</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/tab.png" srcset="../images/blocks/common/tab.png 1.4x" alt="\t ब्लॉक">
+      <p>एक टैब अक्षर। बदलने वाले टेक्स्ट में यह टैब जोड़ता है।</p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li>Regex <code>,</code>, बदलें <code>\t</code> → <code>a,b</code> बन जाता है <code>a<ins>⇥</ins>b</code> (टैब से अलग)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="newline">
+      <div class="block-head">
+        <h3>न्यूलाइन (\n)</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+          <li class="tag charclass">अक्षर वर्ग</li>
+          <li class="tag substitute">बदलाव</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/newline.png" srcset="../images/blocks/common/newline.png 1.4x" alt="\n ब्लॉक">
+      <p>एक न्यूलाइन अक्षर। बदलने वाले टेक्स्ट में यह नई पंक्ति जोड़ता है।</p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li>Regex <code>,</code>, बदलें <code>,\n</code> → <code>a,b</code> बन जाता है <code>a<ins>,⏎</ins>b</code> (हर कॉमा के बाद नई पंक्ति)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="escaped_special">
+      <div class="block-head">
+        <h3>एस्केप किया गया अक्षर (\/ \. \( आदि)</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+          <li class="tag charclass">अक्षर वर्ग</li>
+          <li class="tag substitute">बदलाव</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/escaped_special.png" srcset="../images/blocks/common/escaped_special.png 1.4x" alt="\/ ब्लॉक">
+      <p>
+        regex में विशेष अर्थ वाले अक्षर को सामान्य अक्षर की तरह मानता है। ड्रॉपडाउन से अक्षर चुनें।
+      </p>
+      <ul>
+        <li>
+          पैटर्न और अक्षर वर्ग: <code>/ \ ^ $ ( ) . ? [ ] * { } | +</code> उपयोग कर सकते हैं।
+          <code>-</code> केवल अक्षर वर्ग के अंदर उपयोग हो सकता है (ताकि यह <code>a-z</code> जैसी सीमा से अलग पहचाना जाए)।
+        </li>
+        <li>
+          बदलाव: <code>$</code> को छोड़कर सभी उपयोग कर सकते हैं (ये <code>\</code> के बिना, वही अक्षर बन जाते हैं)।
+          <code>$</code> जोड़ने के लिए <a href="#dollar"><code>$$</code></a> ब्लॉक का उपयोग करें।
+        </li>
+      </ul>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>1\.5</code> → <code><mark>1.5</mark> 105</code> (बिंदु अक्षर से ही मेल खाता है)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="char_class">
+      <div class="block-head">
+        <h3>अक्षर वर्ग ([ ] / [^ ])</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/char_class.png" srcset="../images/blocks/common/char_class.png 1.4x" alt="[ ] ब्लॉक">
+      <p>
+        अंदर रखी चीज़ों के आधार पर एक अक्षर से मेल खाता है। स्लॉट की संख्या बदलने के लिए गियर आइकन का उपयोग करें।
+      </p>
+      <p>ड्रॉपडाउन से प्रकार चुनें।</p>
+      <ul>
+        <li>खाली (<code>[ ]</code>): अंदर के अक्षरों में से कोई एक</li>
+        <li><code>^</code> (<code>[^ ]</code>): एक अक्षर जो अंदर के किसी भी अक्षर जैसा नहीं है</li>
+      </ul>
+      <p>
+        अंदर टेक्स्ट, <code>\d</code> <code>\w</code>, <code>\s</code>, <code>\p{}</code>, टैब, न्यूलाइन, एस्केप किया गया अक्षर और सीमा (<code>a-z</code>) ब्लॉक रख सकते हैं।
+      </p>
+      <p>राइट-क्लिक → "बाहरी इनपुट" से स्लॉट ऊपर-नीचे लग जाते हैं, जिससे लंबी सामग्री पढ़ना आसान होता है।</p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>[aeiou]</code> → <code>h<mark>e</mark>ll<mark>o</mark></code></li>
+        <li><code>[^0-9]+</code> → <code>12<mark>abc</mark>34</code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="char_class_range">
+      <div class="block-head">
+        <h3>सीमा (a-z)</h3>
+        <ul class="tags">
+          <li class="tag charclass">अक्षर वर्ग</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/char_class_range.png" srcset="../images/blocks/common/char_class_range.png 1.4x" alt="a-z ब्लॉक">
+      <p>
+        ऐसे एक अक्षर से मेल खाता है जिसका अक्षर कोड दोनों अक्षरों के बीच हो। हर फ़ील्ड में एक अक्षर (या <code>\-</code> जैसा एक एस्केप) लिखें।
+      </p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>[a-f]+</code> → <code>x<mark>cafe</mark>y</code></li>
+        <li><code>[α-ω]+</code> → <code><mark>αβγ</mark>ABC</code> (छोटे ग्रीक अक्षर)</li>
+      </ul>
+      <div class="caution">
+        <h4>ध्यान दें</h4>
+        <p>
+          सीमा अक्षर कोड के क्रम पर चलती है। <code>[A-z]</code> में छह अक्षर <code>[ \ ] ^ _ `</code> भी शामिल हो जाते हैं, जो <code>Z</code> और <code>a</code> के बीच आते हैं।
+          केवल अक्षरों के लिए <code>A-Z</code> और <code>a-z</code> दो सीमाएँ रखकर <code>[A-Za-z]</code> बनाएँ।
+        </p>
+      </div>
+    </section>
+
+    <!-- Join / Choice -->
+    <h2 id="cat-join">जोड़ / विकल्प</h2>
+    <p>
+      ये ब्लॉक कई ब्लॉकों को मिलाते हैं। जोड़ उन्हें बाएँ से दाएँ क्रम में रखता है, और विकल्प उनमें से किसी एक से मेल खाता है। स्लॉट की संख्या बदलने के लिए गियर आइकन का उपयोग करें।
+    </p>
+
+    <section class="block" id="join">
+      <div class="block-head">
+        <h3>जोड़</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/join.png" srcset="../images/blocks/common/join.png 1.4x" alt="जोड़ ब्लॉक">
+      <p>
+        अंदर रखी चीज़ों को बाएँ से दाएँ क्रम में जोड़ता है। स्लॉट की संख्या बदलने के लिए गियर आइकन का उपयोग करें।
+      </p>
+      <p>राइट-क्लिक → "बाहरी इनपुट" से स्लॉट ऊपर-नीचे लग जाते हैं, जिससे लंबी सामग्री पढ़ना आसान होता है।</p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>^</code>, <code>\d+</code> और <code>$</code> को जोड़ें → <code>^\d+$</code> (वे पंक्तियाँ जिनमें केवल अंक हैं)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="choice">
+      <div class="block-head">
+        <h3>विकल्प (|)</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/choice.png" srcset="../images/blocks/common/choice.png 1.4x" alt="| ब्लॉक">
+      <p>
+        अंदर रखी चीज़ों में से किसी एक से मेल खाता है। विकल्प बाएँ से दाएँ जाँचे जाते हैं, और जो पहले मेल खाता है वही उपयोग होता है।
+        स्लॉट की संख्या बदलने के लिए गियर आइकन का उपयोग करें।
+      </p>
+      <p>राइट-क्लिक → "बाहरी इनपुट" से स्लॉट ऊपर-नीचे लग जाते हैं, जिससे लंबी सामग्री पढ़ना आसान होता है।</p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>cat|dog</code> → <code>a <mark>cat</mark> and a <mark>dog</mark></code></li>
+      </ul>
+      <div class="caution">
+        <h4>ध्यान दें</h4>
+        <p>
+          <code>|</code> अपने पहले और बाद की पूरी चीज़ों को अलग कर देता है, इसलिए दूसरे ब्लॉकों से जोड़ते समय इसे <a href="#group_noncapturing"><code>(?:)</code></a> में रखें।
+          उदाहरण के लिए, "<code>a|b</code>" के बाद "<code>c</code>" जोड़ने पर <code>a|bc</code> बनता है, जिसका अर्थ है "a" या "bc"।
+          "a या b, फिर c" के लिए <code>(?:a|b)c</code> का उपयोग करें।
+        </p>
+      </div>
+    </section>
+
+    <!-- Grouping -->
+    <h2 id="cat-groups">समूह</h2>
+    <p>
+      ये ब्लॉक पैटर्न को एक समूह बनाते हैं, या मेल खाए हिस्से को बाद में उपयोग के लिए दर्ज (कैप्चर) करते हैं। कैप्चर किए गए हिस्से बैकरेफ़रेंस और बदलने वाले टेक्स्ट में उपयोग हो सकते हैं।
+    </p>
+
+    <section class="block" id="group_noncapturing">
+      <div class="block-head">
+        <h3>कैप्चर न करने वाला समूह ((?:))</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/group_noncapturing.png" srcset="../images/blocks/common/group_noncapturing.png 1.4x" alt="(?:) ब्लॉक">
+      <p>
+        अंदर के पैटर्न को एक इकाई बनाता है। इसे बैकरेफ़रेंस या बदलाव के लिए कोई संख्या नहीं मिलती।
+        ब्लॉक अपने आप समूह नहीं बनते, इसलिए दोहराव या विकल्प (<code>|</code>) की सीमा तय करने के लिए इसका उपयोग करें।
+      </p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>(?:ab)+</code> → <code><mark>ababab</mark>c</code> (ab को एक इकाई के रूप में दोहराता है)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="group">
+      <div class="block-head">
+        <h3>कैप्चर करने वाला समूह (( ))</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/group.png" srcset="../images/blocks/common/group.png 1.4x" alt="( ) ब्लॉक">
+      <p>
+        अंदर के पैटर्न को एक इकाई बनाता है और मेल खाए हिस्से को दर्ज (कैप्चर) करता है।
+        कैप्चर किया गया हिस्सा <a href="#backreference">बैकरेफ़रेंस</a> में, और बदलने वाले टेक्स्ट में <a href="#match_backreference"><code>$1</code></a> के रूप में उपयोग हो सकता है।
+        समूहों को बाएँ से दाएँ (उनके <code>(</code> आने के क्रम में) 1, 2, 3, ... संख्या मिलती है। नामित समूह भी गिने जाते हैं।
+      </p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li>Regex <code>(\d+)-(\d+)</code>, बदलें <code>$2-$1</code> → <code>12-34</code> बन जाता है <code><ins>34-12</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="group_named">
+      <div class="block-head">
+        <h3>नामित समूह ((?&lt;name&gt;))</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/group_named.png" srcset="../images/blocks/common/group_named.png 1.4x" alt="(?<name>) ब्लॉक">
+      <p>
+        नाम वाला कैप्चर करने वाला समूह। कैप्चर किया गया हिस्सा <a href="#backreference_named">नामित बैकरेफ़रेंस</a> में, और बदलने वाले टेक्स्ट में <a href="#match_named_backreference"><code>$&lt;name&gt;</code></a> के रूप में उपयोग हो सकता है।
+        ड्रॉपडाउन में "समूह नाम बनाएँ…" से नाम बनाएँ। नाम अक्षर से शुरू होना चाहिए और उसमें केवल अक्षर, अंक और <code>_</code> हो सकते हैं।
+      </p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li>Regex <code>(?&lt;year&gt;\d{4})-\d{2}</code>, बदलें <code>$&lt;year&gt;</code> → <code>2025-08</code> बन जाता है <code><ins>2025</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="backreference">
+      <div class="block-head">
+        <h3>बैकरेफ़रेंस (\1)</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/backreference.png" srcset="../images/blocks/common/backreference.png 1.4x" alt="\1 ब्लॉक">
+      <p>
+        उसी टेक्स्ट से मेल खाता है जिसे उस संख्या वाले समूह ने कैप्चर किया था। ड्रॉपडाउन से समूह संख्या चुनें।
+      </p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>(\w)\1</code> → <code>b<mark>oo</mark>k</code> (एक ही अक्षर लगातार दो बार)</li>
+      </ul>
+      <div class="caution">
+        <h4>ध्यान दें</h4>
+        <p>
+          नामित समूह भी संख्या में गिने जाते हैं। साथ ही, ड्रॉपडाउन की संख्याएँ वर्कस्पेस में मौजूद समूह ब्लॉकों की संख्या से बनती हैं।
+          Regex स्लॉट में टेक्स्ट के रूप में लिखे गए समूह नहीं गिने जाते।
+        </p>
+      </div>
+    </section>
+
+    <section class="block" id="backreference_named">
+      <div class="block-head">
+        <h3>नामित बैकरेफ़रेंस (\k&lt;name&gt;)</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/backreference_named.png" srcset="../images/blocks/common/backreference_named.png 1.4x" alt="\k<name> ब्लॉक">
+      <p>
+        उसी टेक्स्ट से मेल खाता है जिसे नामित समूह ने कैप्चर किया था। ड्रॉपडाउन से समूह का नाम चुनें।
+      </p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>(?&lt;q&gt;["'])\w+\k&lt;q&gt;</code> → <code><mark>"abc"</mark> 'def"</code> (एक ही तरह के उद्धरण चिह्नों में बंद टेक्स्ट)</li>
+      </ul>
+    </section>
+
+    <!-- Repetition -->
+    <h2 id="cat-repeat">दोहराव</h2>
+    <p>
+      दोहराव ब्लॉक केवल अपने ठीक पहले वाली एक चीज़ को दोहराते हैं।
+      अंदर कई अक्षर हों तो केवल आखिरी अक्षर दोहराया जाता है (<code>abc+</code> केवल c को दोहराता है)।
+      उन्हें साथ में दोहराने के लिए <a href="#group_noncapturing"><code>(?:)</code></a> का उपयोग करें।
+    </p>
+    <div class="caution">
+      <h4>ध्यान दें</h4>
+      <p>
+        एक दोहराव के अंदर दूसरा दोहराव रखने (नेस्ट करने) से मेल बहुत धीमा हो सकता है।
+        उदाहरण के लिए, <code>(?:a+)+$</code> को <code>aaaaaaaaaaaaaaaaaaaaaaaaaaaaab</code> जैसे टेक्स्ट पर चलाने से, जो अंत में असफल होता है, जाँचे जाने वाले संयोजन लंबाई के साथ घातीय रूप से बढ़ते हैं, और ब्राउज़र रुक सकता है।
+        <code>(?:a+)+</code> का अर्थ <code>a+</code> जैसा ही है, इसलिए जहाँ हो सके नेस्ट करने से बचें।
+      </p>
+    </div>
+
+    <section class="block" id="question">
+      <div class="block-head">
+        <h3>0 या 1 बार (?)</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/question.png" srcset="../images/blocks/common/question.png 1.4x" alt="? ब्लॉक">
+      <p>
+        अंदर का पैटर्न हो तो 1 बार, न हो तो 0 बार मेल खाता है (यानी वह वैकल्पिक है)।
+      </p>
+      <p>ड्रॉपडाउन से प्रकार चुनें।</p>
+      <ul>
+        <li>खाली (<code>?</code>): 1 बार मेल खाने को प्राथमिकता देता है</li>
+        <li><code>?</code> (<code>??</code>): 0 बार मेल खाने को प्राथमिकता देता है</li>
+      </ul>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>colou?r</code> → <code><mark>color</mark> <mark>colour</mark></code></li>
+        <li>Regex <code>(\d)?(\d+)</code>, बदलें <code>[$1][$2]</code> → <code>123</code> बन जाता है <code><ins>[1][23]</ins></code></li>
+        <li>
+          Regex <code>(\d)??(\d+)</code>, बदलें <code>[$1][$2]</code> → <code>123</code> बन जाता है <code><ins>[][123]</ins></code>
+          (<code>??</code> के साथ पहला समूह हो सके तो कुछ नहीं लेता, इसलिए सभी अंक दूसरे समूह में जाते हैं।
+          <code>??</code> से फ़र्क तभी पड़ता है जब उसके बाद वाला हिस्सा भी वही अक्षर ले सकता हो)
+        </li>
+      </ul>
+    </section>
+
+    <section class="block" id="star_plus">
+      <div class="block-head">
+        <h3>0 या अधिक / 1 या अधिक बार (* / +)</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/star_plus.png" srcset="../images/blocks/common/star_plus.png 1.4x" alt="* ब्लॉक">
+      <p>अंदर के पैटर्न को दोहराता है।</p>
+      <ul>
+        <li>पहला ड्रॉपडाउन: <code>*</code> हो तो 0 या अधिक बार, <code>+</code> हो तो 1 या अधिक बार, जितना हो सके उतना</li>
+        <li>दूसरा ड्रॉपडाउन: जितना हो सके उतना कम दोहराने के लिए <code>?</code> चुनें (<code>*?</code> <code>+?</code>)</li>
+      </ul>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>a+</code> → <code>c<mark>aaa</mark>t</code></li>
+        <li>
+          Regex <code>&lt;.+?&gt;</code>, खाली बदलाव → <code>&lt;p&gt;&lt;b&gt;1&lt;/b&gt; + &lt;i&gt;2&lt;/i&gt; = 3&lt;/p&gt;</code> बन जाता है <code>1 + 2 = 3</code> (केवल टैग हटते हैं)
+        </li>
+        <li>
+          <code>?</code> के बिना <code>&lt;.+&gt;</code> पहले <code>&lt;</code> से आखिरी <code>&gt;</code> तक सब कुछ एक ही मेल मानता है, इसलिए सब कुछ हट जाता है
+        </li>
+      </ul>
+      <p>फ़र्क देखने के लिए "HTML" उदाहरण में <code>?</code> जोड़कर और हटाकर देखें।</p>
+    </section>
+
+    <section class="block" id="quantit_exact">
+      <div class="block-head">
+        <h3>ठीक N बार ({N})</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/quantit_exact.png" srcset="../images/blocks/common/quantit_exact.png 1.4x" alt="{N} ब्लॉक">
+      <p>अंदर के पैटर्न को ठीक N बार दोहराता है।</p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>\d{3}</code> → <code><mark>123</mark><mark>456</mark>7</code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="quantit_min">
+      <div class="block-head">
+        <h3>N या अधिक बार ({N,})</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/quantit_min.png" srcset="../images/blocks/common/quantit_min.png 1.4x" alt="{N,} ब्लॉक">
+      <p>अंदर के पैटर्न को N या अधिक बार दोहराता है।</p>
+      <p>ड्रॉपडाउन से प्रकार चुनें।</p>
+      <ul>
+        <li>खाली (<code>{N,}</code>): जितना हो सके उतना अधिक दोहराता है</li>
+        <li><code>?</code> (<code>{N,}?</code>): जितना हो सके उतना कम दोहराता है</li>
+      </ul>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>\d{2,}</code> → <code>1 <mark>22</mark> <mark>333</mark></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="quantit_range">
+      <div class="block-head">
+        <h3>N से M बार ({N,M})</h3>
+        <ul class="tags">
+          <li class="tag pattern">पैटर्न</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/quantit_range.png" srcset="../images/blocks/common/quantit_range.png 1.4x" alt="{N,M} ब्लॉक">
+      <p>
+        अंदर के पैटर्न को कम से कम N और अधिक से अधिक M बार दोहराता है। M, N से छोटा नहीं हो सकता।
+      </p>
+      <p>ड्रॉपडाउन से प्रकार चुनें।</p>
+      <ul>
+        <li>खाली (<code>{N,M}</code>): जितना हो सके उतना अधिक दोहराता है</li>
+        <li><code>?</code> (<code>{N,M}?</code>): जितना हो सके उतना कम दोहराता है</li>
+      </ul>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>\d{2,3}</code> → <code><mark>123</mark><mark>45</mark></code></li>
+      </ul>
+    </section>
+
+    <!-- Substitution -->
+    <h2 id="cat-substitute">बदलाव</h2>
+    <p>
+      बदलाव ब्लॉकों को मूल ब्लॉक के बदलें स्लॉट से जोड़ें।
+      बदलने वाले टेक्स्ट में <a href="#chars_input">टेक्स्ट</a>, <a href="#tab">टैब</a>, <a href="#newline">न्यूलाइन</a> और <a href="#escaped_special">एस्केप किया गया अक्षर</a> ब्लॉक भी उपयोग कर सकते हैं।
+    </p>
+
+    <section class="block" id="substitute_join">
+      <div class="block-head">
+        <h3>बदलाव जोड़</h3>
+        <ul class="tags">
+          <li class="tag substitute">बदलाव</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/substitute_join.png" srcset="../images/blocks/common/substitute_join.png 1.4x" alt="बदलाव जोड़ ब्लॉक">
+      <p>
+        बदलने वाले टेक्स्ट के अंदर, अंदर रखी चीज़ों को बाएँ से दाएँ क्रम में जोड़ता है। स्लॉट की संख्या बदलने के लिए गियर आइकन का उपयोग करें।
+      </p>
+      <p>राइट-क्लिक → "बाहरी इनपुट" से स्लॉट ऊपर-नीचे लग जाते हैं, जिससे लंबी सामग्री पढ़ना आसान होता है।</p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li><code>[</code>, <code>$&amp;</code> और <code>]</code> को जोड़ें → बदलने वाला टेक्स्ट <code>[$&amp;]</code>। Regex <code>\d+</code> के साथ <code>a1</code> बन जाता है <code>a<ins>[1]</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="dollar">
+      <div class="block-head">
+        <h3>$ अक्षर ($$)</h3>
+        <ul class="tags">
+          <li class="tag substitute">बदलाव</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/dollar.png" srcset="../images/blocks/common/dollar.png 1.4x" alt="$$ ब्लॉक">
+      <p>
+        बदलने वाले टेक्स्ट में <code>$</code> अक्षर जोड़ता है। बदलने वाले टेक्स्ट में <code>$</code> का विशेष अर्थ होता है, इसलिए सामान्य <code>$</code> को <code>$$</code> लिखा जाता है।
+      </p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li>Regex <code>\d+</code>, बदलें <code>$$$&amp;</code> → <code>100</code> बन जाता है <code><ins>$100</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="ampersand">
+      <div class="block-head">
+        <h3>मेल खाया हुआ टेक्स्ट ($&amp;)</h3>
+        <ul class="tags">
+          <li class="tag substitute">बदलाव</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/ampersand.png" srcset="../images/blocks/common/ampersand.png 1.4x" alt="$& ब्लॉक">
+      <p>मेल खाया हुआ टेक्स्ट वैसा ही जोड़ता है।</p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li>Regex <code>\d+</code>, बदलें <code>($&amp;)</code> → <code>a1 b22</code> बन जाता है <code>a<ins>(1)</ins> b<ins>(22)</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="match_before">
+      <div class="block-head">
+        <h3>मेल से पहले का टेक्स्ट ($`)</h3>
+        <ul class="tags">
+          <li class="tag substitute">बदलाव</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/match_before.png" srcset="../images/blocks/common/match_before.png 1.4x" alt="$` ब्लॉक">
+      <p>लक्ष्य टेक्स्ट में मेल से पहले का पूरा हिस्सा जोड़ता है।</p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li>Regex <code>=</code>, बदलें <code>=$`</code> → <code>a=</code> बन जाता है <code>a<ins>=a</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="match_after">
+      <div class="block-head">
+        <h3>मेल के बाद का टेक्स्ट ($')</h3>
+        <ul class="tags">
+          <li class="tag substitute">बदलाव</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/match_after.png" srcset="../images/blocks/common/match_after.png 1.4x" alt="$' ब्लॉक">
+      <p>लक्ष्य टेक्स्ट में मेल के बाद का पूरा हिस्सा जोड़ता है।</p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li>Regex <code>=</code>, बदलें <code>$'=</code> → <code>=b</code> बन जाता है <code><ins>b=</ins>b</code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="match_backreference">
+      <div class="block-head">
+        <h3>समूह संदर्भ ($1)</h3>
+        <ul class="tags">
+          <li class="tag substitute">बदलाव</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/match_backreference.png" srcset="../images/blocks/common/match_backreference.png 1.4x" alt="$1 ब्लॉक">
+      <p>
+        उस संख्या वाले समूह ने जो टेक्स्ट कैप्चर किया, उसे जोड़ता है। ड्रॉपडाउन से समूह संख्या चुनें।
+      </p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li>Regex <code>(\d+)-(\d+)</code>, बदलें <code>$2-$1</code> → <code>12-34</code> बन जाता है <code><ins>34-12</ins></code></li>
+      </ul>
+      <div class="caution">
+        <h4>ध्यान दें</h4>
+        <p>
+          नामित समूह भी संख्या में गिने जाते हैं। साथ ही, ड्रॉपडाउन की संख्याएँ वर्कस्पेस में मौजूद समूह ब्लॉकों की संख्या से बनती हैं।
+          Regex स्लॉट में टेक्स्ट के रूप में लिखे गए समूह नहीं गिने जाते।
+        </p>
+      </div>
+    </section>
+
+    <section class="block" id="match_named_backreference">
+      <div class="block-head">
+        <h3>नामित समूह संदर्भ ($&lt;name&gt;)</h3>
+        <ul class="tags">
+          <li class="tag substitute">बदलाव</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/match_named_backreference.png" srcset="../images/blocks/common/match_named_backreference.png 1.4x" alt="$<name> ब्लॉक">
+      <p>
+        नामित समूह ने जो टेक्स्ट कैप्चर किया, उसे जोड़ता है। ड्रॉपडाउन से समूह का नाम चुनें।
+      </p>
+      <h4>उदाहरण</h4>
+      <ul>
+        <li>Regex <code>(?&lt;year&gt;\d{4})-\d{2}</code>, बदलें <code>$&lt;year&gt;</code> → <code>2025-08</code> बन जाता है <code><ins>2025</ins></code></li>
+      </ul>
+    </section>
+  </main>
+</body>
+
+</html>

@@ -17,8 +17,8 @@ const ui = {
   sampleDate: "Detección de fecha",
   sampleNum: "Separador de números",
   help: "Ayuda",
-  helpBlocks: "Lista de bloques (inglés)",
-  helpFeatures: "Funciones (inglés)",
+  helpBlocks: "Lista de bloques",
+  helpFeatures: "Funciones",
   regex: "Patrón de expresión regular",
   copy: "Copiar",
   replace: "Cadena de reemplazo",
@@ -125,7 +125,7 @@ const blockly = {
   GROUP_ITEMS_PROMPT: "Número de elementos a agrupar (2–%1)",
   GROUP_ITEMS_INVALID: "Introduce un número entero entre 2 y %1",
   UNGROUP_ITEMS: "Desagrupar",
-  REFERENCE_DIR: "en",
+  REFERENCE_DIR: "es",
 }
 
 // Mensajes personalizados y textos de error

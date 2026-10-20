@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>积木列表 - Scratch风格正则编辑器</title>
+  <link rel="stylesheet" href="../reference.css">
+</head>
+
+<body>
+  <header>
+    <h1>积木列表</h1>
+    <nav>
+      <a href="../../index.html">返回编辑器</a>
+      <a href="features.html">功能介绍</a>
+      <span class="langs">
+        <a href="../ja/blocks.html" hreflang="ja" lang="ja">日本語</a>
+        <a href="../en/blocks.html" hreflang="en" lang="en">English</a>
+        <a href="../es/blocks.html" hreflang="es" lang="es">Español</a>
+        <a href="../ko/blocks.html" hreflang="ko" lang="ko">한국어</a>
+        <a href="../hi/blocks.html" hreflang="hi" lang="hi">हिंदी</a>
+      </span>
+    </nav>
+  </header>
+
+  <main>
+    <ul class="toc">
+      <li><a href="#cat-root">根</a></li>
+      <li><a href="#cat-position">位置</a></li>
+      <li><a href="#cat-chars">字符</a></li>
+      <li><a href="#cat-join">连接 / 选择</a></li>
+      <li><a href="#cat-groups">分组</a></li>
+      <li><a href="#cat-repeat">重复</a></li>
+      <li><a href="#cat-substitute">替换</a></li>
+    </ul>
+
+    <div class="legend">
+      可使用的位置：
+      <span class="tag pattern">模式</span>正则表达式中（字符类之外）
+      <span class="tag charclass">字符类</span><code>[ ]</code> 之中
+      <span class="tag substitute">替换</span>替换字符串中
+    </div>
+
+    <!--
+      ブロック画像は2倍の解像度で書き出してある（tools/export-block-images.mjs）。
+      root だけは文字が言語で変わるので言語ごとのフォルダ、それ以外は images/blocks/common/ に置いている。
+      srcset の 1.4x で、エディターの約1.43倍（= 2 / 1.4）の大きさで表示する
+    -->
+
+    <!-- Root -->
+    <h2 id="cat-root">根</h2>
+    <p>
+      汇总正则表达式和替换的基础积木。工作区中只有一个。
+    </p>
+
+    <section class="block" id="root">
+      <div class="block-head">
+        <h3>根（正则 / 替换）</h3>
+      </div>
+      <img src="../images/blocks/zh/root.png" srcset="../images/blocks/zh/root.png 1.4x" alt="根积木">
+      <p>
+        用来组合正则表达式和替换的基础积木。它始终在工作区中，无法删除。
+      </p>
+      <ul>
+        <li>
+          正则槽：在这里放入模式。一开始是文本输入框，可以直接输入正则表达式。
+          右键 →“转换为积木”可以把输入的内容变成积木。
+        </li>
+        <li>
+          替换槽：保持“不替换”时，结果中会高亮显示匹配的部分。
+          连接替换用的积木后，会改为显示替换后的结果。
+        </li>
+      </ul>
+      <p>标志固定为 <code>gmud</code>。</p>
+      <ul>
+        <li><code>g</code>（global）：查找所有匹配，而不只是第一个</li>
+        <li><code>m</code>（multiline）：<code>^</code> 和 <code>$</code> 匹配每一行的开头和结尾，而不只是整个文本的开头和结尾</li>
+        <li><code>u</code>（unicode）：把表情符号等字符当作一个字符处理，并且可以使用 <code>\p{...}</code></li>
+        <li><code>d</code>（hasIndices）：同时记录每个分组匹配的位置（不影响结果的显示）</li>
+      </ul>
+      <h4>示例</h4>
+      <ul>
+        <li>正则 <code>5</code>，替换 <code>6</code> → <code>1525</code> 变成 <code>1<ins>6</ins>2<ins>6</ins></code>（所有匹配都会被替换）</li>
+      </ul>
+    </section>
+
+    <!-- Position -->
+    <h2 id="cat-position">位置</h2>
+    <p>
+      匹配位置而不是字符的积木。它们匹配 0 个字符，与其他积木组合使用，用来指定匹配发生的位置。
+    </p>
+
+    <section class="block" id="anchor_start">
+      <div class="block-head">
+        <h3>行首（^）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/anchor_start.png" srcset="../images/blocks/common/anchor_start.png 1.4x" alt="^ 积木">
+      <p>
+        表示行的开头位置。它不匹配任何字符，只匹配位置。
+        因为本编辑器使用了 <code>m</code> 标志，所以它会匹配每一行的开头，而不只是整个文本的开头。
+      </p>
+      <h4>示例</h4>
+      <ul>
+        <li><code>^a</code> → <code><mark>a</mark>aa</code>（只匹配第一个 a）</li>
+      </ul>
+    </section>
+
+    <section class="block" id="anchor_end">
+      <div class="block-head">
+        <h3>行尾（$）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/anchor_end.png" srcset="../images/blocks/common/anchor_end.png 1.4x" alt="$ 积木">
+      <p>
+        表示行的结尾位置。它不匹配任何字符，只匹配位置。
+        因为本编辑器使用了 <code>m</code> 标志，所以它会匹配每一行的结尾，而不只是整个文本的结尾。
+      </p>
+      <h4>示例</h4>
+      <ul>
+        <li><code>a$</code> → <code>aa<mark>a</mark></code>（只匹配最后一个 a）</li>
+      </ul>
+    </section>
+
+    <section class="block" id="boundary">
+      <div class="block-head">
+        <h3>单词边界（\b / \B）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/boundary.png" srcset="../images/blocks/common/boundary.png 1.4x" alt="\b 积木">
+      <p>表示单词边缘的位置。</p>
+      <p>在下拉菜单中选择种类。</p>
+      <ul>
+        <li><code>\b</code>：单词边界，即 <code>\w</code> 字符（字母、数字或 <code>_</code>）与其他字符（或文本的两端）之间的位置</li>
+        <li><code>\B</code>：不是单词边界的位置</li>
+      </ul>
+      <h4>示例</h4>
+      <ul>
+        <li><code>\bcat\b</code> → <code><mark>cat</mark> concat</code>（只匹配作为完整单词的 cat）</li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>
+          <code>\w</code> 只包括 ASCII 字母、数字和 <code>_</code>，所以像 <code>é</code> 这样带重音的字母以及汉字等非拉丁文字都不算单词字符。
+          在这类文本中，边界可能不在你预想的位置（例如 <code>\b</code> 会出现在 <code>café</code> 的中间，也就是 <code>é</code> 的前面）。
+        </p>
+      </div>
+    </section>
+
+    <section class="block" id="look">
+      <div class="block-head">
+        <h3>前瞻 / 后顾（(?=) / (?!) / (?&lt;=) / (?&lt;!)）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/look.png" srcset="../images/blocks/common/look.png 1.4x" alt="(?=) 积木">
+      <p>
+        检查当前位置的紧后面（或紧前面）是否是里面的模式。
+        它只表示位置，所以里面的模式不包含在匹配结果中。
+      </p>
+      <ul>
+        <li>第一个下拉菜单：空白为前瞻（检查后面的内容），<code>&lt;</code> 为后顾（检查前面的内容）</li>
+        <li>第二个下拉菜单：<code>=</code> 表示“有”，<code>!</code> 表示“没有”</li>
+      </ul>
+      <h4>示例</h4>
+      <ul>
+        <li><code>\d+(?=px)</code> → <code><mark>100</mark>px and 200em</code>（只匹配后面跟着 px 的数字）</li>
+        <li><code>(?&lt;=\$)\d+</code> → <code>$<mark>30</mark> and 30€</code>（只匹配 $ 后面的数字）</li>
+      </ul>
+    </section>
+
+    <!-- Characters -->
+    <h2 id="cat-chars">字符</h2>
+    <p>
+      决定匹配哪些字符的积木。也能在字符类 <code>[ ]</code> 中使用的积木带有“字符类”标签。
+    </p>
+
+    <section class="block" id="chars_input">
+      <div class="block-head">
+        <h3>文本（自由输入）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+          <li class="tag charclass">字符类</li>
+          <li class="tag substitute">替换</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/chars_input.png" srcset="../images/blocks/common/chars_input.png 1.4x" alt="文本积木">
+      <p>
+        输入的内容会原样成为正则表达式（或替换）的一部分。
+        可以输入任意数量的字符。
+      </p>
+      <h4>示例</h4>
+      <ul>
+        <li><code>cat</code> → <code><mark>cat</mark>s and dogs</code></li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>
+          <code>.</code> <code>*</code> <code>+</code> <code>?</code> <code>(</code> <code>[</code> 等字符在正则表达式中有特殊含义。
+          要匹配这些字符本身，请像 <code>\.</code> 这样转义，或者使用<a href="#escaped_special">转义字符</a>积木。
+        </p>
+      </div>
+    </section>
+
+    <section class="block" id="dot">
+      <div class="block-head">
+        <h3>任意字符（.）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/dot.png" srcset="../images/blocks/common/dot.png 1.4x" alt=". 积木">
+      <p>匹配除换行符以外的任意一个字符。</p>
+      <h4>示例</h4>
+      <ul>
+        <li><code>a.c</code> → <code><mark>abc</mark> <mark>a-c</mark> ac</code></li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>不能在字符类中使用（<code>[.]</code> 表示点号本身）。</p>
+      </div>
+    </section>
+
+    <section class="block" id="dw">
+      <div class="block-head">
+        <h3>数字 / 单词字符（\d / \D / \w / \W）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+          <li class="tag charclass">字符类</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/dw.png" srcset="../images/blocks/common/dw.png 1.4x" alt="\d 积木">
+      <p>在下拉菜单中选择种类。</p>
+      <ul>
+        <li><code>\d</code>：一个数字（<code>[0-9]</code>）</li>
+        <li><code>\D</code>：一个不是数字的字符</li>
+        <li><code>\w</code>：一个字母、数字或 <code>_</code>（<code>[A-Za-z0-9_]</code>）</li>
+        <li><code>\W</code>：一个不是字母、数字或 <code>_</code> 的字符</li>
+      </ul>
+      <h4>示例</h4>
+      <ul>
+        <li><code>\d+</code> → <code>Price: <mark>120</mark> USD</code></li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>
+          <code>\d</code> 和 <code>\w</code> 只包括 ASCII 字符。带重音的字母（<code>é</code>、<code>ü</code>）、汉字等非拉丁文字以及全角数字（<code>１２３</code>）都不包括在内。
+          要匹配这些字符，请使用 <a href="#unicode_property">Unicode 属性</a>。
+        </p>
+      </div>
+    </section>
+
+    <section class="block" id="s">
+      <div class="block-head">
+        <h3>空白（\s / \S）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+          <li class="tag charclass">字符类</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/s.png" srcset="../images/blocks/common/s.png 1.4x" alt="\s 积木">
+      <p>在下拉菜单中选择种类。</p>
+      <ul>
+        <li><code>\s</code>：一个空白字符（空格、全角空格、制表符、换行符等）</li>
+        <li><code>\S</code>：一个不是空白的字符</li>
+      </ul>
+      <h4>示例</h4>
+      <ul>
+        <li><code>\S+</code> → <code><mark>foo</mark> <mark>bar</mark></code>（用空格分隔的两个单词）</li>
+      </ul>
+    </section>
+
+    <section class="block" id="unicode_property">
+      <div class="block-head">
+        <h3>Unicode 属性（\p{} / \P{}）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+          <li class="tag charclass">字符类</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/unicode_property.png" srcset="../images/blocks/common/unicode_property.png 1.4x" alt="\p{} 积木">
+      <p>按字符的种类（Unicode 属性）匹配一个字符。</p>
+      <ul>
+        <li>第一个下拉菜单：<code>p</code> 表示属于该种类的字符，<code>P</code> 表示不属于该种类的字符</li>
+        <li>第二个下拉菜单：空白表示通用类别（字母、数字、符号等），<code>Script=</code> 表示文字系统（希腊文、西里尔文等）</li>
+        <li>文本框：属性的名称</li>
+      </ul>
+      <p>常用的名称：</p>
+      <ul>
+        <li>通用类别：<code>L</code>（字母），<code>N</code>（数字），<code>P</code>（标点），<code>S</code>（符号）</li>
+        <li>文字系统：<code>Latin</code>，<code>Greek</code>，<code>Cyrillic</code>，<code>Han</code>（汉字）</li>
+      </ul>
+      <h4>示例</h4>
+      <ul>
+        <li><code>\p{Script=Greek}+</code> → <code>alpha <mark>αβγ</mark></code></li>
+        <li><code>\p{L}+</code> → <code><mark>café</mark> 123</code>（与 <code>\w</code> 不同，它也包括带重音的字母）</li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>
+          数字、空格和大部分标点等多种文字共用的字符属于 <code>Script=Common</code>，而不属于某个特定的文字系统。
+          如果要包括这些字符，请把它们一起放进字符类，例如 <code>[\p{Script=Greek}\d]</code>。
+        </p>
+      </div>
+      <h4>外部链接</h4>
+      <ul>
+        <li>
+          <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Regular_expressions/Unicode_character_class_escape">Unicode 字符类转义（MDN）</a>：
+          介绍 <code>\p{}</code> 的写法以及可以使用的属性种类（通用类别、<code>Script=</code> 文字系统，以及 <code>Emoji</code> 等属性）
+        </li>
+      </ul>
+    </section>
+
+    <section class="block" id="tab">
+      <div class="block-head">
+        <h3>制表符（\t）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+          <li class="tag charclass">字符类</li>
+          <li class="tag substitute">替换</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/tab.png" srcset="../images/blocks/common/tab.png 1.4x" alt="\t 积木">
+      <p>一个制表符。在替换中会插入一个制表符。</p>
+      <h4>示例</h4>
+      <ul>
+        <li>正则 <code>,</code>，替换 <code>\t</code> → <code>a,b</code> 变成 <code>a<ins>⇥</ins>b</code>（用制表符分隔）</li>
+      </ul>
+    </section>
+
+    <section class="block" id="newline">
+      <div class="block-head">
+        <h3>换行（\n）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+          <li class="tag charclass">字符类</li>
+          <li class="tag substitute">替换</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/newline.png" srcset="../images/blocks/common/newline.png 1.4x" alt="\n 积木">
+      <p>一个换行符。在替换中会插入一个换行。</p>
+      <h4>示例</h4>
+      <ul>
+        <li>正则 <code>,</code>，替换 <code>,\n</code> → <code>a,b</code> 变成 <code>a<ins>,⏎</ins>b</code>（在每个逗号后换行）</li>
+      </ul>
+    </section>
+
+    <section class="block" id="escaped_special">
+      <div class="block-head">
+        <h3>转义字符（\/ \. \( 等）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+          <li class="tag charclass">字符类</li>
+          <li class="tag substitute">替换</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/escaped_special.png" srcset="../images/blocks/common/escaped_special.png 1.4x" alt="\/ 积木">
+      <p>
+        把在正则表达式中有特殊含义的字符当作字符本身处理。在下拉菜单中选择字符。
+      </p>
+      <ul>
+        <li>
+          模式和字符类：可以使用 <code>/ \ ^ $ ( ) . ? [ ] * { } | +</code>。
+          <code>-</code> 只能在字符类中使用（用来和 <code>a-z</code> 这样的范围区分开）。
+        </li>
+        <li>
+          替换：除了 <code>$</code> 以外都可以使用（会变成去掉 <code>\</code> 的字符本身）。
+          要插入 <code>$</code>，请使用 <a href="#dollar"><code>$$</code></a> 积木。
+        </li>
+      </ul>
+      <h4>示例</h4>
+      <ul>
+        <li><code>1\.5</code> → <code><mark>1.5</mark> 105</code>（匹配点号本身）</li>
+      </ul>
+    </section>
+
+    <section class="block" id="char_class">
+      <div class="block-head">
+        <h3>字符类（[ ] / [^ ]）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/char_class.png" srcset="../images/blocks/common/char_class.png 1.4x" alt="[ ] 积木">
+      <p>
+        根据放在里面的内容匹配一个字符。用齿轮图标可以改变槽的数量。
+      </p>
+      <p>在下拉菜单中选择种类。</p>
+      <ul>
+        <li>空白（<code>[ ]</code>）：里面任意一个字符</li>
+        <li><code>^</code>（<code>[^ ]</code>）：里面的字符以外的一个字符</li>
+      </ul>
+      <p>
+        里面可以放入文本、<code>\d</code> <code>\w</code>、<code>\s</code>、<code>\p{}</code>、制表符、换行、转义字符和范围（<code>a-z</code>）积木。
+      </p>
+      <p>右键 →“外部输入”会把槽竖着排列，内容变长时更容易阅读。</p>
+      <h4>示例</h4>
+      <ul>
+        <li><code>[aeiou]</code> → <code>h<mark>e</mark>ll<mark>o</mark></code></li>
+        <li><code>[^0-9]+</code> → <code>12<mark>abc</mark>34</code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="char_class_range">
+      <div class="block-head">
+        <h3>范围（a-z）</h3>
+        <ul class="tags">
+          <li class="tag charclass">字符类</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/char_class_range.png" srcset="../images/blocks/common/char_class_range.png 1.4x" alt="a-z 积木">
+      <p>
+        匹配字符编码在两个字符之间的一个字符。每个输入框中输入一个字符（或 <code>\-</code> 这样的一个转义）。
+      </p>
+      <h4>示例</h4>
+      <ul>
+        <li><code>[a-f]+</code> → <code>x<mark>cafe</mark>y</code></li>
+        <li><code>[α-ω]+</code> → <code><mark>αβγ</mark>ABC</code>（希腊文小写字母）</li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>
+          范围按照字符编码的顺序。<code>[A-z]</code> 还包括 <code>[ \ ] ^ _ `</code> 这 6 个字符，它们位于 <code>Z</code> 和 <code>a</code> 之间。
+          如果只要字母，请放入 <code>A-Z</code> 和 <code>a-z</code> 两个范围，组成 <code>[A-Za-z]</code>。
+        </p>
+      </div>
+    </section>
+
+    <!-- Join / Choice -->
+    <h2 id="cat-join">连接 / 选择</h2>
+    <p>
+      组合多个积木的积木。连接会按从左到右的顺序排列，选择会匹配其中任意一个。用齿轮图标可以改变槽的数量。
+    </p>
+
+    <section class="block" id="join">
+      <div class="block-head">
+        <h3>连接</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/join.png" srcset="../images/blocks/common/join.png 1.4x" alt="连接积木">
+      <p>
+        把放在里面的内容按从左到右的顺序排列。用齿轮图标可以改变槽的数量。
+      </p>
+      <p>右键 →“外部输入”会把槽竖着排列，内容变长时更容易阅读。</p>
+      <h4>示例</h4>
+      <ul>
+        <li>连接 <code>^</code>、<code>\d+</code> 和 <code>$</code> → <code>^\d+$</code>（只包含数字的行）</li>
+      </ul>
+    </section>
+
+    <section class="block" id="choice">
+      <div class="block-head">
+        <h3>选择（|）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/choice.png" srcset="../images/blocks/common/choice.png 1.4x" alt="| 积木">
+      <p>
+        匹配放在里面的任意一个。选项按从左到右的顺序尝试，使用第一个匹配成功的选项。
+        用齿轮图标可以改变槽的数量。
+      </p>
+      <p>右键 →“外部输入”会把槽竖着排列，内容变长时更容易阅读。</p>
+      <h4>示例</h4>
+      <ul>
+        <li><code>cat|dog</code> → <code>a <mark>cat</mark> and a <mark>dog</mark></code></li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>
+          <code>|</code> 会把它前后的全部内容分开，所以和其他积木连接时，请用 <a href="#group_noncapturing"><code>(?:)</code></a> 包起来。
+          例如，先连接“<code>a|b</code>”再连接“<code>c</code>”，会得到 <code>a|bc</code>，意思是“a”或“bc”。
+          如果想表示“a 或 b，后面跟 c”，请使用 <code>(?:a|b)c</code>。
+        </p>
+      </div>
+    </section>
+
+    <!-- Grouping -->
+    <h2 id="cat-groups">分组</h2>
+    <p>
+      把模式组合在一起，或记录（捕获）匹配的部分以便之后使用的积木。捕获的部分可以用在后向引用和替换中。
+    </p>
+
+    <section class="block" id="group_noncapturing">
+      <div class="block-head">
+        <h3>非捕获分组（(?:)）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/group_noncapturing.png" srcset="../images/blocks/common/group_noncapturing.png 1.4x" alt="(?:) 积木">
+      <p>
+        把里面的模式组合成一个整体。它不会获得用于后向引用或替换的编号。
+        积木不会自动分组，所以想确定重复或选择（<code>|</code>）的范围时，请使用它。
+      </p>
+      <h4>示例</h4>
+      <ul>
+        <li><code>(?:ab)+</code> → <code><mark>ababab</mark>c</code>（把 ab 作为整体重复）</li>
+      </ul>
+    </section>
+
+    <section class="block" id="group">
+      <div class="block-head">
+        <h3>捕获分组（( )）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/group.png" srcset="../images/blocks/common/group.png 1.4x" alt="( ) 积木">
+      <p>
+        把里面的模式组合成一个整体，并记录（捕获）匹配的部分。
+        捕获的部分可以用在<a href="#backreference">后向引用</a>中，也可以在替换中用 <a href="#match_backreference"><code>$1</code></a> 使用。
+        分组从左到右（按 <code>(</code> 出现的顺序）编号为 1、2、3……。命名分组也计入编号。
+      </p>
+      <h4>示例</h4>
+      <ul>
+        <li>正则 <code>(\d+)-(\d+)</code>，替换 <code>$2-$1</code> → <code>12-34</code> 变成 <code><ins>34-12</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="group_named">
+      <div class="block-head">
+        <h3>命名分组（(?&lt;name&gt;)）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/group_named.png" srcset="../images/blocks/common/group_named.png 1.4x" alt="(?<name>) 积木">
+      <p>
+        带名字的捕获分组。捕获的部分可以用在<a href="#backreference_named">命名后向引用</a>中，也可以在替换中用 <a href="#match_named_backreference"><code>$&lt;name&gt;</code></a> 使用。
+        在下拉菜单中选择“创建组名…”来创建名字。名字必须以字母开头，并且只能包含字母、数字和 <code>_</code>。
+      </p>
+      <h4>示例</h4>
+      <ul>
+        <li>正则 <code>(?&lt;year&gt;\d{4})-\d{2}</code>，替换 <code>$&lt;year&gt;</code> → <code>2025-08</code> 变成 <code><ins>2025</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="backreference">
+      <div class="block-head">
+        <h3>后向引用（\1）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/backreference.png" srcset="../images/blocks/common/backreference.png 1.4x" alt="\1 积木">
+      <p>
+        匹配与指定编号的分组所捕获的文本相同的文本。在下拉菜单中选择分组编号。
+      </p>
+      <h4>示例</h4>
+      <ul>
+        <li><code>(\w)\1</code> → <code>b<mark>oo</mark>k</code>（同一个字符连续出现两次）</li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>
+          命名分组也计入编号。另外，下拉菜单中的编号取决于工作区中分组积木的数量。
+          在正则槽中以文本形式输入的分组不计算在内。
+        </p>
+      </div>
+    </section>
+
+    <section class="block" id="backreference_named">
+      <div class="block-head">
+        <h3>命名后向引用（\k&lt;name&gt;）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/backreference_named.png" srcset="../images/blocks/common/backreference_named.png 1.4x" alt="\k<name> 积木">
+      <p>
+        匹配与命名分组所捕获的文本相同的文本。在下拉菜单中选择组名。
+      </p>
+      <h4>示例</h4>
+      <ul>
+        <li><code>(?&lt;q&gt;["'])\w+\k&lt;q&gt;</code> → <code><mark>"abc"</mark> 'def"</code>（用同一种引号包起来的文本）</li>
+      </ul>
+    </section>
+
+    <!-- Repetition -->
+    <h2 id="cat-repeat">重复</h2>
+    <p>
+      重复积木只会重复它前面的一个元素。
+      如果在里面放入多个字符，只会重复最后一个字符（<code>abc+</code> 只重复 c）。
+      要把它们作为整体重复，请使用 <a href="#group_noncapturing"><code>(?:)</code></a>。
+    </p>
+    <div class="caution">
+      <h4>注意</h4>
+      <p>
+        在重复中再放入重复（嵌套）可能会让匹配变得极其缓慢。
+        例如，把 <code>(?:a+)+$</code> 用在 <code>aaaaaaaaaaaaaaaaaaaaaaaaaaaaab</code> 这种在末尾匹配失败的文本上时，需要尝试的组合数会随长度呈指数增长，浏览器可能会卡死。
+        <code>(?:a+)+</code> 与 <code>a+</code> 的意思相同，所以请尽量避免嵌套。
+      </p>
+    </div>
+
+    <section class="block" id="question">
+      <div class="block-head">
+        <h3>0 次或 1 次（?）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/question.png" srcset="../images/blocks/common/question.png 1.4x" alt="? 积木">
+      <p>
+        如果里面的模式存在就匹配 1 次，不存在就匹配 0 次（可有可无）。
+      </p>
+      <p>在下拉菜单中选择种类。</p>
+      <ul>
+        <li>空白（<code>?</code>）：尽量匹配 1 次</li>
+        <li><code>?</code>（<code>??</code>）：尽量匹配 0 次</li>
+      </ul>
+      <h4>示例</h4>
+      <ul>
+        <li><code>colou?r</code> → <code><mark>color</mark> <mark>colour</mark></code></li>
+        <li>正则 <code>(\d)?(\d+)</code>，替换 <code>[$1][$2]</code> → <code>123</code> 变成 <code><ins>[1][23]</ins></code></li>
+        <li>
+          正则 <code>(\d)??(\d+)</code>，替换 <code>[$1][$2]</code> → <code>123</code> 变成 <code><ins>[][123]</ins></code>
+          （使用 <code>??</code> 时，第一个分组会尽量什么都不取，所以所有数字都归第二个分组。
+          只有当后面的部分也能取到同样的字符时，<code>??</code> 才会产生区别）
+        </li>
+      </ul>
+    </section>
+
+    <section class="block" id="star_plus">
+      <div class="block-head">
+        <h3>0 次或更多 / 1 次或更多（* / +）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/star_plus.png" srcset="../images/blocks/common/star_plus.png 1.4x" alt="* 积木">
+      <p>重复里面的模式。</p>
+      <ul>
+        <li>第一个下拉菜单：<code>*</code> 表示 0 次或更多，<code>+</code> 表示 1 次或更多，尽量多地重复</li>
+        <li>第二个下拉菜单：选择 <code>?</code> 则尽量少地重复（<code>*?</code> <code>+?</code>）</li>
+      </ul>
+      <h4>示例</h4>
+      <ul>
+        <li><code>a+</code> → <code>c<mark>aaa</mark>t</code></li>
+        <li>
+          正则 <code>&lt;.+?&gt;</code>，替换为空 → <code>&lt;p&gt;&lt;b&gt;1&lt;/b&gt; + &lt;i&gt;2&lt;/i&gt; = 3&lt;/p&gt;</code> 变成 <code>1 + 2 = 3</code>（只删除标签）
+        </li>
+        <li>
+          如果没有 <code>?</code>，<code>&lt;.+&gt;</code> 会把从第一个 <code>&lt;</code> 到最后一个 <code>&gt;</code> 的全部内容作为一个匹配，所以所有内容都会被删除
+        </li>
+      </ul>
+      <p>在“HTML”示例中试着加上或去掉 <code>?</code>，看看有什么区别。</p>
+    </section>
+
+    <section class="block" id="quantit_exact">
+      <div class="block-head">
+        <h3>恰好 N 次（{N}）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/quantit_exact.png" srcset="../images/blocks/common/quantit_exact.png 1.4x" alt="{N} 积木">
+      <p>把里面的模式恰好重复 N 次。</p>
+      <h4>示例</h4>
+      <ul>
+        <li><code>\d{3}</code> → <code><mark>123</mark><mark>456</mark>7</code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="quantit_min">
+      <div class="block-head">
+        <h3>N 次或更多（{N,}）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/quantit_min.png" srcset="../images/blocks/common/quantit_min.png 1.4x" alt="{N,} 积木">
+      <p>把里面的模式重复 N 次或更多。</p>
+      <p>在下拉菜单中选择种类。</p>
+      <ul>
+        <li>空白（<code>{N,}</code>）：尽量多地重复</li>
+        <li><code>?</code>（<code>{N,}?</code>）：尽量少地重复</li>
+      </ul>
+      <h4>示例</h4>
+      <ul>
+        <li><code>\d{2,}</code> → <code>1 <mark>22</mark> <mark>333</mark></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="quantit_range">
+      <div class="block-head">
+        <h3>N 到 M 次（{N,M}）</h3>
+        <ul class="tags">
+          <li class="tag pattern">模式</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/quantit_range.png" srcset="../images/blocks/common/quantit_range.png 1.4x" alt="{N,M} 积木">
+      <p>
+        把里面的模式重复至少 N 次、最多 M 次。M 不能小于 N。
+      </p>
+      <p>在下拉菜单中选择种类。</p>
+      <ul>
+        <li>空白（<code>{N,M}</code>）：尽量多地重复</li>
+        <li><code>?</code>（<code>{N,M}?</code>）：尽量少地重复</li>
+      </ul>
+      <h4>示例</h4>
+      <ul>
+        <li><code>\d{2,3}</code> → <code><mark>123</mark><mark>45</mark></code></li>
+      </ul>
+    </section>
+
+    <!-- Substitution -->
+    <h2 id="cat-substitute">替换</h2>
+    <p>
+      把替换积木连接到根积木的替换槽上。
+      在替换中，也可以使用<a href="#chars_input">文本</a>、<a href="#tab">制表符</a>、<a href="#newline">换行</a>和<a href="#escaped_special">转义字符</a>积木。
+    </p>
+
+    <section class="block" id="substitute_join">
+      <div class="block-head">
+        <h3>替换连接</h3>
+        <ul class="tags">
+          <li class="tag substitute">替换</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/substitute_join.png" srcset="../images/blocks/common/substitute_join.png 1.4x" alt="替换连接积木">
+      <p>
+        在替换中把放在里面的内容按从左到右的顺序排列。用齿轮图标可以改变槽的数量。
+      </p>
+      <p>右键 →“外部输入”会把槽竖着排列，内容变长时更容易阅读。</p>
+      <h4>示例</h4>
+      <ul>
+        <li>连接 <code>[</code>、<code>$&amp;</code> 和 <code>]</code> → 替换字符串 <code>[$&amp;]</code>。配合正则 <code>\d+</code>，<code>a1</code> 变成 <code>a<ins>[1]</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="dollar">
+      <div class="block-head">
+        <h3>$ 本身（$$）</h3>
+        <ul class="tags">
+          <li class="tag substitute">替换</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/dollar.png" srcset="../images/blocks/common/dollar.png 1.4x" alt="$$ 积木">
+      <p>
+        在替换中插入 <code>$</code> 字符。因为 <code>$</code> 在替换中有特殊含义，所以 <code>$</code> 本身要写成 <code>$$</code>。
+      </p>
+      <h4>示例</h4>
+      <ul>
+        <li>正则 <code>\d+</code>，替换 <code>$$$&amp;</code> → <code>100</code> 变成 <code><ins>$100</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="ampersand">
+      <div class="block-head">
+        <h3>匹配的文本（$&amp;）</h3>
+        <ul class="tags">
+          <li class="tag substitute">替换</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/ampersand.png" srcset="../images/blocks/common/ampersand.png 1.4x" alt="$& 积木">
+      <p>插入匹配到的文本本身。</p>
+      <h4>示例</h4>
+      <ul>
+        <li>正则 <code>\d+</code>，替换 <code>($&amp;)</code> → <code>a1 b22</code> 变成 <code>a<ins>(1)</ins> b<ins>(22)</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="match_before">
+      <div class="block-head">
+        <h3>匹配前的文本（$`）</h3>
+        <ul class="tags">
+          <li class="tag substitute">替换</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/match_before.png" srcset="../images/blocks/common/match_before.png 1.4x" alt="$` 积木">
+      <p>插入目标文本中位于匹配部分之前的全部内容。</p>
+      <h4>示例</h4>
+      <ul>
+        <li>正则 <code>=</code>，替换 <code>=$`</code> → <code>a=</code> 变成 <code>a<ins>=a</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="match_after">
+      <div class="block-head">
+        <h3>匹配后的文本（$'）</h3>
+        <ul class="tags">
+          <li class="tag substitute">替换</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/match_after.png" srcset="../images/blocks/common/match_after.png 1.4x" alt="$' 积木">
+      <p>插入目标文本中位于匹配部分之后的全部内容。</p>
+      <h4>示例</h4>
+      <ul>
+        <li>正则 <code>=</code>，替换 <code>$'=</code> → <code>=b</code> 变成 <code><ins>b=</ins>b</code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="match_backreference">
+      <div class="block-head">
+        <h3>分组引用（$1）</h3>
+        <ul class="tags">
+          <li class="tag substitute">替换</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/match_backreference.png" srcset="../images/blocks/common/match_backreference.png 1.4x" alt="$1 积木">
+      <p>
+        插入指定编号的分组所捕获的文本。在下拉菜单中选择分组编号。
+      </p>
+      <h4>示例</h4>
+      <ul>
+        <li>正则 <code>(\d+)-(\d+)</code>，替换 <code>$2-$1</code> → <code>12-34</code> 变成 <code><ins>34-12</ins></code></li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>
+          命名分组也计入编号。另外，下拉菜单中的编号取决于工作区中分组积木的数量。
+          在正则槽中以文本形式输入的分组不计算在内。
+        </p>
+      </div>
+    </section>
+
+    <section class="block" id="match_named_backreference">
+      <div class="block-head">
+        <h3>命名分组引用（$&lt;name&gt;）</h3>
+        <ul class="tags">
+          <li class="tag substitute">替换</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/match_named_backreference.png" srcset="../images/blocks/common/match_named_backreference.png 1.4x" alt="$<name> 积木">
+      <p>
+        插入命名分组所捕获的文本。在下拉菜单中选择组名。
+      </p>
+      <h4>示例</h4>
+      <ul>
+        <li>正则 <code>(?&lt;year&gt;\d{4})-\d{2}</code>，替换 <code>$&lt;year&gt;</code> → <code>2025-08</code> 变成 <code><ins>2025</ins></code></li>
+      </ul>
+    </section>
+  </main>
+</body>
+
+</html>

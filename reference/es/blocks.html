@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de bloques - Editor Regex estilo Scratch</title>
+  <link rel="stylesheet" href="../reference.css">
+</head>
+
+<body>
+  <header>
+    <h1>Lista de bloques</h1>
+    <nav>
+      <a href="../../index.html">Volver al editor</a>
+      <a href="features.html">Funciones</a>
+      <span class="langs">
+        <a href="../ja/blocks.html" hreflang="ja" lang="ja">日本語</a>
+        <a href="../en/blocks.html" hreflang="en" lang="en">English</a>
+        <a href="../zh/blocks.html" hreflang="zh-Hans" lang="zh-Hans">简体中文</a>
+        <a href="../ko/blocks.html" hreflang="ko" lang="ko">한국어</a>
+        <a href="../hi/blocks.html" hreflang="hi" lang="hi">हिंदी</a>
+      </span>
+    </nav>
+  </header>
+
+  <main>
+    <ul class="toc">
+      <li><a href="#cat-root">Raíz</a></li>
+      <li><a href="#cat-position">Posición</a></li>
+      <li><a href="#cat-chars">Caracteres</a></li>
+      <li><a href="#cat-join">Unir / Opción</a></li>
+      <li><a href="#cat-groups">Agrupación</a></li>
+      <li><a href="#cat-repeat">Repetición</a></li>
+      <li><a href="#cat-substitute">Reemplazo</a></li>
+    </ul>
+
+    <div class="legend">
+      Dónde se puede usar:
+      <span class="tag pattern">Patrón</span>dentro de la regex (fuera de una clase de caracteres)
+      <span class="tag charclass">Clase de caracteres</span>dentro de <code>[ ]</code>
+      <span class="tag substitute">Reemplazo</span>dentro del reemplazo
+    </div>
+
+    <!--
+      ブロック画像は2倍の解像度で書き出してある（tools/export-block-images.mjs）。
+      root だけは文字が言語で変わるので言語ごとのフォルダ、それ以外は images/blocks/common/ に置いている。
+      srcset の 1.4x で、エディターの約1.43倍（= 2 / 1.4）の大きさで表示する
+    -->
+
+    <!-- Root -->
+    <h2 id="cat-root">Raíz</h2>
+    <p>
+      El bloque base que contiene la regex y el reemplazo. Siempre hay exactamente uno en el espacio de trabajo.
+    </p>
+
+    <section class="block" id="root">
+      <div class="block-head">
+        <h3>Raíz (Regex / Reemplazar)</h3>
+      </div>
+      <img src="../images/blocks/es/root.png" srcset="../images/blocks/es/root.png 1.4x" alt="Bloque raíz">
+      <p>
+        El bloque base para construir la regex y el reemplazo. Siempre está en el espacio de trabajo y no se puede eliminar.
+      </p>
+      <ul>
+        <li>
+          Hueco de Regex: aquí va el patrón. Al principio es un campo de texto, así que puedes escribir una regex directamente.
+          Con clic derecho → "Convertir en bloques", lo que escribiste se convierte en bloques.
+        </li>
+        <li>
+          Hueco de Reemplazar: mientras esté en "Sin reemplazo", las partes que coinciden se resaltan en el resultado.
+          Si conectas bloques de reemplazo, se muestra el resultado ya reemplazado.
+        </li>
+      </ul>
+      <p>Las flags están fijas en <code>gmud</code>.</p>
+      <ul>
+        <li><code>g</code> (global): busca todas las coincidencias, no solo la primera</li>
+        <li><code>m</code> (multiline): <code>^</code> y <code>$</code> coinciden al inicio y al final de cada línea, no solo del texto completo</li>
+        <li><code>u</code> (unicode): trata los emojis y caracteres parecidos como un solo carácter, y permite usar <code>\p{...}</code></li>
+        <li><code>d</code> (hasIndices): también guarda dónde coincidió cada grupo (no cambia lo que se muestra en el resultado)</li>
+      </ul>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>Regex <code>5</code>, reemplazo <code>6</code> → <code>1525</code> se convierte en <code>1<ins>6</ins>2<ins>6</ins></code> (se reemplazan todas las coincidencias)</li>
+      </ul>
+    </section>
+
+    <!-- Position -->
+    <h2 id="cat-position">Posición</h2>
+    <p>
+      Bloques que coinciden con una posición en lugar de con un carácter. Coinciden con cero caracteres y se combinan con otros bloques para indicar dónde debe estar la coincidencia.
+    </p>
+
+    <section class="block" id="anchor_start">
+      <div class="block-head">
+        <h3>Inicio de línea (^)</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/anchor_start.png" srcset="../images/blocks/common/anchor_start.png 1.4x" alt="Bloque ^">
+      <p>
+        La posición al inicio de una línea. No coincide con ningún carácter, solo con una posición.
+        Como este editor usa la flag <code>m</code>, coincide al inicio de cada línea, no solo al inicio del texto completo.
+      </p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>^a</code> → <code><mark>a</mark>aa</code> (solo la primera a)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="anchor_end">
+      <div class="block-head">
+        <h3>Fin de línea ($)</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/anchor_end.png" srcset="../images/blocks/common/anchor_end.png 1.4x" alt="Bloque $">
+      <p>
+        La posición al final de una línea. No coincide con ningún carácter, solo con una posición.
+        Como este editor usa la flag <code>m</code>, coincide al final de cada línea, no solo al final del texto completo.
+      </p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>a$</code> → <code>aa<mark>a</mark></code> (solo la última a)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="boundary">
+      <div class="block-head">
+        <h3>Límite de palabra (\b / \B)</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/boundary.png" srcset="../images/blocks/common/boundary.png 1.4x" alt="Bloque \b">
+      <p>La posición en el borde de una palabra.</p>
+      <p>Elige el tipo en el menú desplegable.</p>
+      <ul>
+        <li><code>\b</code>: un límite de palabra, entre un carácter <code>\w</code> (letra, dígito o <code>_</code>) y cualquier otro carácter (o el borde del texto)</li>
+        <li><code>\B</code>: una posición que no es un límite de palabra</li>
+      </ul>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>\bcat\b</code> → <code><mark>cat</mark> concat</code> (solo cat como palabra completa)</li>
+      </ul>
+      <div class="caution">
+        <h4>Nota</h4>
+        <p>
+          <code>\w</code> solo incluye letras ASCII, dígitos y <code>_</code>, así que las letras con tilde como <code>é</code> y las escrituras no latinas no cuentan como caracteres de palabra.
+          En esos textos, los límites pueden no estar donde esperas (por ejemplo, <code>\b</code> cae dentro de <code>café</code>, justo antes de la <code>é</code>).
+        </p>
+      </div>
+    </section>
+
+    <section class="block" id="look">
+      <div class="block-head">
+        <h3>Mirar adelante / mirar atrás ((?=) / (?!) / (?&lt;=) / (?&lt;!))</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/look.png" srcset="../images/blocks/common/look.png 1.4x" alt="Bloque (?=)">
+      <p>
+        Comprueba si el patrón interior aparece justo después (o justo antes) de la posición actual.
+        Solo describe una posición, así que el patrón interior no forma parte de la coincidencia.
+      </p>
+      <ul>
+        <li>Primer desplegable: vacío para mirar adelante (comprueba lo que viene después), <code>&lt;</code> para mirar atrás (comprueba lo que viene antes)</li>
+        <li>Segundo desplegable: <code>=</code> para "está", <code>!</code> para "no está"</li>
+      </ul>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>\d+(?=px)</code> → <code><mark>100</mark>px and 200em</code> (solo los números seguidos de px)</li>
+        <li><code>(?&lt;=\$)\d+</code> → <code>$<mark>30</mark> and 30€</code> (solo los números después de $)</li>
+      </ul>
+    </section>
+
+    <!-- Characters -->
+    <h2 id="cat-chars">Caracteres</h2>
+    <p>
+      Bloques que deciden con qué caracteres coincidir. Los que también funcionan dentro de una clase de caracteres <code>[ ]</code> llevan la etiqueta "Clase de caracteres".
+    </p>
+
+    <section class="block" id="chars_input">
+      <div class="block-head">
+        <h3>Texto (entrada libre)</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+          <li class="tag charclass">Clase de caracteres</li>
+          <li class="tag substitute">Reemplazo</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/chars_input.png" srcset="../images/blocks/common/chars_input.png 1.4x" alt="Bloque de texto">
+      <p>
+        Lo que escribas pasa a formar parte de la regex (o del reemplazo) tal cual.
+        Puedes escribir cualquier cantidad de caracteres.
+      </p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>cat</code> → <code><mark>cat</mark>s and dogs</code></li>
+      </ul>
+      <div class="caution">
+        <h4>Nota</h4>
+        <p>
+          Caracteres como <code>.</code> <code>*</code> <code>+</code> <code>?</code> <code>(</code> <code>[</code> tienen un significado especial en una regex.
+          Para buscar el propio carácter, escápalo así: <code>\.</code>, o usa el bloque de <a href="#escaped_special">carácter escapado</a>.
+        </p>
+      </div>
+    </section>
+
+    <section class="block" id="dot">
+      <div class="block-head">
+        <h3>Cualquier carácter (.)</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/dot.png" srcset="../images/blocks/common/dot.png 1.4x" alt="Bloque .">
+      <p>Coincide con un solo carácter cualquiera, excepto un salto de línea.</p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>a.c</code> → <code><mark>abc</mark> <mark>a-c</mark> ac</code></li>
+      </ul>
+      <div class="caution">
+        <h4>Nota</h4>
+        <p>No se puede usar dentro de una clase de caracteres (<code>[.]</code> significa un punto literal).</p>
+      </div>
+    </section>
+
+    <section class="block" id="dw">
+      <div class="block-head">
+        <h3>Dígito / carácter de palabra (\d / \D / \w / \W)</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+          <li class="tag charclass">Clase de caracteres</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/dw.png" srcset="../images/blocks/common/dw.png 1.4x" alt="Bloque \d">
+      <p>Elige el tipo en el menú desplegable.</p>
+      <ul>
+        <li><code>\d</code>: un dígito (<code>[0-9]</code>)</li>
+        <li><code>\D</code>: un carácter que no es un dígito</li>
+        <li><code>\w</code>: una letra, un dígito o <code>_</code> (<code>[A-Za-z0-9_]</code>)</li>
+        <li><code>\W</code>: un carácter que no es letra, dígito ni <code>_</code></li>
+      </ul>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>\d+</code> → <code>Price: <mark>120</mark> USD</code></li>
+      </ul>
+      <div class="caution">
+        <h4>Nota</h4>
+        <p>
+          <code>\d</code> y <code>\w</code> solo incluyen ASCII. No incluyen letras con tilde (<code>é</code>, <code>ü</code>), escrituras no latinas ni dígitos de ancho completo (<code>１２３</code>).
+          Para esos casos, usa las <a href="#unicode_property">propiedades Unicode</a>.
+        </p>
+      </div>
+    </section>
+
+    <section class="block" id="s">
+      <div class="block-head">
+        <h3>Espacio en blanco (\s / \S)</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+          <li class="tag charclass">Clase de caracteres</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/s.png" srcset="../images/blocks/common/s.png 1.4x" alt="Bloque \s">
+      <p>Elige el tipo en el menú desplegable.</p>
+      <ul>
+        <li><code>\s</code>: un carácter de espacio en blanco (espacio, espacio de ancho completo, tabulación, salto de línea, etc.)</li>
+        <li><code>\S</code>: un carácter que no es espacio en blanco</li>
+      </ul>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>\S+</code> → <code><mark>foo</mark> <mark>bar</mark></code> (las dos palabras separadas por un espacio)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="unicode_property">
+      <div class="block-head">
+        <h3>Propiedad Unicode (\p{} / \P{})</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+          <li class="tag charclass">Clase de caracteres</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/unicode_property.png" srcset="../images/blocks/common/unicode_property.png 1.4x" alt="Bloque \p{}">
+      <p>Coincide con un carácter según su tipo (su propiedad Unicode).</p>
+      <ul>
+        <li>Primer desplegable: <code>p</code> para caracteres de ese tipo, <code>P</code> para caracteres que no son de ese tipo</li>
+        <li>Segundo desplegable: vacío para una categoría general (letra, número, símbolo, ...), <code>Script=</code> para un sistema de escritura (griego, cirílico, ...)</li>
+        <li>Campo de texto: el nombre de la propiedad</li>
+      </ul>
+      <p>Nombres de uso frecuente:</p>
+      <ul>
+        <li>Categorías generales: <code>L</code> (letra), <code>N</code> (número), <code>P</code> (puntuación), <code>S</code> (símbolo)</li>
+        <li>Escrituras: <code>Latin</code>, <code>Greek</code>, <code>Cyrillic</code>, <code>Han</code> (caracteres chinos)</li>
+      </ul>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>\p{Script=Greek}+</code> → <code>alpha <mark>αβγ</mark></code></li>
+        <li><code>\p{L}+</code> → <code><mark>café</mark> 123</code> (a diferencia de <code>\w</code>, incluye las letras con tilde)</li>
+      </ul>
+      <div class="caution">
+        <h4>Nota</h4>
+        <p>
+          Los caracteres que comparten muchas escrituras, como los dígitos, los espacios y la mayoría de los signos de puntuación, pertenecen a <code>Script=Common</code>, no a una escritura concreta.
+          Para incluirlos, añádelos a una clase de caracteres, como en <code>[\p{Script=Greek}\d]</code>.
+        </p>
+      </div>
+      <h4>Enlaces externos</h4>
+      <ul>
+        <li>
+          <a href="https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Regular_expressions/Unicode_character_class_escape">Escape de clase de caracteres Unicode (MDN)</a>:
+          explica cómo escribir <code>\p{}</code> y los tipos de propiedades que puedes usar (categorías generales, escrituras con <code>Script=</code> y propiedades como <code>Emoji</code>)
+        </li>
+      </ul>
+    </section>
+
+    <section class="block" id="tab">
+      <div class="block-head">
+        <h3>Tabulación (\t)</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+          <li class="tag charclass">Clase de caracteres</li>
+          <li class="tag substitute">Reemplazo</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/tab.png" srcset="../images/blocks/common/tab.png 1.4x" alt="Bloque \t">
+      <p>Un carácter de tabulación. En el reemplazo, inserta una tabulación.</p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>Regex <code>,</code>, reemplazo <code>\t</code> → <code>a,b</code> se convierte en <code>a<ins>⇥</ins>b</code> (separado por tabulaciones)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="newline">
+      <div class="block-head">
+        <h3>Salto de línea (\n)</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+          <li class="tag charclass">Clase de caracteres</li>
+          <li class="tag substitute">Reemplazo</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/newline.png" srcset="../images/blocks/common/newline.png 1.4x" alt="Bloque \n">
+      <p>Un carácter de salto de línea. En el reemplazo, inserta un salto de línea.</p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>Regex <code>,</code>, reemplazo <code>,\n</code> → <code>a,b</code> se convierte en <code>a<ins>,⏎</ins>b</code> (un salto de línea después de cada coma)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="escaped_special">
+      <div class="block-head">
+        <h3>Carácter escapado (\/ \. \( etc.)</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+          <li class="tag charclass">Clase de caracteres</li>
+          <li class="tag substitute">Reemplazo</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/escaped_special.png" srcset="../images/blocks/common/escaped_special.png 1.4x" alt="Bloque \/">
+      <p>
+        Trata un carácter que tiene un significado especial en una regex como el propio carácter. Elige el carácter en el menú desplegable.
+      </p>
+      <ul>
+        <li>
+          Patrón y clase de caracteres: se pueden usar <code>/ \ ^ $ ( ) . ? [ ] * { } | +</code>.
+          <code>-</code> solo se puede usar dentro de una clase de caracteres (para distinguirlo de un rango como <code>a-z</code>).
+        </li>
+        <li>
+          Reemplazo: se puede usar todo excepto <code>$</code> (se convierte en el propio carácter, sin la <code>\</code>).
+          Para insertar <code>$</code>, usa el bloque <a href="#dollar"><code>$$</code></a>.
+        </li>
+      </ul>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>1\.5</code> → <code><mark>1.5</mark> 105</code> (coincide con un punto literal)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="char_class">
+      <div class="block-head">
+        <h3>Clase de caracteres ([ ] / [^ ])</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/char_class.png" srcset="../images/blocks/common/char_class.png 1.4x" alt="Bloque [ ]">
+      <p>
+        Coincide con un carácter según lo que pongas dentro. Usa el icono del engranaje para cambiar el número de huecos.
+      </p>
+      <p>Elige el tipo en el menú desplegable.</p>
+      <ul>
+        <li>Vacío (<code>[ ]</code>): uno cualquiera de los caracteres de dentro</li>
+        <li><code>^</code> (<code>[^ ]</code>): un carácter que no es ninguno de los de dentro</li>
+      </ul>
+      <p>
+        Dentro puedes poner bloques de texto, <code>\d</code> <code>\w</code>, <code>\s</code>, <code>\p{}</code>, tabulación, salto de línea, carácter escapado y rango (<code>a-z</code>).
+      </p>
+      <p>Con clic derecho → "Entradas externas", los huecos se apilan en vertical, lo que facilita la lectura cuando el contenido es largo.</p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>[aeiou]</code> → <code>h<mark>e</mark>ll<mark>o</mark></code></li>
+        <li><code>[^0-9]+</code> → <code>12<mark>abc</mark>34</code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="char_class_range">
+      <div class="block-head">
+        <h3>Rango (a-z)</h3>
+        <ul class="tags">
+          <li class="tag charclass">Clase de caracteres</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/char_class_range.png" srcset="../images/blocks/common/char_class_range.png 1.4x" alt="Bloque a-z">
+      <p>
+        Coincide con un carácter cuyo código está entre los dos caracteres. Escribe un carácter (o un escape como <code>\-</code>) en cada campo.
+      </p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>[a-f]+</code> → <code>x<mark>cafe</mark>y</code></li>
+        <li><code>[α-ω]+</code> → <code><mark>αβγ</mark>ABC</code> (letras griegas minúsculas)</li>
+      </ul>
+      <div class="caution">
+        <h4>Nota</h4>
+        <p>
+          Los rangos siguen el orden de los códigos de carácter. <code>[A-z]</code> también incluye los seis caracteres <code>[ \ ] ^ _ `</code> que están entre <code>Z</code> y <code>a</code>.
+          Para incluir solo letras, pon dos rangos, <code>A-Z</code> y <code>a-z</code>, y obtendrás <code>[A-Za-z]</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- Join / Choice -->
+    <h2 id="cat-join">Unir / Opción</h2>
+    <p>
+      Bloques que combinan varios bloques. Unir los coloca en orden de izquierda a derecha, y Opción coincide con uno cualquiera de ellos. Usa el icono del engranaje para cambiar el número de huecos.
+    </p>
+
+    <section class="block" id="join">
+      <div class="block-head">
+        <h3>Unir</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/join.png" srcset="../images/blocks/common/join.png 1.4x" alt="Bloque Unir">
+      <p>
+        Coloca lo que pongas dentro en orden de izquierda a derecha. Usa el icono del engranaje para cambiar el número de huecos.
+      </p>
+      <p>Con clic derecho → "Entradas externas", los huecos se apilan en vertical, lo que facilita la lectura cuando el contenido es largo.</p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>Unir <code>^</code>, <code>\d+</code> y <code>$</code> → <code>^\d+$</code> (líneas que solo contienen dígitos)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="choice">
+      <div class="block-head">
+        <h3>Opción (|)</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/choice.png" srcset="../images/blocks/common/choice.png 1.4x" alt="Bloque |">
+      <p>
+        Coincide con uno cualquiera de los elementos que pongas dentro. Las opciones se prueban de izquierda a derecha, y se usa la primera que coincide.
+        Usa el icono del engranaje para cambiar el número de huecos.
+      </p>
+      <p>Con clic derecho → "Entradas externas", los huecos se apilan en vertical, lo que facilita la lectura cuando el contenido es largo.</p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>cat|dog</code> → <code>a <mark>cat</mark> and a <mark>dog</mark></code></li>
+      </ul>
+      <div class="caution">
+        <h4>Nota</h4>
+        <p>
+          <code>|</code> divide todo lo que hay antes y después, así que envuélvelo en <a href="#group_noncapturing"><code>(?:)</code></a> al unirlo con otros bloques.
+          Por ejemplo, unir "<code>a|b</code>" y luego "<code>c</code>" da <code>a|bc</code>, que significa "a" o "bc".
+          Para "a o b, y luego c", usa <code>(?:a|b)c</code>.
+        </p>
+      </div>
+    </section>
+
+    <!-- Grouping -->
+    <h2 id="cat-groups">Agrupación</h2>
+    <p>
+      Bloques que agrupan un patrón, o que guardan (capturan) la parte coincidente para usarla después. Las partes capturadas se pueden usar en referencias hacia atrás y en el reemplazo.
+    </p>
+
+    <section class="block" id="group_noncapturing">
+      <div class="block-head">
+        <h3>Grupo sin captura ((?:))</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/group_noncapturing.png" srcset="../images/blocks/common/group_noncapturing.png 1.4x" alt="Bloque (?:)">
+      <p>
+        Agrupa el patrón interior en una sola unidad. No recibe un número para las referencias hacia atrás ni para el reemplazo.
+        Los bloques no se agrupan automáticamente, así que úsalo para delimitar el alcance de una repetición o de una opción (<code>|</code>).
+      </p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>(?:ab)+</code> → <code><mark>ababab</mark>c</code> (repite ab como una unidad)</li>
+      </ul>
+    </section>
+
+    <section class="block" id="group">
+      <div class="block-head">
+        <h3>Grupo de captura (( ))</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/group.png" srcset="../images/blocks/common/group.png 1.4x" alt="Bloque ( )">
+      <p>
+        Agrupa el patrón interior en una sola unidad y guarda (captura) la parte coincidente.
+        La parte capturada se puede usar en <a href="#backreference">referencias hacia atrás</a> y en el reemplazo como <a href="#match_backreference"><code>$1</code></a>.
+        Los grupos se numeran 1, 2, 3, ... de izquierda a derecha (en el orden en que aparece su <code>(</code>). Los grupos con nombre también se cuentan.
+      </p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>Regex <code>(\d+)-(\d+)</code>, reemplazo <code>$2-$1</code> → <code>12-34</code> se convierte en <code><ins>34-12</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="group_named">
+      <div class="block-head">
+        <h3>Grupo con nombre ((?&lt;name&gt;))</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/group_named.png" srcset="../images/blocks/common/group_named.png 1.4x" alt="Bloque (?<name>)">
+      <p>
+        Un grupo de captura con nombre. La parte capturada se puede usar en <a href="#backreference_named">referencias hacia atrás con nombre</a> y en el reemplazo como <a href="#match_named_backreference"><code>$&lt;name&gt;</code></a>.
+        Crea un nombre con "Crear nombre de grupo…" en el menú desplegable. El nombre debe empezar por una letra y solo puede contener letras, dígitos y <code>_</code>.
+      </p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>Regex <code>(?&lt;year&gt;\d{4})-\d{2}</code>, reemplazo <code>$&lt;year&gt;</code> → <code>2025-08</code> se convierte en <code><ins>2025</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="backreference">
+      <div class="block-head">
+        <h3>Referencia hacia atrás (\1)</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/backreference.png" srcset="../images/blocks/common/backreference.png 1.4x" alt="Bloque \1">
+      <p>
+        Coincide con el mismo texto que capturó el grupo con ese número. Elige el número del grupo en el menú desplegable.
+      </p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>(\w)\1</code> → <code>b<mark>oo</mark>k</code> (el mismo carácter dos veces seguidas)</li>
+      </ul>
+      <div class="caution">
+        <h4>Nota</h4>
+        <p>
+          Los grupos con nombre también cuentan en la numeración. Además, los números del menú desplegable dependen de cuántos bloques de grupo hay en el espacio de trabajo.
+          Los grupos escritos como texto en el hueco de Regex no se cuentan.
+        </p>
+      </div>
+    </section>
+
+    <section class="block" id="backreference_named">
+      <div class="block-head">
+        <h3>Referencia hacia atrás con nombre (\k&lt;name&gt;)</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/backreference_named.png" srcset="../images/blocks/common/backreference_named.png 1.4x" alt="Bloque \k<name>">
+      <p>
+        Coincide con el mismo texto que capturó el grupo con ese nombre. Elige el nombre del grupo en el menú desplegable.
+      </p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>(?&lt;q&gt;["'])\w+\k&lt;q&gt;</code> → <code><mark>"abc"</mark> 'def"</code> (texto entre el mismo tipo de comillas)</li>
+      </ul>
+    </section>
+
+    <!-- Repetition -->
+    <h2 id="cat-repeat">Repetición</h2>
+    <p>
+      Los bloques de repetición solo repiten el elemento que está justo antes.
+      Si pones varios caracteres dentro, solo se repite el último (<code>abc+</code> repite solo la c).
+      Para repetirlos juntos, usa <a href="#group_noncapturing"><code>(?:)</code></a>.
+    </p>
+    <div class="caution">
+      <h4>Nota</h4>
+      <p>
+        Poner una repetición dentro de otra (anidarlas) puede hacer que la búsqueda sea extremadamente lenta.
+        Por ejemplo, usar <code>(?:a+)+$</code> con un texto que falla al final, como <code>aaaaaaaaaaaaaaaaaaaaaaaaaaaaab</code>, hace que el número de combinaciones que hay que probar crezca exponencialmente con la longitud, y el navegador puede quedarse bloqueado.
+        <code>(?:a+)+</code> significa lo mismo que <code>a+</code>, así que evita anidar repeticiones siempre que puedas.
+      </p>
+    </div>
+
+    <section class="block" id="question">
+      <div class="block-head">
+        <h3>Cero o una vez (?)</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/question.png" srcset="../images/blocks/common/question.png 1.4x" alt="Bloque ?">
+      <p>
+        Coincide con el patrón interior una vez si está, o cero veces si no está (es opcional).
+      </p>
+      <p>Elige el tipo en el menú desplegable.</p>
+      <ul>
+        <li>Vacío (<code>?</code>): prefiere coincidir una vez</li>
+        <li><code>?</code> (<code>??</code>): prefiere coincidir cero veces</li>
+      </ul>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>colou?r</code> → <code><mark>color</mark> <mark>colour</mark></code></li>
+        <li>Regex <code>(\d)?(\d+)</code>, reemplazo <code>[$1][$2]</code> → <code>123</code> se convierte en <code><ins>[1][23]</ins></code></li>
+        <li>
+          Regex <code>(\d)??(\d+)</code>, reemplazo <code>[$1][$2]</code> → <code>123</code> se convierte en <code><ins>[][123]</ins></code>
+          (con <code>??</code>, el primer grupo no toma nada si puede, así que todos los dígitos van al segundo grupo.
+          <code>??</code> solo marca la diferencia cuando la parte que viene después también puede tomar los mismos caracteres)
+        </li>
+      </ul>
+    </section>
+
+    <section class="block" id="star_plus">
+      <div class="block-head">
+        <h3>Cero o más / una o más veces (* / +)</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/star_plus.png" srcset="../images/blocks/common/star_plus.png 1.4x" alt="Bloque *">
+      <p>Repite el patrón interior.</p>
+      <ul>
+        <li>Primer desplegable: <code>*</code> para cero o más veces, <code>+</code> para una o más veces, tantas como sea posible</li>
+        <li>Segundo desplegable: elige <code>?</code> para repetir el menor número de veces posible (<code>*?</code> <code>+?</code>)</li>
+      </ul>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>a+</code> → <code>c<mark>aaa</mark>t</code></li>
+        <li>
+          Regex <code>&lt;.+?&gt;</code>, reemplazo vacío → <code>&lt;p&gt;&lt;b&gt;1&lt;/b&gt; + &lt;i&gt;2&lt;/i&gt; = 3&lt;/p&gt;</code> se convierte en <code>1 + 2 = 3</code> (solo se eliminan las etiquetas)
+        </li>
+        <li>
+          Sin <code>?</code>, <code>&lt;.+&gt;</code> toma todo desde el primer <code>&lt;</code> hasta el último <code>&gt;</code> como una sola coincidencia, así que se elimina todo
+        </li>
+      </ul>
+      <p>Prueba a añadir y quitar el <code>?</code> en el ejemplo "HTML" para ver la diferencia.</p>
+    </section>
+
+    <section class="block" id="quantit_exact">
+      <div class="block-head">
+        <h3>Exactamente N veces ({N})</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/quantit_exact.png" srcset="../images/blocks/common/quantit_exact.png 1.4x" alt="Bloque {N}">
+      <p>Repite el patrón interior exactamente N veces.</p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>\d{3}</code> → <code><mark>123</mark><mark>456</mark>7</code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="quantit_min">
+      <div class="block-head">
+        <h3>N o más veces ({N,})</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/quantit_min.png" srcset="../images/blocks/common/quantit_min.png 1.4x" alt="Bloque {N,}">
+      <p>Repite el patrón interior N o más veces.</p>
+      <p>Elige el tipo en el menú desplegable.</p>
+      <ul>
+        <li>Vacío (<code>{N,}</code>): repite tantas veces como sea posible</li>
+        <li><code>?</code> (<code>{N,}?</code>): repite el menor número de veces posible</li>
+      </ul>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>\d{2,}</code> → <code>1 <mark>22</mark> <mark>333</mark></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="quantit_range">
+      <div class="block-head">
+        <h3>De N a M veces ({N,M})</h3>
+        <ul class="tags">
+          <li class="tag pattern">Patrón</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/quantit_range.png" srcset="../images/blocks/common/quantit_range.png 1.4x" alt="Bloque {N,M}">
+      <p>
+        Repite el patrón interior como mínimo N veces y como máximo M. M no puede ser menor que N.
+      </p>
+      <p>Elige el tipo en el menú desplegable.</p>
+      <ul>
+        <li>Vacío (<code>{N,M}</code>): repite tantas veces como sea posible</li>
+        <li><code>?</code> (<code>{N,M}?</code>): repite el menor número de veces posible</li>
+      </ul>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li><code>\d{2,3}</code> → <code><mark>123</mark><mark>45</mark></code></li>
+      </ul>
+    </section>
+
+    <!-- Substitution -->
+    <h2 id="cat-substitute">Reemplazo</h2>
+    <p>
+      Conecta los bloques de reemplazo al hueco de Reemplazar de la raíz.
+      En el reemplazo también puedes usar los bloques de <a href="#chars_input">texto</a>, <a href="#tab">tabulación</a>, <a href="#newline">salto de línea</a> y <a href="#escaped_special">carácter escapado</a>.
+    </p>
+
+    <section class="block" id="substitute_join">
+      <div class="block-head">
+        <h3>Unir en el reemplazo</h3>
+        <ul class="tags">
+          <li class="tag substitute">Reemplazo</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/substitute_join.png" srcset="../images/blocks/common/substitute_join.png 1.4x" alt="Bloque Unir en el reemplazo">
+      <p>
+        Coloca lo que pongas dentro en orden de izquierda a derecha dentro del reemplazo. Usa el icono del engranaje para cambiar el número de huecos.
+      </p>
+      <p>Con clic derecho → "Entradas externas", los huecos se apilan en vertical, lo que facilita la lectura cuando el contenido es largo.</p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>Unir <code>[</code>, <code>$&amp;</code> y <code>]</code> → el reemplazo <code>[$&amp;]</code>. Con la regex <code>\d+</code>, <code>a1</code> se convierte en <code>a<ins>[1]</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="dollar">
+      <div class="block-head">
+        <h3>$ literal ($$)</h3>
+        <ul class="tags">
+          <li class="tag substitute">Reemplazo</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/dollar.png" srcset="../images/blocks/common/dollar.png 1.4x" alt="Bloque $$">
+      <p>
+        Inserta el carácter <code>$</code> en el reemplazo. Como <code>$</code> tiene un significado especial en el reemplazo, un <code>$</code> literal se escribe <code>$$</code>.
+      </p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>Regex <code>\d+</code>, reemplazo <code>$$$&amp;</code> → <code>100</code> se convierte en <code><ins>$100</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="ampersand">
+      <div class="block-head">
+        <h3>Texto coincidente ($&amp;)</h3>
+        <ul class="tags">
+          <li class="tag substitute">Reemplazo</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/ampersand.png" srcset="../images/blocks/common/ampersand.png 1.4x" alt="Bloque $&">
+      <p>Inserta el propio texto coincidente.</p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>Regex <code>\d+</code>, reemplazo <code>($&amp;)</code> → <code>a1 b22</code> se convierte en <code>a<ins>(1)</ins> b<ins>(22)</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="match_before">
+      <div class="block-head">
+        <h3>Texto antes de la coincidencia ($`)</h3>
+        <ul class="tags">
+          <li class="tag substitute">Reemplazo</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/match_before.png" srcset="../images/blocks/common/match_before.png 1.4x" alt="Bloque $`">
+      <p>Inserta todo el texto de destino que está antes de la coincidencia.</p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>Regex <code>=</code>, reemplazo <code>=$`</code> → <code>a=</code> se convierte en <code>a<ins>=a</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="match_after">
+      <div class="block-head">
+        <h3>Texto después de la coincidencia ($')</h3>
+        <ul class="tags">
+          <li class="tag substitute">Reemplazo</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/match_after.png" srcset="../images/blocks/common/match_after.png 1.4x" alt="Bloque $'">
+      <p>Inserta todo el texto de destino que está después de la coincidencia.</p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>Regex <code>=</code>, reemplazo <code>$'=</code> → <code>=b</code> se convierte en <code><ins>b=</ins>b</code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="match_backreference">
+      <div class="block-head">
+        <h3>Referencia a grupo ($1)</h3>
+        <ul class="tags">
+          <li class="tag substitute">Reemplazo</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/match_backreference.png" srcset="../images/blocks/common/match_backreference.png 1.4x" alt="Bloque $1">
+      <p>
+        Inserta el texto que capturó el grupo con ese número. Elige el número del grupo en el menú desplegable.
+      </p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>Regex <code>(\d+)-(\d+)</code>, reemplazo <code>$2-$1</code> → <code>12-34</code> se convierte en <code><ins>34-12</ins></code></li>
+      </ul>
+      <div class="caution">
+        <h4>Nota</h4>
+        <p>
+          Los grupos con nombre también cuentan en la numeración. Además, los números del menú desplegable dependen de cuántos bloques de grupo hay en el espacio de trabajo.
+          Los grupos escritos como texto en el hueco de Regex no se cuentan.
+        </p>
+      </div>
+    </section>
+
+    <section class="block" id="match_named_backreference">
+      <div class="block-head">
+        <h3>Referencia a grupo con nombre ($&lt;name&gt;)</h3>
+        <ul class="tags">
+          <li class="tag substitute">Reemplazo</li>
+        </ul>
+      </div>
+      <img src="../images/blocks/common/match_named_backreference.png" srcset="../images/blocks/common/match_named_backreference.png 1.4x" alt="Bloque $<name>">
+      <p>
+        Inserta el texto que capturó el grupo con ese nombre. Elige el nombre del grupo en el menú desplegable.
+      </p>
+      <h4>Ejemplos</h4>
+      <ul>
+        <li>Regex <code>(?&lt;year&gt;\d{4})-\d{2}</code>, reemplazo <code>$&lt;year&gt;</code> → <code>2025-08</code> se convierte en <code><ins>2025</ins></code></li>
+      </ul>
+    </section>
+  </main>
+</body>
+
+</html>

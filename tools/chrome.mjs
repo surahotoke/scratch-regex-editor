@@ -12,7 +12,7 @@ const CHROME =
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
 // 対応している言語（リファレンスのフォルダ名）
-export const LANGS = ["ja", "en"]
+export const LANGS = ["ja", "en", "zh", "es", "ko", "hi"]
 
 /** コマンドライン引数から --lang と、それ以外の引数を取り出す（--lang がなければ全言語） */
 export function parseArgs(argv) {
