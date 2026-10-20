@@ -58,7 +58,7 @@ const blockly = {
     "自由入力欄。特殊文字を入力する際は注意してください。置換でも使用可能",
   DOT_TOOLTIP: "改行除く任意の1文字。文字クラス内では使用不可",
   DW_TOOLTIP: "数字[0-9]、英数字と_[a-zA-Z0-9_]",
-  S_TOOLTIP: "半角スペース、タブ文字、改行文字[ \\t\\n]",
+  S_TOOLTIP: "半角・全角スペース、タブ文字、改行文字など[ \\t\\n\\u3000]",
   UNICODE_PROPERTY_TOOLTIP:
     "Unicodeの文字プロパティ。P句読点、S記号や、Script=Hiraganaひらがな、Han漢字など色々指定可能。詳しくは右クリック→ヘルプ",
   TAB_TOOLTIP: "タブ文字。置換でも使用可能",

@@ -60,7 +60,7 @@ const blockly = {
   DOT_TOOLTIP:
     "Cualquier carácter excepto salto de línea. No se puede usar en clase de caracteres.",
   DW_TOOLTIP: "Dígitos [0-9], letras y guion bajo [a-zA-Z0-9_]",
-  S_TOOLTIP: "Espacio: espacio, tabulación o salto de línea [ \\t\\n]",
+  S_TOOLTIP: "Espacio: espacio, espacio de ancho completo, tabulación, salto de línea, etc. [ \\t\\n\\u3000]",
   UNICODE_PROPERTY_TOOLTIP:
     "Propiedades Unicode. Ej: P puntuación, S símbolos, Script=Hiragana, Han (chino). Más info: clic derecho → Ayuda.",
   TAB_TOOLTIP: "Carácter de tabulación. También en reemplazo.",

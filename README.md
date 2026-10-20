@@ -6,6 +6,7 @@
   - 置換の作成/コピー
   - マッチ（ハイライト付き）
   - 置換（ハイライト付き）
+  - 空白文字（半角・全角スペース、タブ、改行）の可視化
   - データの保存/読み込み
   - 各ブロックの軽い説明
   - スマホでも操作可能（Scratchを参考にした）
@@ -32,6 +33,7 @@ Create regular expressions with a Scratch-style visual editor.
   - Create/copy replacement strings
   - Match (with highlighting)
   - Replace (with highlighting)
+  - Visualize whitespace (half-/full-width spaces, tabs, newlines)
   - Save/load data
   - Short explanations for each block
   - Usable on mobile (inspired by Scratch)

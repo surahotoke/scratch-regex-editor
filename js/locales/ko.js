@@ -57,7 +57,7 @@ const blockly = {
     "자유 입력. 특수문자에 주의하세요. 치환에서도 사용 가능.",
   DOT_TOOLTIP: "줄바꿈 제외 임의의 문자 1개. 문자 클래스 안에서는 사용 불가.",
   DW_TOOLTIP: "숫자[0-9], 영문자 및 밑줄[a-zA-Z0-9_]",
-  S_TOOLTIP: "공백: 스페이스, 탭, 줄바꿈 [ \\t\\n]",
+  S_TOOLTIP: "공백: 반각·전각 스페이스, 탭, 줄바꿈 등 [ \\t\\n\\u3000]",
   UNICODE_PROPERTY_TOOLTIP:
     "유니코드 속성. 예: P 문장부호, S 기호, Script=Hiragana 히라가나, Han 한자. 자세한 내용은 오른쪽 클릭 → 도움말.",
   TAB_TOOLTIP: "탭 문자. 치환에서도 사용 가능.",

@@ -55,7 +55,7 @@ const blockly = {
   CHARS_INPUT_TOOLTIP: "自由输入。注意特殊字符。替换中也可使用。",
   DOT_TOOLTIP: "除换行外的任意单个字符。字符类中不可使用。",
   DW_TOOLTIP: "数字[0-9]，字母和下划线[a-zA-Z0-9_]",
-  S_TOOLTIP: "空白：空格、制表符、换行符[ \\t\\n]",
+  S_TOOLTIP: "空白：半角/全角空格、制表符、换行符等[ \\t\\n\\u3000]",
   UNICODE_PROPERTY_TOOLTIP:
     "Unicode属性。例如：P 标点, S 符号, Script=Hiragana 平假名, Han 汉字。详情请右键 → 帮助。",
   TAB_TOOLTIP: "制表符。替换中也可使用。",

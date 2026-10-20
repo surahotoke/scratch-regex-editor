@@ -59,7 +59,7 @@ const blockly = {
   DOT_TOOLTIP:
     "Any single character except newline. Not usable inside a character class.",
   DW_TOOLTIP: "Digits [0-9], letters, and underscore [a-zA-Z0-9_]",
-  S_TOOLTIP: "Whitespace: space, tab, or newline [ \\t\\n ]",
+  S_TOOLTIP: "Whitespace: space, full-width space, tab, newline, etc. [ \\t\\n\\u3000]",
   UNICODE_PROPERTY_TOOLTIP:
     "Unicode property. For example: P = punctuation, S = symbol, Script=Hiragana (hiragana), Han (Chinese characters).\n" +
     "Right-click → Help for more details.",
