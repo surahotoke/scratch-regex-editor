@@ -481,19 +481,45 @@ function evaluateRegex() {
         )
       }
     } else {
-      // 置換する場合は置換して表示
-      resultText.textContent = resultText.textContent.replace(
-        regex,
-        JSON.parse(
-          JSON.stringify(regexJson.substitute).replaceAll("\\\\", "\\")
-        )
+      // 置換する場合は置換して表示し、置換した部分をハイライト
+      const substitute = JSON.parse(
+        JSON.stringify(regexJson.substitute).replaceAll("\\\\", "\\")
       )
+      showReplaced(resultText.textContent, regex, substitute)
     }
     // 空白文字を可視化
     resultText.innerHTML = visualizeWhitespace(resultText.innerHTML)
   } catch (e) {
     resultText.textContent = e.message
   }
+}
+
+// 置換した部分の目印（普通の文章に出てこない Unicode の非文字を使う）
+const REPLACED_START = "\uFDD0"
+const REPLACED_END = "\uFDD1"
+
+// 置換結果を表示し、置換した部分を ins で囲む関数
+// （後で innerHTML の空白を置き換えるので、属性付きのタグにはしない）
+// （$1 などの展開はそのまま replace に任せるため、置換文字列の前後に目印を付けて置換する）
+function showReplaced(text, regex, substitute) {
+  const replaced = text.replace(
+    regex,
+    REPLACED_START + substitute + REPLACED_END
+  )
+  resultText.textContent = ""
+  const parts = replaced.split(
+    new RegExp(`${REPLACED_START}([^${REPLACED_END}]*)${REPLACED_END}`)
+  )
+  // split の結果は「置換していない部分」と「置換した部分」が交互に並ぶ
+  parts.forEach((part, i) => {
+    if (i % 2 === 0) {
+      resultText.append(part)
+    } else {
+      const ins = document.createElement("ins")
+      ins.textContent = part
+      resultText.append(ins)
+    }
+  })
 }
 
 function markTextRange(node, start, end) {

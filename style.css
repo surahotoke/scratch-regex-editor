@@ -14,6 +14,7 @@
   --light-result-bg: #f8fafc;
   --muted: #b8c3d2;
   --accent: orange;
+  --replace-accent: lightgreen;
   --light-brightness: 0.8;
   --dark-brightness: 3;
   --brightness: var(--light-brightness);
@@ -295,10 +296,16 @@ h2 {
   border: solid 1px #e5e7eb;
 }
 
-mark {
+mark,
+ins {
   padding-inline: 0.05em;
   margin-inline: 0.07em;
   background-color: var(--accent);
+}
+ins {
+  background-color: var(--replace-accent);
+  color: MarkText;
+  text-decoration: none;
 }
 .sp-mark,
 .tb-mark,

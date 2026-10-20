@@ -4,8 +4,8 @@
 - 機能
   - 正規表現の作成/コピー
   - 置換の作成/コピー
-  - マッチ
-  - 置換
+  - マッチ（ハイライト付き）
+  - 置換（ハイライト付き）
   - データの保存/読み込み
   - 各ブロックの軽い説明
   - スマホでも操作可能（Scratchを参考にした）
@@ -30,8 +30,8 @@ Create regular expressions with a Scratch-style visual editor.
 - Features
   - Create/copy regex
   - Create/copy replacement strings
-  - Match
-  - Replace
+  - Match (with highlighting)
+  - Replace (with highlighting)
   - Save/load data
   - Short explanations for each block
   - Usable on mobile (inspired by Scratch)
