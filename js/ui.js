@@ -482,9 +482,7 @@ function evaluateRegex() {
       }
     } else {
       // 置換する場合は置換して表示し、置換した部分をハイライト
-      const substitute = JSON.parse(
-        JSON.stringify(regexJson.substitute).replaceAll("\\\\", "\\"),
-      )
+      const substitute = unescapeLikeString(regexJson.substitute)
       showReplaced(resultText.textContent, regex, substitute)
     }
     // 空白文字を可視化
@@ -492,6 +490,21 @@ function evaluateRegex() {
   } catch (e) {
     resultText.textContent = e.message
   }
+}
+
+// JS の文字列リテラルと同じルールでエスケープを解釈する関数
+// （置換文字列はコードの中で "..." として書くので、\t や \n はタブや改行、\. のような意味のないエスケープは文字そのものになる）
+function unescapeLikeString(str) {
+  const simpleEscapes = { n: "\n", t: "\t", r: "\r", v: "\v", f: "\f", b: "\b", 0: "\0" }
+  return str.replace(
+    /\\(?:x([0-9a-fA-F]{2})|u\{([0-9a-fA-F]+)\}|u([0-9a-fA-F]{4})|([\s\S]))/g,
+    (_, hex, codePoint, unicode, char) => {
+      if (hex) return String.fromCharCode(parseInt(hex, 16))
+      if (codePoint) return String.fromCodePoint(parseInt(codePoint, 16))
+      if (unicode) return String.fromCharCode(parseInt(unicode, 16))
+      return simpleEscapes[char] ?? char
+    }
+  )
 }
 
 // 置換した部分の目印（普通の文章に出てこない Unicode の非文字を使う）
