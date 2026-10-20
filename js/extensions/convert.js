@@ -1,5 +1,5 @@
 // テキストとブロックの相互変換（右クリックメニュー）
-import { RegExpParser } from "https://unpkg.com/@eslint-community/regexpp@4.12.1/index.mjs"
+import { RegExpParser } from "https://unpkg.com/@eslint-community/regexpp@4/index.mjs"
 import { regexGenerator } from "../generator.js"
 
 const parser = new RegExpParser()
