@@ -12,12 +12,15 @@
   - テーマ（自動/ライト/ダーク）の切り替え
   - 3つのサンプル
   - 右クリックでテキストとブロックの相互変換（ブロック化/テキスト化）
+  - 右クリックで連結ブロックの中身をまとめる/まとめを解除
 
 - 今後やること
   - `ui.js`の整理・分離
 
 リンク：https://surahotoke.github.io/scratch-regex-editor/
 
+## ライセンス
+[MIT License](LICENSE)
 
 ---
 
@@ -35,8 +38,12 @@ Create regular expressions with a Scratch-style visual editor.
   - Theme switching (auto / light / dark)
   - 3 sample patterns included
   - Convert between text and blocks from the right-click menu
+  - Group/ungroup items in join blocks from the right-click menu
 
 - Future Work
   - Refactor/separate `ui.js`
 
 Demo: https://surahotoke.github.io/scratch-regex-editor/
+
+## License
+[MIT License](LICENSE)
