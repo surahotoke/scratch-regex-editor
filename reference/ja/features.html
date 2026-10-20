@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>機能紹介 - Scratch風Regexエディター</title>
+  <link rel="stylesheet" href="../reference.css">
+</head>
+
+<body>
+  <header>
+    <h1>機能紹介</h1>
+    <nav>
+      <a href="../../index.html">エディターに戻る</a>
+      <a href="blocks.html">ブロック一覧</a>
+      <a href="../en/features.html" hreflang="en" lang="en">English</a>
+    </nav>
+  </header>
+
+  <main>
+    <ul class="toc">
+      <li><a href="#cat-screen">画面の見方</a></li>
+      <li><a href="#cat-result">結果の表示</a></li>
+      <li><a href="#cat-menu">右クリックメニュー</a></li>
+      <li><a href="#cat-blocks">ブロックの操作</a></li>
+      <li><a href="#cat-file">ファイル</a></li>
+      <li><a href="#cat-sample">サンプル</a></li>
+      <li><a href="#cat-setting">設定</a></li>
+      <li><a href="#cat-other">その他</a></li>
+    </ul>
+
+    <!-- 画面の見方 -->
+    <h2 id="cat-screen">画面の見方</h2>
+    <p>
+      左側でブロックを組み立てると、右側に正規表現と、対象テキストに使った結果が表示されます。
+    </p>
+    <img class="screenshot" src="../images/features/ja/overview.png" srcset="../images/features/ja/overview.png 2x" alt="エディターの画面全体">
+
+    <section class="block" id="workspace">
+      <div class="block-head">
+        <h3>ワークスペースとツールボックス</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>画面の左側</p>
+      <p>
+        左端のツールボックスからブロックをドラッグして、ワークスペースに置きます。
+        ワークスペースには最初から<a href="blocks.html#root">ルート</a>のブロックがあり、そこにつないだブロックから正規表現が作られます。
+        ツールボックスのカテゴリ名をクリックすると、そのカテゴリのブロックまで移動します。
+      </p>
+    </section>
+
+    <section class="block" id="panel">
+      <div class="block-head">
+        <h3>正規表現パターン・置換文字列・対象テキスト・結果</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>画面の右側</p>
+      <ul>
+        <li>正規表現パターン：組み立てた正規表現が <code>/パターン/フラグ</code> の形で表示されます</li>
+        <li>置換文字列：ルートの置換の欄につないだブロックから作られた置換文字列が表示されます</li>
+        <li>対象テキスト：正規表現を試したいテキストを入力します</li>
+        <li>結果：対象テキストに正規表現を使った結果が表示されます（<a href="#cat-result">結果の表示</a>）</li>
+      </ul>
+      <p>ブロックや対象テキストを変えると、すぐに表示が更新されます。</p>
+    </section>
+
+    <!-- 結果の表示 -->
+    <h2 id="cat-result">結果の表示</h2>
+    <p>
+      結果欄は、ルートの置換の欄が「置換しない」のままならマッチの表示、置換のブロックをつなぐと置換の表示になります。
+    </p>
+
+    <section class="block" id="match-highlight">
+      <div class="block-head">
+        <h3>マッチのハイライト</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>結果（置換の欄が「置換しない」のとき）</p>
+      <img class="screenshot" src="../images/features/ja/match.png" srcset="../images/features/ja/match.png 2x" alt="マッチした部分がオレンジで表示された結果欄">
+      <p>対象テキストのうち、正規表現にマッチした部分がオレンジで表示されます。</p>
+      <h4>使用例</h4>
+      <ul>
+        <li><code>\d+</code> → <code>a<mark>1</mark> b<mark>22</mark></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="replace-highlight">
+      <div class="block-head">
+        <h3>置換のハイライト</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>結果（置換の欄にブロックをつないだとき）</p>
+      <img class="screenshot" src="../images/features/ja/replace.png" srcset="../images/features/ja/replace.png 2x" alt="置き換わった部分が緑で表示された結果欄">
+      <p>置換した結果が表示され、置き換わった部分が緑で表示されます。</p>
+      <h4>使用例</h4>
+      <ul>
+        <li>正規表現 <code>\d+</code>、置換 <code>[$&amp;]</code> → <code>a<ins>[1]</ins> b<ins>[22]</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="whitespace">
+      <div class="block-head">
+        <h3>空白の可視化</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>結果</p>
+      <img class="screenshot" src="../images/features/ja/whitespace.png" srcset="../images/features/ja/whitespace.png 2x" alt="空白が記号で表示された結果欄">
+      <p>見えない空白の文字が、薄い記号で表示されます。</p>
+      <ul>
+        <li><code>␣</code>：半角スペース</li>
+        <li><code>□</code>：全角スペース</li>
+        <li><code>⇥</code>：タブ</li>
+        <li><code>⏎</code>：改行</li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>記号は表示のためだけのもので、結果欄をコピーしても入りません（元の空白の文字がコピーされます）。</p>
+      </div>
+    </section>
+
+    <section class="block" id="error">
+      <div class="block-head">
+        <h3>エラーの表示</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>結果</p>
+      <p>
+        正規表現として正しくない形（閉じていない <code>(</code> など）になっているときは、結果欄にエラーの内容が表示されます。
+      </p>
+    </section>
+
+    <!-- 右クリックメニュー -->
+    <h2 id="cat-menu">右クリックメニュー</h2>
+    <p>
+      ブロックを右クリック（スマホでは長押し）すると、そのブロックに使える操作のメニューが開きます。
+      使えない操作は薄く表示されます。
+      右端に <code>?</code> の付いた項目は、<code>?</code> を押すと、このページのその機能の説明が新しいタブで開きます。
+    </p>
+
+    <section class="block" id="blockify">
+      <div class="block-head">
+        <h3>ブロック化・テキスト化</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>ブロックを右クリック → 「ブロック化」「テキスト化」</p>
+      <div class="screenshots">
+        <figure><img class="screenshot" src="../images/features/ja/menu-blockify.png" srcset="../images/features/ja/menu-blockify.png 2x" alt="ルートの右クリックメニュー（ブロック化・テキスト化）"><figcaption>右クリックメニュー</figcaption></figure>
+        <figure><img class="screenshot" src="../images/features/ja/after-blockify.png" srcset="../images/features/ja/after-blockify.png 2x" alt="^[a-f]+$ をブロック化したあとのルート"><figcaption>ブロック化したあと</figcaption></figure>
+      </div>
+      <p>テキストで書いた正規表現とブロックを、相互に変換します。</p>
+      <ul>
+        <li>
+          ブロック化：<a href="blocks.html#chars_input">文字</a>のブロックや、ルートの正規表現の欄に書いた正規表現を、ブロックの組み合わせに変換します。
+          ルートを右クリックした場合は、正規表現の欄の中身が対象になります。
+        </li>
+        <li>
+          テキスト化：右クリックしたブロックと、その中に入っているブロックをまとめて、1つの文字のブロックに変換します。
+          ルートの正規表現の欄につながったブロックの場合は、ルートに直接書いた状態に戻ります。
+        </li>
+      </ul>
+      <p>どちらも、Ctrl+Z（Mac では ⌘+Z）1回で元に戻せます。</p>
+      <h4>使用例</h4>
+      <ul>
+        <li>ルートの正規表現の欄に <code>^[a-f]+$</code> と書いてブロック化 → 行頭・文字クラス・範囲・<code>+</code>・行末のブロックの組み合わせになる</li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <ul>
+          <li><code>[ ]</code> のブロックの中や、置換の欄にある文字のブロックは、単独ではブロック化できません（<code>[a-f]</code> ごとテキストで書けば変換できます）</li>
+          <li>テキスト化してからブロック化し直すと、外部入力などの見た目の設定は戻りません</li>
+          <li>対応するブロックがない書き方（<code>\x41</code> など）は、文字のブロックのまま残ります</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block" id="group-items">
+      <div class="block-head">
+        <h3>N個まとめる・まとめを解除</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>連結・選択・置換の連結の中にあるブロックを右クリック → 「2個まとめる」〜「5個まとめる」「6個以上まとめる…」「まとめを解除」</p>
+      <div class="screenshots">
+        <figure><img class="screenshot" src="../images/features/ja/menu-group.png" srcset="../images/features/ja/menu-group.png 2x" alt="連結の中のブロックの右クリックメニュー（N個まとめる）"><figcaption>右クリックメニュー</figcaption></figure>
+        <figure><img class="screenshot" src="../images/features/common/after-group.png" srcset="../images/features/common/after-group.png 2x" alt="a から4個まとめたあとの連結"><figcaption>a から「4個まとめる」を選んだあと</figcaption></figure>
+      </div>
+      <p>
+        連結のブロックの中身を、ドラッグせずに組み直します。
+      </p>
+      <ul>
+        <li>N個まとめる：右クリックしたブロックから右に N 個を、同じ種類の新しいブロックの中にまとめます</li>
+        <li>6個以上まとめる…：まとめる個数を入力して、まとめます</li>
+        <li>まとめを解除：中に入っている同じ種類のブロックを、外のブロックの同じ位置に展開します</li>
+      </ul>
+      <p>
+        まとめても、作られる正規表現は変わりません。
+        <a href="#inputs">外部入力・インライン入力</a>と組み合わせると、長く複雑な正規表現を、意味のまとまりごとに整理して見やすくできます。
+      </p>
+      <h4>使用例</h4>
+      <ul>
+        <li>「a」〜「h」の連結で、a を右クリック → 「4個まとめる」 → 「（a b c d）」「e」「f」「g」「h」になる</li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>文字クラス <code>[ ]</code> の中では使えません（<code>[ ]</code> の中に <code>[ ]</code> を入れると、別の意味になるため）。</p>
+      </div>
+    </section>
+
+    <section class="block" id="inputs">
+      <div class="block-head">
+        <h3>外部入力・インライン入力</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>入力欄が複数あるブロックを右クリック → 「外部入力」「インライン入力」</p>
+      <div class="screenshots">
+        <figure><img class="screenshot" src="../images/features/common/inputs-inline.png" srcset="../images/features/common/inputs-inline.png 2x" alt="インライン入力の連結ブロック"><figcaption>インライン入力</figcaption></figure>
+        <figure><img class="screenshot" src="../images/features/common/inputs-external.png" srcset="../images/features/common/inputs-external.png 2x" alt="外部入力の連結ブロック"><figcaption>外部入力</figcaption></figure>
+      </div>
+      <p>
+        ブロックの入力欄の並べ方を切り替えます。「外部入力」で入力欄が縦に並び、「インライン入力」で横1列に戻ります。
+        連結や選択の中身が長くなったときに使うと見やすくなります。作られる正規表現は変わりません。
+      </p>
+    </section>
+
+    <section class="block" id="help">
+      <div class="block-head">
+        <h3>ヘルプ</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>ブロックを右クリック → 「ヘルプ」</p>
+      <p><a href="blocks.html">ブロック一覧</a>の、そのブロックの説明が開きます。</p>
+    </section>
+
+    <!-- ブロックの操作 -->
+    <h2 id="cat-blocks">ブロックの操作</h2>
+    <p>
+      ブロックの基本的な操作は Scratch と同じです。スマホでも、タップとドラッグで同じように操作できます。
+    </p>
+
+    <section class="block" id="basic">
+      <div class="block-head">
+        <h3>基本の操作</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>ワークスペース</p>
+      <ul>
+        <li>つなぐ：ブロックを、ほかのブロックの入力欄（くぼみ）までドラッグします</li>
+        <li>外す：つながっているブロックを、外へドラッグします</li>
+        <li>削除：ブロックをツールボックスかゴミ箱へドラッグするか、選んで Delete キーを押します</li>
+        <li>複製：右クリック → 「複製」。Ctrl+C / Ctrl+V（Mac では ⌘+C / ⌘+V）でも複製できます</li>
+        <li>取り消す・やり直す：Ctrl+Z / Ctrl+Shift+Z（Mac では ⌘+Z / ⌘+Shift+Z）。ワークスペースの何もないところを右クリックしても選べます</li>
+        <li>整理する：ワークスペースの何もないところを右クリック → 「ブロックを整理する」</li>
+        <li>拡大・縮小：右下の <code>+</code> <code>-</code> ボタン</li>
+      </ul>
+    </section>
+
+    <section class="block" id="mutator">
+      <div class="block-head">
+        <h3>入力欄の数を変える</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>歯車のアイコンが付いたブロック（連結・選択・文字クラス・置換の連結）の歯車をクリック</p>
+      <img class="screenshot" src="../images/features/ja/mutator.png" srcset="../images/features/ja/mutator.png 2x" alt="歯車を開いた編集画面">
+      <p>
+        小さな編集画面が開きます。中の「要素」のブロックを足したり外したりすると、入力欄の数が変わります。
+        「要素」の並びを入れ替えると、入力欄の順番も入れ替わります。
+      </p>
+    </section>
+
+    <section class="block" id="group-name">
+      <div class="block-head">
+        <h3>グループ名の作成・変更・削除</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>名前付きグループ・名前付き後方参照・置換の名前付きグループの参照のドロップダウン</p>
+      <img class="screenshot" src="../images/features/ja/group-name.png" srcset="../images/features/ja/group-name.png 2x" alt="グループ名のドロップダウン">
+      <ul>
+        <li>作成：「グループ名を作成…」を選び、名前を入力します</li>
+        <li>変更：「グループの名前を変える…」を選びます。同じ名前を使っているブロックの名前もまとめて変わります</li>
+        <li>削除：「グループ '名前' を削除」を選びます。その名前を使っているブロックも削除されます</li>
+      </ul>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>名前は英字で始まり、英数字と <code>_</code> だけが使えます。すでにある名前と同じ名前は付けられません。</p>
+      </div>
+    </section>
+
+    <!-- ファイル -->
+    <h2 id="cat-file">ファイル</h2>
+    <p>
+      上のメニューの「ファイル」から使います。作った正規表現を、ファイルとして保存したり読み込んだりできます。
+    </p>
+    <img class="screenshot" src="../images/features/ja/menu-file.png" srcset="../images/features/ja/menu-file.png 2x" alt="ファイルのメニュー">
+
+    <section class="block" id="new-file">
+      <div class="block-head">
+        <h3>新規作成</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>ファイル → 「新規作成」</p>
+      <p>ワークスペースと対象テキストを空にして、最初の状態に戻します。</p>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>確認なしで消え、Ctrl+Z でも元に戻せません。残したい内容は、先に保存しておきます。</p>
+      </div>
+    </section>
+
+    <section class="block" id="save">
+      <div class="block-head">
+        <h3>保存</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>ファイル → 「コンピューターに保存する」</p>
+      <p>
+        ワークスペースのブロックと対象テキストを、<code>regex_workspace.json</code> という JSON ファイルとしてダウンロードします。
+      </p>
+    </section>
+
+    <section class="block" id="load">
+      <div class="block-head">
+        <h3>読み込み</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>ファイル → 「コンピューターから読み込む」</p>
+      <p>保存した JSON ファイルを選ぶと、ブロックと対象テキストが保存したときの状態に戻ります。</p>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>今のワークスペースの内容は、読み込んだ内容に置き換わります。</p>
+      </div>
+    </section>
+
+    <!-- サンプル -->
+    <h2 id="cat-sample">サンプル</h2>
+    <p>
+      上のメニューの「サンプル」から、例を読み込めます。読み込んだあとにブロックを変えて、結果がどう変わるか試せます。
+    </p>
+    <img class="screenshot" src="../images/features/ja/menu-sample.png" srcset="../images/features/ja/menu-sample.png 2x" alt="サンプルのメニュー">
+    <div class="caution">
+      <h4>注意</h4>
+      <p>今のワークスペースの内容は、サンプルの内容に置き換わります。</p>
+    </div>
+
+    <section class="block" id="sample-date">
+      <div class="block-head">
+        <h3>日付検出</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>サンプル → 「日付検出」</p>
+      <p>
+        <code>2025-08-20 14:21:03</code> のような日時を、グループで年・月・日・時・分に分けて取り出し、置換で <code>2025/08/20⇥14:21</code> の形に並べ替える例です。
+      </p>
+    </section>
+
+    <section class="block" id="sample-url">
+      <div class="block-head">
+        <h3>URL</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>サンプル → 「URL」</p>
+      <p>URL からドメインとパスを名前付きグループで取り出し、置換で「ドメイン→パス」の形にする例です。</p>
+    </section>
+
+    <section class="block" id="sample-html">
+      <div class="block-head">
+        <h3>HTML</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>サンプル → 「HTML」</p>
+      <p>
+        <code>&lt;.+?&gt;</code> で HTML のタグだけを削除する例です。
+        <code>+</code> のブロックの <code>?</code> を外すと、全部が消えてしまうことを確かめられます（<a href="blocks.html#star_plus">最短一致</a>）。
+      </p>
+    </section>
+
+    <section class="block" id="sample-num">
+      <div class="block-head">
+        <h3>数字区切り</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>サンプル → 「数字区切り」</p>
+      <p>
+        後読みと先読みで「数字と数字の間」の位置にマッチして、<code>1340</code> を <code>1, 3, 4, 0</code> のように1文字ずつ区切る例です。
+      </p>
+    </section>
+
+    <!-- 設定 -->
+    <h2 id="cat-setting">設定</h2>
+    <p>上のメニューの「設定」から使います。</p>
+    <img class="screenshot" src="../images/features/ja/menu-setting.png" srcset="../images/features/ja/menu-setting.png 2x" alt="設定のメニュー（テーマ）">
+    <div class="caution">
+      <h4>注意</h4>
+      <p>設定は保存されないので、ページを開き直すと元に戻ります。</p>
+    </div>
+
+    <section class="block" id="theme">
+      <div class="block-head">
+        <h3>テーマ</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>設定 → 「テーマ」</p>
+      <ul>
+        <li>自動：使っている端末の設定に合わせて、ライトとダークを切り替えます</li>
+        <li>ライト：明るい色で表示します</li>
+        <li>ダーク：暗い色で表示します</li>
+      </ul>
+    </section>
+
+    <section class="block" id="language">
+      <div class="block-head">
+        <h3>言語</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>設定 → 「言語」</p>
+      <p>
+        画面とブロックの表示の言語を切り替えます。日本語、English、简体中文、Español、한국어、हिंदी から選べます。
+        最初はブラウザの言語に合わせて選ばれます（対応していない言語のときは English）。
+      </p>
+    </section>
+
+    <!-- その他 -->
+    <h2 id="cat-other">その他</h2>
+
+    <section class="block" id="reference">
+      <div class="block-head">
+        <h3>リファレンスを開く</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>ヘルプ → 「ブロック一覧」「機能紹介」</p>
+      <img class="screenshot" src="../images/features/ja/menu-help.png" srcset="../images/features/ja/menu-help.png 2x" alt="ヘルプのメニュー">
+      <p>
+        <a href="blocks.html">ブロック一覧</a>と、このページ（機能紹介）を新しいタブで開きます。
+        作りかけのブロックはそのまま残ります。
+      </p>
+      <div class="caution">
+        <h4>注意</h4>
+        <p>リファレンスは日本語と英語があり、エディターで選んでいる言語のページが開きます（日本語以外の言語では英語のページ）。</p>
+      </div>
+    </section>
+
+    <section class="block" id="copy">
+      <div class="block-head">
+        <h3>コピー</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>正規表現パターン・置換文字列の右のボタン</p>
+      <p>
+        正規表現パターン（<code>/パターン/フラグ</code> の形）や置換文字列を、クリップボードにコピーします。
+        自分のプログラムに貼り付けて使えます。
+      </p>
+    </section>
+
+    <section class="block" id="tab-input">
+      <div class="block-head">
+        <h3>対象テキストでのタブ入力</h3>
+      </div>
+      <p class="where"><span class="where-label">場所</span>対象テキスト</p>
+      <p>
+        対象テキストの欄で Tab キーを押すと、ほかの欄に移らずに、タブ文字が入力されます。
+        タブ区切りのデータなどを試すときに使えます。
+      </p>
+    </section>
+  </main>
+</body>
+
+</html>

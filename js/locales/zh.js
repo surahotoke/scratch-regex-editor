@@ -16,8 +16,8 @@ const ui = {
   sampleDate: "日期检测",
   sampleNum: "数字分隔",
   help: "帮助",
-  helpBlocks: "积木列表（日语）",
-  helpFeatures: "功能介绍（日语）",
+  helpBlocks: "积木列表（英语）",
+  helpFeatures: "功能介绍（英语）",
   regex: "正则表达式模式",
   copy: "复制",
   replace: "替换字符串",
@@ -34,7 +34,9 @@ const REPEAT_NOTE =
 const blockly = {
   DUPLICATE_BLOCK: "复制",
   EXTERNAL_INPUTS: "外部输入",
+  INLINE_INPUTS: "单行输入",
   DELETE_BLOCK: "删除块",
+  DELETE_KEY: "Delete",
   UNDO: "撤销",
   REDO: "重做",
   CLEAN_UP: "整理块",
@@ -74,7 +76,8 @@ const blockly = {
   CHAR_CLASS_RANGE_TOOLTIP:
     "范围(例: a-z)。两端必须为单个字符，仅在字符类中使用。",
   JOIN_TOOLTIP: "按顺序连接多个元素。",
-  CHOICE_TOOLTIP: "从多个元素中匹配一个。按从左到右检查。" +
+  CHOICE_TOOLTIP:
+    "从多个元素中匹配一个。按从左到右检查。" +
     "\n与其他积木连接时请用(?:)包起来。",
   MUTATOR_CONTAINER_TOOLTIP: "块的输入槽数量。",
   MUTATOR_ITEM_MESSAGE0: "元素",
@@ -87,8 +90,10 @@ const blockly = {
     "对分组的后向引用。选择组号。注意：包括普通组和命名组。",
   BACKREFERENCE_NAMED_TOOLTIP: "命名组的后向引用",
   QUESTION_TOOLTIP:
-    "可选（尽量匹配1次，否则为0）。加?表示尽量少匹配。例：/^a??a/ 应用于 'aa'。" + REPEAT_NOTE,
-  STAR_PLUS_TOOLTIP: "* = 0次或更多, + = 1次或更多。加?表示尽量少。" + REPEAT_NOTE,
+    "可选（尽量匹配1次，否则为0）。加?表示尽量少匹配。例：/^a??a/ 应用于 'aa'。" +
+    REPEAT_NOTE,
+  STAR_PLUS_TOOLTIP:
+    "* = 0次或更多, + = 1次或更多。加?表示尽量少。" + REPEAT_NOTE,
   QUANTIT_EXACT_TOOLTIP: "恰好重复N次 {N}" + REPEAT_NOTE,
   QUANTIT_MIN_TOOLTIP: "至少重复N次 {N,}。加?表示尽量少。" + REPEAT_NOTE,
   QUANTIT_RANGE_TOOLTIP: "重复N~M次 {N,M}。加?表示尽量少。" + REPEAT_NOTE,
@@ -109,6 +114,7 @@ const blockly = {
   GROUP_ITEMS_PROMPT: "要合并的个数（2〜%1）",
   GROUP_ITEMS_INVALID: "请输入2〜%1之间的整数",
   UNGROUP_ITEMS: "取消合并",
+  REFERENCE_DIR: "en",
 }
 
 // 自定义消息和错误文本

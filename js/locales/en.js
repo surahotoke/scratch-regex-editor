@@ -16,8 +16,8 @@ const ui = {
   sampleDate: "Date Detection",
   sampleNum: "Number Separator",
   help: "Help",
-  helpBlocks: "Block Reference (Japanese)",
-  helpFeatures: "Features (Japanese)",
+  helpBlocks: "Block Reference",
+  helpFeatures: "Features",
   regex: "Regular Expression Pattern",
   copy: "Copy",
   replace: "Replacement String",
@@ -34,7 +34,9 @@ const REPEAT_NOTE =
 const blockly = {
   DUPLICATE_BLOCK: "Duplicate",
   EXTERNAL_INPUTS: "External Inputs",
+  INLINE_INPUTS: "Inline Inputs",
   DELETE_BLOCK: "Delete Block",
+  DELETE_KEY: "Delete",
   UNDO: "Undo",
   REDO: "Redo",
   CLEAN_UP: "Clean up Blocks",
@@ -66,7 +68,8 @@ const blockly = {
   DOT_TOOLTIP:
     "Any single character except newline. Not usable inside a character class.",
   DW_TOOLTIP: "Digits [0-9], letters, and underscore [a-zA-Z0-9_]",
-  S_TOOLTIP: "Whitespace: space, full-width space, tab, newline, etc. [ \\t\\n\\u3000]",
+  S_TOOLTIP:
+    "Whitespace: space, full-width space, tab, newline, etc. [ \\t\\n\\u3000]",
   UNICODE_PROPERTY_TOOLTIP:
     "Unicode property. For example: P = punctuation, S = symbol, Script=Hiragana (hiragana), Han (Chinese characters).\n" +
     "Right-click → Help for more details.",
@@ -80,7 +83,8 @@ const blockly = {
   CHAR_CLASS_RANGE_TOOLTIP:
     "Range (e.g., a-z). Both ends must be a single character. Only works inside a character class.",
   JOIN_TOOLTIP: "Put multiple elements together in order.",
-  CHOICE_TOOLTIP: "Match one of several elements. Checked from left to right." +
+  CHOICE_TOOLTIP:
+    "Match one of several elements. Checked from left to right." +
     "\nWrap in (?:) when joining with other blocks.",
   MUTATOR_CONTAINER_TOOLTIP: "Number of input slots of the block.",
   MUTATOR_ITEM_MESSAGE0: "element",
@@ -95,15 +99,19 @@ const blockly = {
   BACKREFERENCE_NAMED_TOOLTIP: "Backreference to a named group",
   QUESTION_TOOLTIP:
     "Optional (match once if possible, or none). With ? it tries to match less.\n" +
-    "Example: /^a??a/ applied to 'aa'." + REPEAT_NOTE,
+    "Example: /^a??a/ applied to 'aa'." +
+    REPEAT_NOTE,
   STAR_PLUS_TOOLTIP:
     "Repeat many times: * = 0 or more, + = 1 or more.\n" +
-    "With ? it tries to repeat less." + REPEAT_NOTE,
+    "With ? it tries to repeat less." +
+    REPEAT_NOTE,
   QUANTIT_EXACT_TOOLTIP: "Repeat exactly N times {N}" + REPEAT_NOTE,
   QUANTIT_MIN_TOOLTIP:
-    "Repeat at least N times {N,}. With ? it tries to repeat less." + REPEAT_NOTE,
+    "Repeat at least N times {N,}. With ? it tries to repeat less." +
+    REPEAT_NOTE,
   QUANTIT_RANGE_TOOLTIP:
-    "Repeat between N and M times {N,M}. With ? it tries to repeat less." + REPEAT_NOTE,
+    "Repeat between N and M times {N,M}. With ? it tries to repeat less." +
+    REPEAT_NOTE,
   NO_SUBSTITUTE_MESSAGE0: "No replacement",
   NO_SUBSTITUTE_TOOLTIP: "Only match, do not replace.",
   SUBSTITUTE_JOIN_TOOLTIP:
@@ -124,6 +132,7 @@ const blockly = {
   GROUP_ITEMS_PROMPT: "Number of items to group (2–%1)",
   GROUP_ITEMS_INVALID: "Enter a whole number from 2 to %1",
   UNGROUP_ITEMS: "Ungroup",
+  REFERENCE_DIR: "en",
 }
 
 // Custom messages and error texts

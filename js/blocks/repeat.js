@@ -18,7 +18,7 @@ Blockly.defineBlocksWithJsonArray([
     style: "repeat",
     tooltip:
       "%{BKY_QUESTION_TOOLTIP}",
-    helpUrl: "reference/blocks.html#question",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#question",
   },
   {
     type: "star_plus",
@@ -46,7 +46,7 @@ Blockly.defineBlocksWithJsonArray([
     style: "repeat",
     tooltip:
       "%{BKY_STAR_PLUS_TOOLTIP}",
-    helpUrl: "reference/blocks.html#star_plus",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#star_plus",
   },
   {
     type: "quantit_exact",
@@ -58,7 +58,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "repeat",
     tooltip: "%{BKY_QUANTIT_EXACT_TOOLTIP}",
-    helpUrl: "reference/blocks.html#quantit_exact",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#quantit_exact",
   },
   {
     type: "quantit_min",
@@ -78,7 +78,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "repeat",
     tooltip: "%{BKY_QUANTIT_MIN_TOOLTIP}",
-    helpUrl: "reference/blocks.html#quantit_min",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#quantit_min",
   },
   {
     type: "quantit_range",
@@ -111,7 +111,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "repeat",
     tooltip: "%{BKY_QUANTIT_RANGE_TOOLTIP}",
-    helpUrl: "reference/blocks.html#quantit_range",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#quantit_range",
     extensions: ["validate_count_range"],
   },
 ])

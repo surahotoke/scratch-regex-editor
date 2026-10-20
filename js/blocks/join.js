@@ -11,7 +11,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "join",
     tooltip: "%{BKY_JOIN_TOOLTIP}",
-    helpUrl: "reference/blocks.html#join",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#join",
     mutator: "join_mutator",
   },
   {
@@ -25,7 +25,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "join",
     tooltip: "%{BKY_CHOICE_TOOLTIP}",
-    helpUrl: "reference/blocks.html#choice",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#choice",
     mutator: "choice_mutator",
   },
 ])

@@ -9,9 +9,9 @@
   - 空白文字（半角・全角スペース、タブ、改行）の可視化
   - データの保存/読み込み
   - 各ブロックの軽い説明
-  - ヘルプページ（上のメニューの「ヘルプ」、またはブロックの右クリック → 「ヘルプ」から開けます）
-    - [ブロック一覧](https://surahotoke.github.io/scratch-regex-editor/reference/blocks.html)：全ブロックの説明と使用例
-    - [機能紹介](https://surahotoke.github.io/scratch-regex-editor/reference/features.html)：画面の見方や、右クリックメニューなどの機能の使い方
+  - ヘルプページ（日本語・英語。上のメニューの「ヘルプ」、またはブロックの右クリック → 「ヘルプ」から開けます）
+    - [ブロック一覧](https://surahotoke.github.io/scratch-regex-editor/reference/ja/blocks.html)：全ブロックの説明と使用例
+    - [機能紹介](https://surahotoke.github.io/scratch-regex-editor/reference/ja/features.html)：画面の見方や、右クリックメニューなどの機能の使い方
   - スマホでも操作可能（Scratchを参考にした）
   - テーマ（自動/ライト/ダーク）の切り替え
   - 4つのサンプル
@@ -40,9 +40,9 @@ Create regular expressions with a Scratch-style visual editor.
   - Visualize whitespace (half-/full-width spaces, tabs, newlines)
   - Save/load data
   - Short explanations for each block
-  - Help pages, in Japanese (open from "Help" in the top menu, or right-click a block → "Help")
-    - [Block Reference](https://surahotoke.github.io/scratch-regex-editor/reference/blocks.html): descriptions and examples for every block
-    - [Features](https://surahotoke.github.io/scratch-regex-editor/reference/features.html): how to use the screen, right-click menu, and other features
+  - Help pages (open from "Help" in the top menu, or right-click a block → "Help")
+    - [Block Reference](https://surahotoke.github.io/scratch-regex-editor/reference/en/blocks.html): descriptions and examples for every block
+    - [Features](https://surahotoke.github.io/scratch-regex-editor/reference/en/features.html): how to use the screen, right-click menu, and other features
   - Usable on mobile (inspired by Scratch)
   - Theme switching (auto / light / dark)
   - 4 sample patterns included

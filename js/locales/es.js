@@ -17,8 +17,8 @@ const ui = {
   sampleDate: "Detección de fecha",
   sampleNum: "Separador de números",
   help: "Ayuda",
-  helpBlocks: "Lista de bloques (japonés)",
-  helpFeatures: "Funciones (japonés)",
+  helpBlocks: "Lista de bloques (inglés)",
+  helpFeatures: "Funciones (inglés)",
   regex: "Patrón de expresión regular",
   copy: "Copiar",
   replace: "Cadena de reemplazo",
@@ -35,7 +35,9 @@ const REPEAT_NOTE =
 const blockly = {
   DUPLICATE_BLOCK: "Duplicar",
   EXTERNAL_INPUTS: "Entradas externas",
+  INLINE_INPUTS: "Entradas en línea",
   DELETE_BLOCK: "Eliminar bloque",
+  DELETE_KEY: "Delete",
   UNDO: "Deshacer",
   REDO: "Rehacer",
   CLEAN_UP: "Organizar bloques",
@@ -67,7 +69,8 @@ const blockly = {
   DOT_TOOLTIP:
     "Cualquier carácter excepto salto de línea. No se puede usar en clase de caracteres.",
   DW_TOOLTIP: "Dígitos [0-9], letras y guion bajo [a-zA-Z0-9_]",
-  S_TOOLTIP: "Espacio: espacio, espacio de ancho completo, tabulación, salto de línea, etc. [ \\t\\n\\u3000]",
+  S_TOOLTIP:
+    "Espacio: espacio, espacio de ancho completo, tabulación, salto de línea, etc. [ \\t\\n\\u3000]",
   UNICODE_PROPERTY_TOOLTIP:
     "Propiedades Unicode. Ej: P puntuación, S símbolos, Script=Hiragana, Han (chino). Más info: clic derecho → Ayuda.",
   TAB_TOOLTIP: "Carácter de tabulación. También en reemplazo.",
@@ -93,12 +96,16 @@ const blockly = {
     "Referencia hacia atrás a un grupo. Elige el número. Incluye normales y con nombre.",
   BACKREFERENCE_NAMED_TOOLTIP: "Referencia a grupo con nombre",
   QUESTION_TOOLTIP:
-    "Opcional (si es posible una vez, si no ninguna). Con ? intenta menos coincidencias." + REPEAT_NOTE,
+    "Opcional (si es posible una vez, si no ninguna). Con ? intenta menos coincidencias." +
+    REPEAT_NOTE,
   STAR_PLUS_TOOLTIP:
-    "* = 0 o más, + = 1 o más. Con ? intenta menos coincidencias." + REPEAT_NOTE,
+    "* = 0 o más, + = 1 o más. Con ? intenta menos coincidencias." +
+    REPEAT_NOTE,
   QUANTIT_EXACT_TOOLTIP: "Exactamente N repeticiones {N}" + REPEAT_NOTE,
-  QUANTIT_MIN_TOOLTIP: "Al menos N repeticiones {N,}. Con ? menos." + REPEAT_NOTE,
-  QUANTIT_RANGE_TOOLTIP: "Entre N y M repeticiones {N,M}. Con ? menos." + REPEAT_NOTE,
+  QUANTIT_MIN_TOOLTIP:
+    "Al menos N repeticiones {N,}. Con ? menos." + REPEAT_NOTE,
+  QUANTIT_RANGE_TOOLTIP:
+    "Entre N y M repeticiones {N,M}. Con ? menos." + REPEAT_NOTE,
   NO_SUBSTITUTE_MESSAGE0: "Sin reemplazo",
   NO_SUBSTITUTE_TOOLTIP: "Solo coincidir, no reemplazar.",
   SUBSTITUTE_JOIN_TOOLTIP:
@@ -118,6 +125,7 @@ const blockly = {
   GROUP_ITEMS_PROMPT: "Número de elementos a agrupar (2–%1)",
   GROUP_ITEMS_INVALID: "Introduce un número entero entre 2 y %1",
   UNGROUP_ITEMS: "Desagrupar",
+  REFERENCE_DIR: "en",
 }
 
 // Mensajes personalizados y textos de error

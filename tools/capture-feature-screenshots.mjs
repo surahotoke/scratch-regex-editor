@@ -1,100 +1,14 @@
-// 機能紹介（reference/features.html）の画面のスクリーンショットを撮る（開発用）
-// 使い方: node tools/capture-feature-screenshots.mjs
-// Chrome をヘッドレスで起動し、DevTools Protocol で操作して reference/images/features/ に PNG を保存する
-import { spawn } from "node:child_process"
-import http from "node:http"
+// 機能紹介（reference/<言語>/features.html）の画面のスクリーンショットを撮る（開発用）
+// 使い方: node tools/capture-feature-screenshots.mjs [--lang ja|en] [撮るものの名前...]
+// Chrome をヘッドレスで起動し、DevTools Protocol で操作して reference/images/features/<言語>/ に PNG を保存する
+// 言語によらない画像（COMMON_SHOTS）は reference/images/features/common/ に、最初の言語のときに1度だけ保存する
+// （--lang を省略すると全言語、名前を省略すると全部撮る）
 import fs from "node:fs/promises"
-import os from "node:os"
 import path from "node:path"
-import { fileURLToPath } from "node:url"
+import { ROOT, parseArgs, startServer, startChrome } from "./chrome.mjs"
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
-const OUT_DIR = path.join(ROOT, "reference/images/features")
-const CHROME =
-  process.env.CHROME ??
-  "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 // 画面の大きさと倍率（高解像度の画面でもにじまないように2倍）
 const VIEWPORT = { width: 1280, height: 800, deviceScaleFactor: 2 }
-
-const MIME = {
-  ".html": "text/html",
-  ".js": "text/javascript",
-  ".mjs": "text/javascript",
-  ".css": "text/css",
-  ".json": "application/json",
-  ".png": "image/png",
-}
-
-/** リポジトリのファイルを配信するサーバー */
-function startServer() {
-  const server = http.createServer(async (req, res) => {
-    const urlPath = decodeURIComponent(new URL(req.url, "http://x").pathname)
-    const filePath = path.join(ROOT, urlPath.endsWith("/") ? urlPath + "index.html" : urlPath)
-    try {
-      const body = await fs.readFile(filePath)
-      res.writeHead(200, { "Content-Type": MIME[path.extname(filePath)] ?? "application/octet-stream" })
-      res.end(body)
-    } catch {
-      res.writeHead(404)
-      res.end()
-    }
-  })
-  return new Promise((resolve) => server.listen(0, "127.0.0.1", () => resolve(server)))
-}
-
-/** Chrome を起動して、ページに DevTools Protocol でつなぐ */
-async function startChrome() {
-  const userDataDir = await fs.mkdtemp(path.join(os.tmpdir(), "regex-editor-capture-"))
-  const chrome = spawn(CHROME, [
-    "--headless=new",
-    "--remote-debugging-port=0",
-    `--user-data-dir=${userDataDir}`,
-    "--no-first-run",
-    "--hide-scrollbars",
-    "--lang=ja",
-    "about:blank",
-  ])
-  const browserUrl = await new Promise((resolve, reject) => {
-    chrome.stderr.on("data", (data) => {
-      const match = String(data).match(/DevTools listening on (ws:\/\/\S+)/)
-      if (match) resolve(match[1])
-    })
-    chrome.on("exit", () => reject(new Error("Chrome が起動できませんでした")))
-  })
-  const port = new URL(browserUrl).port
-  const target = await fetch(`http://127.0.0.1:${port}/json/new?about:blank`, { method: "PUT" }).then((r) => r.json())
-  const socket = new WebSocket(target.webSocketDebuggerUrl)
-  await new Promise((resolve) => socket.addEventListener("open", resolve, { once: true }))
-
-  let nextId = 1
-  const pending = new Map()
-  const listeners = new Map()
-  socket.addEventListener("message", (event) => {
-    const message = JSON.parse(event.data)
-    if (message.id && pending.has(message.id)) {
-      const { resolve, reject } = pending.get(message.id)
-      pending.delete(message.id)
-      if (message.error) reject(new Error(message.error.message))
-      else resolve(message.result)
-    } else if (message.method && listeners.has(message.method)) {
-      listeners.get(message.method)(message.params)
-      listeners.delete(message.method)
-    }
-  })
-  const send = (method, params = {}) =>
-    new Promise((resolve, reject) => {
-      const id = nextId++
-      pending.set(id, { resolve, reject })
-      socket.send(JSON.stringify({ id, method, params }))
-    })
-  const once = (method) => new Promise((resolve) => listeners.set(method, resolve))
-  const close = async () => {
-    socket.close()
-    chrome.kill()
-    await fs.rm(userDataDir, { recursive: true, force: true }).catch(() => {})
-  }
-  return { send, once, close }
-}
 
 const PAGE_HELPERS = `
   window.__sleep = (ms) => new Promise((r) => setTimeout(r, ms))
@@ -158,7 +72,12 @@ const PAGE_HELPERS = `
     block.showContextMenu(new PointerEvent("contextmenu", { clientX: r.left + 20, clientY: r.bottom + 4 }))
   }
   window.__blocklyRect = () => document.querySelector(".blocklyMainBackground").getBoundingClientRect()
+  // 上のメニューのラベル（言語で文字が変わるので data-locale で探す）
+  window.__menuLabel = (key) => document.querySelector(\`.dropdown-label [data-locale="\${key}"]\`).closest(".dropdown-label")
 `
+
+// 文字が写らず、言語によらない画像（common に置く）
+const COMMON_SHOTS = ["after-group", "inputs-inline", "inputs-external"]
 
 // 撮るもの（setup はページの中で実行され、撮る範囲を返す）
 const SHOTS = {
@@ -233,22 +152,22 @@ const SHOTS = {
   `,
   // 上のメニュー（ファイル・サンプル・設定）
   "menu-file": `
-    const label = [...document.querySelectorAll(".dropdown-label")].find((e) => e.textContent.includes("ファイル"))
+    const label = __menuLabel("file")
     label.focus(); await __sleep(200)
     return __rectOf([label, label.nextElementSibling])
   `,
   "menu-sample": `
-    const label = [...document.querySelectorAll(".dropdown-label")].find((e) => e.textContent.includes("サンプル"))
+    const label = __menuLabel("sample")
     label.focus(); await __sleep(200)
     return __rectOf([label, label.nextElementSibling])
   `,
   "menu-help": `
-    const label = [...document.querySelectorAll(".dropdown-label")].find((e) => e.textContent.includes("ヘルプ"))
+    const label = __menuLabel("help")
     label.focus(); await __sleep(200)
     return __rectOf([label, label.nextElementSibling])
   `,
   "menu-setting": `
-    const label = [...document.querySelectorAll(".dropdown-label")].find((e) => e.textContent.includes("設定"))
+    const label = __menuLabel("setting")
     label.focus(); await __sleep(200)
     // テーマのメニューはフォーカスを移すと閉じてしまうので、撮影のときだけ CSS で開いた状態にする
     const themeMenu = document.querySelector("#auto-theme").closest(".side-dropdown-menu")
@@ -258,39 +177,37 @@ const SHOTS = {
   `,
 }
 
+const { langs, rest: only } = parseArgs(process.argv.slice(2))
 const server = await startServer()
-const { send, once, close } = await startChrome()
+const { send, open, evaluate, close } = await startChrome()
 try {
-  await fs.mkdir(OUT_DIR, { recursive: true })
-  await send("Page.enable")
   await send("Emulation.setDeviceMetricsOverride", { ...VIEWPORT, mobile: false })
   // ヘッドレスではページにフォーカスが当たらず、:focus で開く上のメニューが開かないので再現する
   await send("Emulation.setFocusEmulationEnabled", { enabled: true })
-  const only = process.argv.slice(2)
-  for (const [name, setup] of Object.entries(SHOTS)) {
-    if (only.length && !only.includes(name)) continue
-    const loaded = once("Page.loadEventFired")
-    await send("Page.navigate", { url: `http://127.0.0.1:${server.address().port}/index.html` })
-    await loaded
-    const { result, exceptionDetails } = await send("Runtime.evaluate", {
-      expression: `(async () => {
+  for (const [i, lang] of langs.entries()) {
+    for (const [name, setup] of Object.entries(SHOTS)) {
+      if (only.length && !only.includes(name)) continue
+      const isCommon = COMMON_SHOTS.includes(name)
+      if (isCommon && i > 0) continue
+      const dir = isCommon ? "common" : lang
+      const outDir = path.join(ROOT, "reference/images/features", dir)
+      await fs.mkdir(outDir, { recursive: true })
+      await open(`http://127.0.0.1:${server.address().port}/index.html`)
+      const clip = await evaluate(`(async () => {
         ${PAGE_HELPERS}
-        // 日本語・ライトテーマにそろえる
-        document.querySelector('label[data-lang="ja"] > input').click()
+        // 言語とライトテーマにそろえる
+        const langInput = document.querySelector('label[data-lang="${lang}"] > input')
+        if (!langInput.checked) langInput.click()
         document.querySelector("#light-theme > input").click()
         await __settle()
         ${setup}
-      })()`,
-      awaitPromise: true,
-      returnByValue: true,
-    })
-    if (exceptionDetails) throw new Error(`${name}: ${exceptionDetails.exception?.description ?? exceptionDetails.text}`)
-    const { data } = await send("Page.captureScreenshot", {
-      format: "png",
-      clip: { ...result.value, scale: 1 },
-    })
-    await fs.writeFile(path.join(OUT_DIR, `${name}.png`), Buffer.from(data, "base64"))
-    console.log(`保存しました: reference/images/features/${name}.png`)
+      })()`).catch((e) => {
+        throw new Error(`${lang}/${name}: ${e.message}`)
+      })
+      const { data } = await send("Page.captureScreenshot", { format: "png", clip: { ...clip, scale: 1 } })
+      await fs.writeFile(path.join(outDir, `${name}.png`), Buffer.from(data, "base64"))
+      console.log(`保存しました: reference/images/features/${dir}/${name}.png`)
+    }
   }
 } finally {
   await close()

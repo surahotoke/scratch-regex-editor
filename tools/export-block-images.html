@@ -44,14 +44,16 @@
 <body>
   <h1>ブロック画像の書き出し（開発用）</h1>
   <p>
-    全ブロックを背景透過の PNG（2倍解像度）で書き出します。
-    「フォルダに保存」で <code>reference/images/</code> を選ぶと、<code>&lt;type名&gt;.png</code> がまとめて書き込まれます（Chrome などのみ）。
+    全ブロックを背景透過の PNG（2倍解像度）で書き出します。言語は <code>?lang=en</code> のように指定します（省略すると日本語）。
+    「フォルダに保存」で選んだフォルダに、<code>&lt;type名&gt;.png</code> がまとめて書き込まれます（Chrome などのみ）。
+    リファレンスでは、<code>root.png</code> だけを <code>reference/images/blocks/&lt;言語&gt;/</code> に、それ以外を <code>reference/images/blocks/common/</code> に置きます。
+    <code>node tools/export-block-images.mjs</code> を使うと、全言語をまとめて書き出せます。
   </p>
   <button id="save-folder" disabled>フォルダに保存</button>
   <button id="save-each" disabled>1枚ずつダウンロード</button>
   <span id="status">描画中…</span>
-  <!-- js/extensions/validator.js が今の言語をこのラジオボタンから読むので、日本語を選んだ状態で置いておく -->
-  <label data-lang="ja" hidden><input type="radio" name="language" checked></label>
+  <!-- js/extensions/validator.js が今の言語をこのラジオボタンから読むので、選んだ言語で置いておく（data-lang は下で設定する） -->
+  <label id="language" hidden><input type="radio" name="language" checked></label>
   <div id="workspace"></div>
   <div id="preview"></div>
 
@@ -66,7 +68,6 @@
     import "../js/blocks/groups.js"
     import "../js/blocks/repeat.js"
     import "../js/blocks/substitute.js"
-    import ja from "../js/locales/ja.js"
 
     // 書き出すブロック（リファレンスに載せる順。ツールボックスのカテゴリ順の先頭に root を足したもの）
     // root の中の regex_input と no_substitute は、root の画像で見せるので書き出さない
@@ -92,7 +93,11 @@
       "dominant-baseline", "text-anchor", "visibility", "display",
     ]
 
-    Object.assign(Blockly.Msg, ja.blockly)
+    // 書き出す言語（?lang=en のように指定。省略すると日本語）
+    const lang = new URLSearchParams(location.search).get("lang") ?? "ja"
+    document.getElementById("language").dataset.lang = lang
+    const locale = (await import(`../js/locales/${lang}.js`)).default
+    Object.assign(Blockly.Msg, locale.blockly)
 
     // ブロックの色は js/ui.js の makeTheme と合わせる
     const theme = Blockly.Theme.defineTheme("exportTheme", {
@@ -214,7 +219,9 @@
     }
 
     const status = document.getElementById("status")
-    status.textContent = `${images.length}個のブロックを描画しました`
+    status.textContent = `${images.length}個のブロックを描画しました（${lang}）`
+    // tools/export-block-images.mjs が画像を受け取れるようにする
+    window.__exportedImages = images
     const saveFolderButton = document.getElementById("save-folder")
     const saveEachButton = document.getElementById("save-each")
     saveFolderButton.disabled = !window.showDirectoryPicker

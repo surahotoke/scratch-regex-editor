@@ -6,7 +6,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "substitute",
     style: "substituteShadow",
     tooltip: "%{BKY_NO_SUBSTITUTE_TOOLTIP}",
-    helpUrl: "reference/blocks.html#root",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#root",
   },
   {
     type: "substitute_join",
@@ -20,7 +20,7 @@ Blockly.defineBlocksWithJsonArray([
     style: "substitute",
     tooltip:
       "%{BKY_SUBSTITUTE_JOIN_TOOLTIP}",
-    helpUrl: "reference/blocks.html#substitute_join",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#substitute_join",
     mutator: "substitute_join_mutator",
   },
   {
@@ -29,7 +29,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "substitute",
     style: "substitute",
     tooltip: "%{BKY_DOLLAR_TOOLTIP}",
-    helpUrl: "reference/blocks.html#dollar",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#dollar",
   },
   {
     type: "ampersand",
@@ -37,7 +37,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "substitute",
     style: "substitute",
     tooltip: "%{BKY_AMPERSAND_TOOLTIP}",
-    helpUrl: "reference/blocks.html#ampersand",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#ampersand",
   },
   {
     type: "match_before",
@@ -45,7 +45,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "substitute",
     style: "substitute",
     tooltip: "%{BKY_MATCH_BEFORE_TOOLTIP}",
-    helpUrl: "reference/blocks.html#match_before",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#match_before",
   },
   {
     type: "match_after",
@@ -53,7 +53,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "substitute",
     style: "substitute",
     tooltip: "%{BKY_MATCH_AFTER_TOOLTIP}",
-    helpUrl: "reference/blocks.html#match_after",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#match_after",
   },
   {
     type: "match_backreference",
@@ -70,7 +70,7 @@ Blockly.defineBlocksWithJsonArray([
     style: "substitute",
     tooltip:
       "%{BKY_MATCH_BACKREFERENCE_TOOLTIP}",
-    helpUrl: "reference/blocks.html#match_backreference",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#match_backreference",
     extensions: ["dynamic_substitute_backreference"],
   },
   {
@@ -86,6 +86,6 @@ Blockly.defineBlocksWithJsonArray([
     output: "substitute",
     style: "substitute",
     tooltip: "%{BKY_MATCH_NAMED_BACKREFERENCE_TOOLTIP}",
-    helpUrl: "reference/blocks.html#match_named_backreference",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#match_named_backreference",
   },
 ])

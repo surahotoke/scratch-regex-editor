@@ -16,8 +16,8 @@ const ui = {
   sampleDate: "날짜 감지",
   sampleNum: "숫자 구분",
   help: "도움말",
-  helpBlocks: "블록 목록 (일본어)",
-  helpFeatures: "기능 소개 (일본어)",
+  helpBlocks: "블록 목록 (영어)",
+  helpFeatures: "기능 소개 (영어)",
   regex: "정규식 패턴",
   copy: "복사",
   replace: "바꿀 문자열",
@@ -34,7 +34,9 @@ const REPEAT_NOTE =
 const blockly = {
   DUPLICATE_BLOCK: "복제",
   EXTERNAL_INPUTS: "외부 입력",
+  INLINE_INPUTS: "내부 입력",
   DELETE_BLOCK: "블록 삭제",
+  DELETE_KEY: "Delete",
   UNDO: "실행 취소",
   REDO: "다시 실행",
   CLEAN_UP: "블록 정리",
@@ -76,7 +78,8 @@ const blockly = {
   CHAR_CLASS_RANGE_TOOLTIP:
     "범위 (예: a-z). 양쪽은 문자 하나여야 함. 문자 클래스 안에서만 사용.",
   JOIN_TOOLTIP: "여러 요소를 차례로 연결.",
-  CHOICE_TOOLTIP: "여러 요소 중 하나에 일치. 왼쪽부터 검사." +
+  CHOICE_TOOLTIP:
+    "여러 요소 중 하나에 일치. 왼쪽부터 검사." +
     "\n다른 블록과 연결할 때는 (?:)로 감싸기.",
   MUTATOR_CONTAINER_TOOLTIP: "블록 입력 칸의 개수.",
   MUTATOR_ITEM_MESSAGE0: "요소",
@@ -88,8 +91,10 @@ const blockly = {
   BACKREFERENCE_TOOLTIP: "그룹 참조. 그룹 번호 선택. 이름 있는 그룹도 포함.",
   BACKREFERENCE_NAMED_TOOLTIP: "이름 있는 그룹 참조",
   QUESTION_TOOLTIP:
-    "있으면 1번, 없으면 0번. ?를 붙이면 적게 매칭하려고 함. 예: /^a??a/ 'aa'에 적용." + REPEAT_NOTE,
-  STAR_PLUS_TOOLTIP: "* = 0회 이상, + = 1회 이상. ?를 붙이면 적게 매칭하려 함." + REPEAT_NOTE,
+    "있으면 1번, 없으면 0번. ?를 붙이면 적게 매칭하려고 함. 예: /^a??a/ 'aa'에 적용." +
+    REPEAT_NOTE,
+  STAR_PLUS_TOOLTIP:
+    "* = 0회 이상, + = 1회 이상. ?를 붙이면 적게 매칭하려 함." + REPEAT_NOTE,
   QUANTIT_EXACT_TOOLTIP: "정확히 N번 반복 {N}" + REPEAT_NOTE,
   QUANTIT_MIN_TOOLTIP: "최소 N번 {N,}. ?로 적게 반복." + REPEAT_NOTE,
   QUANTIT_RANGE_TOOLTIP: "N~M번 반복 {N,M}. ?로 적게 반복." + REPEAT_NOTE,
@@ -110,6 +115,7 @@ const blockly = {
   GROUP_ITEMS_PROMPT: "묶을 개수 (2~%1)",
   GROUP_ITEMS_INVALID: "2~%1 사이의 정수를 입력하세요",
   UNGROUP_ITEMS: "묶음 해제",
+  REFERENCE_DIR: "en",
 }
 
 // 사용자 정의 메시지 및 오류 텍스트

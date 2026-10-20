@@ -403,7 +403,11 @@ async function loadSample(filePath) {
 // ヘルプのリファレンスを開く（作りかけのブロックが消えないよう、新しいタブで開く）
 document.querySelectorAll("button[data-help]").forEach((button) => {
   button.addEventListener("click", () => {
-    window.open(`reference/${button.dataset.help}.html`, "_blank", "noopener")
+    window.open(
+      `reference/${Blockly.Msg.REFERENCE_DIR}/${button.dataset.help}.html`,
+      "_blank",
+      "noopener"
+    )
   })
 })
 

@@ -16,8 +16,8 @@ const ui = {
   sampleDate: "तारीख़ पहचान",
   sampleNum: "संख्या विभाजक",
   help: "सहायता",
-  helpBlocks: "ब्लॉक सूची (जापानी)",
-  helpFeatures: "सुविधाएँ (जापानी)",
+  helpBlocks: "ब्लॉक सूची (अंग्रेज़ी)",
+  helpFeatures: "सुविधाएँ (अंग्रेज़ी)",
   regex: "रेगुलर एक्सप्रेशन पैटर्न",
   copy: "कॉपी",
   replace: "बदलने वाला टेक्स्ट",
@@ -34,7 +34,9 @@ const REPEAT_NOTE =
 const blockly = {
   DUPLICATE_BLOCK: "प्रतिलिपि करें",
   EXTERNAL_INPUTS: "बाहरी इनपुट",
+  INLINE_INPUTS: "इनलाइन इनपुट",
   DELETE_BLOCK: "ब्लॉक हटाएँ",
+  DELETE_KEY: "Delete",
   UNDO: "पूर्ववत करें",
   REDO: "फिर से करें",
   CLEAN_UP: "ब्लॉकों को व्यवस्थित करें",
@@ -65,7 +67,8 @@ const blockly = {
     "स्वतंत्र इनपुट। विशेष अक्षरों पर ध्यान दें। बदलाव में भी मान्य।",
   DOT_TOOLTIP: "न्यूलाइन को छोड़कर कोई भी 1 अक्षर। अक्षर वर्ग में उपयोग नहीं।",
   DW_TOOLTIP: "अंकों [0-9], अक्षरों और _ [a-zA-Z0-9_]",
-  S_TOOLTIP: "व्हाइटस्पेस: स्पेस, फ़ुल-विड्थ स्पेस, टैब, न्यूलाइन आदि [ \\t\\n\\u3000]",
+  S_TOOLTIP:
+    "व्हाइटस्पेस: स्पेस, फ़ुल-विड्थ स्पेस, टैब, न्यूलाइन आदि [ \\t\\n\\u3000]",
   UNICODE_PROPERTY_TOOLTIP:
     "यूनिकोड गुण। उदाहरण: P विराम चिह्न, S प्रतीक, Script=Hiragana, Han (चीनी अक्षर)। अधिक जानकारी: राइट-क्लिक → सहायता।",
   TAB_TOOLTIP: "टैब अक्षर। बदलाव में भी मान्य।",
@@ -77,7 +80,8 @@ const blockly = {
   CHAR_CLASS_RANGE_TOOLTIP:
     "सीमा (उदा: a-z)। दोनों ओर एक अक्षर। केवल अक्षर वर्ग में।",
   JOIN_TOOLTIP: "कई तत्वों को क्रम में जोड़ें।",
-  CHOICE_TOOLTIP: "कई तत्वों में से एक से मेल खाएँ। बाएँ से दाएँ जाँच।" +
+  CHOICE_TOOLTIP:
+    "कई तत्वों में से एक से मेल खाएँ। बाएँ से दाएँ जाँच।" +
     "\nदूसरे ब्लॉकों से जोड़ते समय (?:) में रखें।",
   MUTATOR_CONTAINER_TOOLTIP: "ब्लॉक के इनपुट स्लॉट की संख्या।",
   MUTATOR_ITEM_MESSAGE0: "तत्व",
@@ -90,8 +94,10 @@ const blockly = {
     "समूह का बैकरेफ़रेंस। समूह संख्या चुनें। नाम वाले समूह भी शामिल।",
   BACKREFERENCE_NAMED_TOOLTIP: "नामित समूह का बैकरेफ़रेंस",
   QUESTION_TOOLTIP:
-    "यदि हो तो 1 बार, अन्यथा 0 बार। ? से कम मेल खाता है। उदाहरण: /^a??a/ 'aa' पर लागू।" + REPEAT_NOTE,
-  STAR_PLUS_TOOLTIP: "* = 0 या अधिक, + = 1 या अधिक। ? से कम मेल खाता है।" + REPEAT_NOTE,
+    "यदि हो तो 1 बार, अन्यथा 0 बार। ? से कम मेल खाता है। उदाहरण: /^a??a/ 'aa' पर लागू।" +
+    REPEAT_NOTE,
+  STAR_PLUS_TOOLTIP:
+    "* = 0 या अधिक, + = 1 या अधिक। ? से कम मेल खाता है।" + REPEAT_NOTE,
   QUANTIT_EXACT_TOOLTIP: "ठीक N बार दोहराएँ {N}" + REPEAT_NOTE,
   QUANTIT_MIN_TOOLTIP: "कम से कम N बार {N,}। ? से कम।" + REPEAT_NOTE,
   QUANTIT_RANGE_TOOLTIP: "N से M बार {N,M}। ? से कम।" + REPEAT_NOTE,
@@ -112,6 +118,7 @@ const blockly = {
   GROUP_ITEMS_PROMPT: "समूहित करने की संख्या (2–%1)",
   GROUP_ITEMS_INVALID: "2 से %1 तक की पूर्ण संख्या दर्ज करें",
   UNGROUP_ITEMS: "समूह हटाएँ",
+  REFERENCE_DIR: "en",
 }
 
 // कस्टम संदेश और त्रुटि टेक्स्ट

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Features - Scratch-style Regex Editor</title>
+  <link rel="stylesheet" href="../reference.css">
+</head>
+
+<body>
+  <header>
+    <h1>Features</h1>
+    <nav>
+      <a href="../../index.html">Back to the editor</a>
+      <a href="blocks.html">Block Reference</a>
+      <a href="../ja/features.html" hreflang="ja" lang="ja">日本語</a>
+    </nav>
+  </header>
+
+  <main>
+    <ul class="toc">
+      <li><a href="#cat-screen">Screen layout</a></li>
+      <li><a href="#cat-result">Result display</a></li>
+      <li><a href="#cat-menu">Right-click menu</a></li>
+      <li><a href="#cat-blocks">Working with blocks</a></li>
+      <li><a href="#cat-file">File</a></li>
+      <li><a href="#cat-sample">Sample</a></li>
+      <li><a href="#cat-setting">Settings</a></li>
+      <li><a href="#cat-other">Other</a></li>
+    </ul>
+
+    <!-- Screen layout -->
+    <h2 id="cat-screen">Screen layout</h2>
+    <p>
+      Build blocks on the left, and the regex and its result on the target text appear on the right.
+    </p>
+    <img class="screenshot" src="../images/features/en/overview.png" srcset="../images/features/en/overview.png 2x" alt="The whole editor screen">
+
+    <section class="block" id="workspace">
+      <div class="block-head">
+        <h3>Workspace and toolbox</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Left side of the screen</p>
+      <p>
+        Drag blocks from the toolbox on the far left and drop them in the workspace.
+        The workspace starts with the <a href="blocks.html#root">root</a> block, and the regex is built from the blocks connected to it.
+        Click a category name in the toolbox to jump to the blocks in that category.
+      </p>
+    </section>
+
+    <section class="block" id="panel">
+      <div class="block-head">
+        <h3>Regular Expression Pattern, Replacement String, Target Text, and Result</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Right side of the screen</p>
+      <ul>
+        <li>Regular Expression Pattern: the regex you built, shown as <code>/pattern/flags</code></li>
+        <li>Replacement String: the replacement built from the blocks connected to the root's replace slot</li>
+        <li>Target Text: type the text you want to try the regex on</li>
+        <li>Result: the result of using the regex on the target text (see <a href="#cat-result">Result display</a>)</li>
+      </ul>
+      <p>Changing the blocks or the target text updates the display right away.</p>
+    </section>
+
+    <!-- Result display -->
+    <h2 id="cat-result">Result display</h2>
+    <p>
+      The result shows the matches while the root's replace slot is "No replacement", and the replaced text once you connect replacement blocks.
+    </p>
+
+    <section class="block" id="match-highlight">
+      <div class="block-head">
+        <h3>Match highlighting</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Result (when the replace slot is "No replacement")</p>
+      <img class="screenshot" src="../images/features/en/match.png" srcset="../images/features/en/match.png 2x" alt="Result with the matched parts in orange">
+      <p>The parts of the target text that match the regex are shown in orange.</p>
+      <h4>Examples</h4>
+      <ul>
+        <li><code>\d+</code> → <code>a<mark>1</mark> b<mark>22</mark></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="replace-highlight">
+      <div class="block-head">
+        <h3>Replacement highlighting</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Result (when blocks are connected to the replace slot)</p>
+      <img class="screenshot" src="../images/features/en/replace.png" srcset="../images/features/en/replace.png 2x" alt="Result with the replaced parts in green">
+      <p>The replaced text is shown, with the replaced parts in green.</p>
+      <h4>Examples</h4>
+      <ul>
+        <li>Regex <code>\d+</code>, replace <code>[$&amp;]</code> → <code>a<ins>[1]</ins> b<ins>[22]</ins></code></li>
+      </ul>
+    </section>
+
+    <section class="block" id="whitespace">
+      <div class="block-head">
+        <h3>Visible whitespace</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Result</p>
+      <img class="screenshot" src="../images/features/en/whitespace.png" srcset="../images/features/en/whitespace.png 2x" alt="Result with whitespace shown as symbols">
+      <p>Invisible whitespace characters are shown as faint symbols.</p>
+      <ul>
+        <li><code>␣</code>: space</li>
+        <li><code>□</code>: full-width space</li>
+        <li><code>⇥</code>: tab</li>
+        <li><code>⏎</code>: line break</li>
+      </ul>
+      <div class="caution">
+        <h4>Note</h4>
+        <p>The symbols are only for display. Copying from the result does not include them (the original whitespace characters are copied).</p>
+      </div>
+    </section>
+
+    <section class="block" id="error">
+      <div class="block-head">
+        <h3>Error display</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Result</p>
+      <p>
+        When the regex is not valid (for example, an unclosed <code>(</code>), the error message is shown in the result.
+      </p>
+    </section>
+
+    <!-- Right-click menu -->
+    <h2 id="cat-menu">Right-click menu</h2>
+    <p>
+      Right-click a block (long-press on a phone) to open a menu of actions for that block.
+      Actions that cannot be used are shown faded.
+      For items with a <code>?</code> on the right, clicking the <code>?</code> opens the explanation of that feature on this page in a new tab.
+    </p>
+
+    <section class="block" id="blockify">
+      <div class="block-head">
+        <h3>Convert to blocks / Convert to text</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Right-click a block → "Convert to blocks" / "Convert to text"</p>
+      <div class="screenshots">
+        <figure><img class="screenshot" src="../images/features/en/menu-blockify.png" srcset="../images/features/en/menu-blockify.png 2x" alt="Right-click menu of the root (Convert to blocks / Convert to text)"><figcaption>Right-click menu</figcaption></figure>
+        <figure><img class="screenshot" src="../images/features/en/after-blockify.png" srcset="../images/features/en/after-blockify.png 2x" alt="The root after converting ^[a-f]+$ to blocks"><figcaption>After "Convert to blocks"</figcaption></figure>
+      </div>
+      <p>Converts between a regex written as text and blocks, in both directions.</p>
+      <ul>
+        <li>
+          Convert to blocks: turns a <a href="blocks.html#chars_input">text</a> block, or the regex typed in the root's regex slot, into a combination of blocks.
+          When you right-click the root, the content of its regex slot is converted.
+        </li>
+        <li>
+          Convert to text: turns the block you right-clicked, together with the blocks inside it, into a single text block.
+          For a block connected to the root's regex slot, the root goes back to the state where the regex is typed directly in it.
+        </li>
+      </ul>
+      <p>Both can be undone with a single Ctrl+Z (⌘+Z on a Mac).</p>
+      <h4>Examples</h4>
+      <ul>
+        <li>Type <code>^[a-f]+$</code> in the root's regex slot and convert it to blocks → it becomes a combination of start of line, character class, range, <code>+</code>, and end of line blocks</li>
+      </ul>
+      <div class="caution">
+        <h4>Note</h4>
+        <ul>
+          <li>Text blocks inside a <code>[ ]</code> block or in the replace slot cannot be converted on their own (write the whole <code>[a-f]</code> as text to convert it)</li>
+          <li>Converting to text and back to blocks does not restore display settings such as External Inputs</li>
+          <li>Parts that have no matching block (such as <code>\x41</code>) stay as text blocks</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="block" id="group-items">
+      <div class="block-head">
+        <h3>Group N items / Ungroup</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Right-click a block inside a join, choice, or replacement join → "Group 2 items" to "Group 5 items", "Group 6 or more items…", "Ungroup"</p>
+      <div class="screenshots">
+        <figure><img class="screenshot" src="../images/features/en/menu-group.png" srcset="../images/features/en/menu-group.png 2x" alt="Right-click menu of a block inside a join (Group N items)"><figcaption>Right-click menu</figcaption></figure>
+        <figure><img class="screenshot" src="../images/features/common/after-group.png" srcset="../images/features/common/after-group.png 2x" alt="The join after grouping 4 items from a"><figcaption>After "Group 4 items" on a</figcaption></figure>
+      </div>
+      <p>
+        Rearranges the contents of a join block without dragging.
+      </p>
+      <ul>
+        <li>Group N items: puts N items, starting from the block you right-clicked and going right, into a new block of the same kind</li>
+        <li>Group 6 or more items…: asks for the number of items, then groups them</li>
+        <li>Ungroup: spreads the contents of an inner block of the same kind into the outer block, at the same position</li>
+      </ul>
+      <p>
+        Grouping does not change the regex that is built.
+        Combined with <a href="#inputs">External Inputs / Inline Inputs</a>, it helps you organize a long, complex regex into meaningful chunks that are easier to read.
+      </p>
+      <h4>Examples</h4>
+      <ul>
+        <li>In a join of "a" to "h", right-click a → "Group 4 items" → it becomes "(a b c d)", "e", "f", "g", "h"</li>
+      </ul>
+      <div class="caution">
+        <h4>Note</h4>
+        <p>This cannot be used inside a character class <code>[ ]</code> (putting <code>[ ]</code> inside <code>[ ]</code> would mean something else).</p>
+      </div>
+    </section>
+
+    <section class="block" id="inputs">
+      <div class="block-head">
+        <h3>External Inputs / Inline Inputs</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Right-click a block with several slots → "External Inputs" / "Inline Inputs"</p>
+      <div class="screenshots">
+        <figure><img class="screenshot" src="../images/features/common/inputs-inline.png" srcset="../images/features/common/inputs-inline.png 2x" alt="A join block with inline inputs"><figcaption>Inline Inputs</figcaption></figure>
+        <figure><img class="screenshot" src="../images/features/common/inputs-external.png" srcset="../images/features/common/inputs-external.png 2x" alt="A join block with external inputs"><figcaption>External Inputs</figcaption></figure>
+      </div>
+      <p>
+        Switches how a block's slots are laid out. "External Inputs" stacks the slots vertically, and "Inline Inputs" puts them back in one row.
+        This is easier to read when a join or choice gets long. It does not change the regex that is built.
+      </p>
+    </section>
+
+    <section class="block" id="help">
+      <div class="block-head">
+        <h3>Help</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Right-click a block → "Help"</p>
+      <p>Opens the explanation of that block in the <a href="blocks.html">Block Reference</a>.</p>
+    </section>
+
+    <!-- Working with blocks -->
+    <h2 id="cat-blocks">Working with blocks</h2>
+    <p>
+      The basic block operations are the same as in Scratch. On a phone, you can do the same with taps and drags.
+    </p>
+
+    <section class="block" id="basic">
+      <div class="block-head">
+        <h3>Basic operations</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Workspace</p>
+      <ul>
+        <li>Connect: drag a block to a slot (the hollow part) of another block</li>
+        <li>Disconnect: drag a connected block out</li>
+        <li>Delete: drag a block onto the toolbox or the trash can, or select it and press the Delete key</li>
+        <li>Duplicate: right-click → "Duplicate". You can also use Ctrl+C / Ctrl+V (⌘+C / ⌘+V on a Mac)</li>
+        <li>Undo / redo: Ctrl+Z / Ctrl+Shift+Z (⌘+Z / ⌘+Shift+Z on a Mac). You can also right-click an empty area of the workspace</li>
+        <li>Tidy up: right-click an empty area of the workspace → "Clean up Blocks"</li>
+        <li>Zoom in / out: the <code>+</code> <code>-</code> buttons at the bottom right</li>
+      </ul>
+    </section>
+
+    <section class="block" id="mutator">
+      <div class="block-head">
+        <h3>Changing the number of slots</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Click the gear icon on a block that has one (join, choice, character class, replacement join)</p>
+      <img class="screenshot" src="../images/features/en/mutator.png" srcset="../images/features/en/mutator.png 2x" alt="The editor opened from the gear icon">
+      <p>
+        A small editor opens. Adding or removing the "element" blocks inside changes the number of slots.
+        Reordering the "element" blocks also reorders the slots.
+      </p>
+    </section>
+
+    <section class="block" id="group-name">
+      <div class="block-head">
+        <h3>Creating, renaming, and deleting group names</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>The dropdown of a named group, named backreference, or named group reference</p>
+      <img class="screenshot" src="../images/features/en/group-name.png" srcset="../images/features/en/group-name.png 2x" alt="The group name dropdown">
+      <ul>
+        <li>Create: choose "Create group name…" and enter a name</li>
+        <li>Rename: choose "Rename group…". The name also changes in every block that uses it</li>
+        <li>Delete: choose "Delete group 'name'". The blocks that use that name are deleted too</li>
+      </ul>
+      <div class="caution">
+        <h4>Note</h4>
+        <p>Names must start with a letter and can only contain letters, digits, and <code>_</code>. You cannot use a name that already exists.</p>
+      </div>
+    </section>
+
+    <!-- File -->
+    <h2 id="cat-file">File</h2>
+    <p>
+      Use these from "File" in the top menu. You can save the regex you built as a file, and load it again.
+    </p>
+    <img class="screenshot" src="../images/features/en/menu-file.png" srcset="../images/features/en/menu-file.png 2x" alt="The File menu">
+
+    <section class="block" id="new-file">
+      <div class="block-head">
+        <h3>New file</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>File → "New File"</p>
+      <p>Clears the workspace and the target text, and goes back to the initial state.</p>
+      <div class="caution">
+        <h4>Note</h4>
+        <p>Everything is cleared without confirmation, and it cannot be undone with Ctrl+Z. Save anything you want to keep first.</p>
+      </div>
+    </section>
+
+    <section class="block" id="save">
+      <div class="block-head">
+        <h3>Save</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>File → "Save to Computer"</p>
+      <p>
+        Downloads the blocks in the workspace and the target text as a JSON file named <code>regex_workspace.json</code>.
+      </p>
+    </section>
+
+    <section class="block" id="load">
+      <div class="block-head">
+        <h3>Load</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>File → "Load from Computer"</p>
+      <p>Choose a saved JSON file to restore the blocks and the target text to how they were when saved.</p>
+      <div class="caution">
+        <h4>Note</h4>
+        <p>The current content of the workspace is replaced with the loaded content.</p>
+      </div>
+    </section>
+
+    <!-- Sample -->
+    <h2 id="cat-sample">Sample</h2>
+    <p>
+      Load examples from "Sample" in the top menu. After loading one, change the blocks to see how the result changes.
+    </p>
+    <img class="screenshot" src="../images/features/en/menu-sample.png" srcset="../images/features/en/menu-sample.png 2x" alt="The Sample menu">
+    <div class="caution">
+      <h4>Note</h4>
+      <p>The current content of the workspace is replaced with the sample.</p>
+    </div>
+
+    <section class="block" id="sample-date">
+      <div class="block-head">
+        <h3>Date Detection</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Sample → "Date Detection"</p>
+      <p>
+        Splits date-times like <code>2025-08-20 14:21:03</code> into year, month, day, hour, and minute with groups, and rearranges them into <code>2025/08/20⇥14:21</code> with a replacement.
+      </p>
+    </section>
+
+    <section class="block" id="sample-url">
+      <div class="block-head">
+        <h3>URL</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Sample → "URL"</p>
+      <p>Extracts the domain and path from URLs with named groups, and turns them into "domain→path" with a replacement.</p>
+    </section>
+
+    <section class="block" id="sample-html">
+      <div class="block-head">
+        <h3>HTML</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Sample → "HTML"</p>
+      <p>
+        Removes only the HTML tags with <code>&lt;.+?&gt;</code>.
+        Remove the <code>?</code> from the <code>+</code> block to see everything get removed (<a href="blocks.html#star_plus">lazy matching</a>).
+      </p>
+    </section>
+
+    <section class="block" id="sample-num">
+      <div class="block-head">
+        <h3>Number Separator</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Sample → "Number Separator"</p>
+      <p>
+        Uses lookbehind and lookahead to match the positions between digits, and separates <code>1340</code> into <code>1, 3, 4, 0</code>, one digit at a time.
+      </p>
+    </section>
+
+    <!-- Settings -->
+    <h2 id="cat-setting">Settings</h2>
+    <p>Use these from "Settings" in the top menu.</p>
+    <img class="screenshot" src="../images/features/en/menu-setting.png" srcset="../images/features/en/menu-setting.png 2x" alt="The Settings menu (Theme)">
+    <div class="caution">
+      <h4>Note</h4>
+      <p>Settings are not saved, so they go back to the default when you reopen the page.</p>
+    </div>
+
+    <section class="block" id="theme">
+      <div class="block-head">
+        <h3>Theme</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Settings → "Theme"</p>
+      <ul>
+        <li>Auto: switches between light and dark to match your device's setting</li>
+        <li>Light: uses light colors</li>
+        <li>Dark: uses dark colors</li>
+      </ul>
+    </section>
+
+    <section class="block" id="language">
+      <div class="block-head">
+        <h3>Language</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Settings → "Language"</p>
+      <p>
+        Switches the language of the screen and the blocks. Choose from 日本語, English, 简体中文, Español, 한국어, and हिंदी.
+        At first, it follows your browser's language (English if the language is not supported).
+      </p>
+    </section>
+
+    <!-- Other -->
+    <h2 id="cat-other">Other</h2>
+
+    <section class="block" id="reference">
+      <div class="block-head">
+        <h3>Opening the reference</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Help → "Block Reference" / "Features"</p>
+      <img class="screenshot" src="../images/features/en/menu-help.png" srcset="../images/features/en/menu-help.png 2x" alt="The Help menu">
+      <p>
+        Opens the <a href="blocks.html">Block Reference</a> or this page (Features) in a new tab.
+        The blocks you are working on stay as they are.
+      </p>
+      <div class="caution">
+        <h4>Note</h4>
+        <p>The reference is available in Japanese and English. It opens in the language selected in the editor (English for languages other than Japanese).</p>
+      </div>
+    </section>
+
+    <section class="block" id="copy">
+      <div class="block-head">
+        <h3>Copy</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>The buttons to the right of Regular Expression Pattern and Replacement String</p>
+      <p>
+        Copies the regex pattern (as <code>/pattern/flags</code>) or the replacement string to the clipboard.
+        You can paste it into your own program.
+      </p>
+    </section>
+
+    <section class="block" id="tab-input">
+      <div class="block-head">
+        <h3>Typing tabs in the target text</h3>
+      </div>
+      <p class="where"><span class="where-label">Where</span>Target Text</p>
+      <p>
+        Pressing the Tab key in the Target Text field inserts a tab character instead of moving to another field.
+        This is useful for trying tab-separated data.
+      </p>
+    </section>
+  </main>
+</body>
+
+</html>

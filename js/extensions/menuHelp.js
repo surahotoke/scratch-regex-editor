@@ -3,7 +3,7 @@
 /**
  * 右クリックメニューの displayText に使う要素を作る
  * @param {string} text - 項目の文言
- * @param {string} anchor - 機能紹介（reference/features.html）のアンカー
+ * @param {string} anchor - 機能紹介（reference/<言語>/features.html）のアンカー
  * @returns {HTMLElement}
  */
 export function textWithHelp(text, anchor) {
@@ -13,7 +13,7 @@ export function textWithHelp(text, anchor) {
   label.textContent = text
   const help = document.createElement("a")
   help.className = "menu-help"
-  help.href = `reference/features.html#${anchor}`
+  help.href = `reference/${Blockly.Msg.REFERENCE_DIR}/features.html#${anchor}`
   help.target = "_blank"
   help.rel = "noopener"
   help.title = Blockly.Msg.HELP

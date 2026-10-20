@@ -13,7 +13,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "groups",
     tooltip: "%{BKY_GROUP_NONCAPTURING_TOOLTIP}",
-    helpUrl: "reference/blocks.html#group_noncapturing",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#group_noncapturing",
   },
   {
     type: "group",
@@ -28,7 +28,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "groups",
     tooltip: "%{BKY_GROUP_TOOLTIP}",
-    helpUrl: "reference/blocks.html#group",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#group",
   },
   {
     type: "group_named",
@@ -48,7 +48,7 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "groups",
     tooltip: "%{BKY_GROUP_NAMED_TOOLTIP}",
-    helpUrl: "reference/blocks.html#group_named",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#group_named",
   },
   {
     type: "backreference",
@@ -65,7 +65,7 @@ Blockly.defineBlocksWithJsonArray([
     style: "groups",
     tooltip:
       "%{BKY_BACKREFERENCE_TOOLTIP}",
-    helpUrl: "reference/blocks.html#backreference",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#backreference",
     extensions: ["dynamic_backreference"],
   },
   {
@@ -81,6 +81,6 @@ Blockly.defineBlocksWithJsonArray([
     output: "regex",
     style: "groups",
     tooltip: "%{BKY_BACKREFERENCE_NAMED_TOOLTIP}",
-    helpUrl: "reference/blocks.html#backreference_named",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#backreference_named",
   },
 ])

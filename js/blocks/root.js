@@ -28,7 +28,7 @@ Blockly.defineBlocksWithJsonArray([
     ],
     style: "root",
     tooltip: "%{BKY_ROOT_TOOLTIP}",
-    helpUrl: "reference/blocks.html#root",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#root",
   },
   {
     type: "regex_input",
@@ -45,6 +45,6 @@ Blockly.defineBlocksWithJsonArray([
     ],
     output: "regex",
     tooltip: "%{BKY_REGEX_INPUT_TOOLTIP}",
-    helpUrl: "reference/blocks.html#root",
+    helpUrl: "reference/%{BKY_REFERENCE_DIR}/blocks.html#root",
   },
 ])
