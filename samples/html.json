@@ -1,0 +1,87 @@
+{
+  "workspace": {
+    "blocks": {
+      "languageVersion": 0,
+      "blocks": [
+        {
+          "type": "root",
+          "id": "=:7Zxf9n5,Jp^*u)4p=q",
+          "x": 20,
+          "y": 20,
+          "deletable": false,
+          "movable": false,
+          "inputs": {
+            "PATTERN": {
+              "shadow": {
+                "type": "regex_input",
+                "id": "mKW!zKj]AqL`MoAFof0Y",
+                "fields": {
+                  "PATTERN": ""
+                }
+              },
+              "block": {
+                "type": "join",
+                "id": "0FJ:V[H8GO({[HkyiZ~6",
+                "extraState": {
+                  "itemCount": 3
+                },
+                "inputs": {
+                  "ADD0": {
+                    "block": {
+                      "type": "chars_input",
+                      "id": "kM.R-M=lNF3v*izdV=Sq",
+                      "fields": {
+                        "TEXT": "<"
+                      }
+                    }
+                  },
+                  "ADD1": {
+                    "block": {
+                      "type": "star_plus",
+                      "id": "QNm26A6e]=t`d|gYB{v%",
+                      "fields": {
+                        "KIND": "+",
+                        "LAZY": "?"
+                      },
+                      "inputs": {
+                        "PATTERN": {
+                          "block": {
+                            "type": "dot",
+                            "id": "hgE@b|h+_S}m{eUf,)7q"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "ADD2": {
+                    "block": {
+                      "type": "chars_input",
+                      "id": "TV6G~ZtSAEsTig_$iL!l",
+                      "fields": {
+                        "TEXT": ">"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SUBSTITUTE": {
+              "shadow": {
+                "type": "no_substitute",
+                "id": "MR9A4-@;aqEJN$EbWZ$w"
+              },
+              "block": {
+                "type": "chars_input",
+                "id": "YmoTd-F]d~/KJv~5{Zc,",
+                "fields": {
+                  "TEXT": ""
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "targetText": "<p><b>1</b> + <i>2</i> = 3</p>"
+}

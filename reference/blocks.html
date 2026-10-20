@@ -612,6 +612,12 @@
       <h4>使用例</h4>
       <ul>
         <li><code>colou?r</code> → <code><mark>color</mark> <mark>colour</mark></code></li>
+        <li>正規表現 <code>(\d)?(\d+)</code>、置換 <code>[$1][$2]</code> → <code>123</code> が <code><ins>[1][23]</ins></code> になる</li>
+        <li>
+          正規表現 <code>(\d)??(\d+)</code>、置換 <code>[$1][$2]</code> → <code>123</code> が <code><ins>[][123]</ins></code> になる
+          （<code>??</code> だと1つ目のグループはなるべく何も取らないので、数字はすべて2つ目のグループに入る。
+          このように <code>??</code> は、後ろの部分も同じ文字を取れるときに違いが出ます）
+        </li>
       </ul>
     </section>
 
@@ -623,6 +629,7 @@
         </ul>
       </div>
       <img src="images/star_plus.png" srcset="images/star_plus.png 1.4x" alt="* ブロック">
+      <p>中のパターンを繰り返します。</p>
       <ul>
         <li>1つ目のドロップダウン：<code>*</code> で0回以上、<code>+</code> で1回以上、なるべく多く繰り返します</li>
         <li>2つ目のドロップダウン：<code>?</code> を選ぶと、なるべく少なく繰り返します（<code>*?</code> <code>+?</code>）</li>
@@ -630,8 +637,14 @@
       <h4>使用例</h4>
       <ul>
         <li><code>a+</code> → <code>c<mark>aaa</mark>t</code></li>
-        <li><code>&lt;.+?&gt;</code> → <code><mark>&lt;a&gt;</mark><mark>&lt;b&gt;</mark></code>（<code>?</code> なしの <code>&lt;.+&gt;</code> だと、全体の <code>&lt;a&gt;&lt;b&gt;</code> に1回だけマッチ）</li>
+        <li>
+          正規表現 <code>&lt;.+?&gt;</code>、置換は空 → <code>&lt;p&gt;&lt;b&gt;1&lt;/b&gt; + &lt;i&gt;2&lt;/i&gt; = 3&lt;/p&gt;</code> が <code>1 + 2 = 3</code> になる（タグだけを削除）
+        </li>
+        <li>
+          <code>?</code> なしの <code>&lt;.+&gt;</code> だと、最初の <code>&lt;</code> から最後の <code>&gt;</code> までが1つのマッチになり、全部消えてしまう
+        </li>
       </ul>
+      <p>サンプルの「HTML」で、<code>?</code> を付けたり外したりして違いを試せます。</p>
     </section>
 
     <section class="block" id="quantit_exact">

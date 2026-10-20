@@ -11,7 +11,7 @@
   - 各ブロックの軽い説明
   - スマホでも操作可能（Scratchを参考にした）
   - テーマ（自動/ライト/ダーク）の切り替え
-  - 3つのサンプル
+  - 4つのサンプル
   - 右クリックでテキストとブロックの相互変換（ブロック化/テキスト化）
   - 右クリックで連結ブロックの中身をまとめる/まとめを解除
     - 右クリックの「外部入力」「インライン入力」と組み合わせると、長く複雑な正規表現を意味のまとまりごとに整理して見やすくできます
@@ -39,7 +39,7 @@ Create regular expressions with a Scratch-style visual editor.
   - Short explanations for each block
   - Usable on mobile (inspired by Scratch)
   - Theme switching (auto / light / dark)
-  - 3 sample patterns included
+  - 4 sample patterns included
   - Convert between text and blocks from the right-click menu
   - Group/ungroup items in join blocks from the right-click menu
     - Combined with "External Inputs" / "Inline Inputs" in the right-click menu, this helps you organize long, complex regexes into meaningful chunks that are easier to read
