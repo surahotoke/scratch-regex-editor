@@ -1,5 +1,5 @@
 // ブロック一覧（reference/<言語>/blocks.html）のブロック画像を書き出す（開発用）
-// 使い方: node tools/export-block-images.mjs [--lang ja|en]（--lang を省略すると全言語）
+// 使い方: node tools/export-block-images.mjs [--lang ja|en|zh|es|ko|hi]（--lang を省略すると全言語）
 // tools/export-block-images.html をヘッドレスの Chrome で開き、描いた画像を保存する
 // 文字が言語で変わるブロック（LANG_TYPES）は reference/images/blocks/<言語>/ に、
 // それ以外は言語によらないので reference/images/blocks/common/ に、最初の言語のときに1度だけ保存する

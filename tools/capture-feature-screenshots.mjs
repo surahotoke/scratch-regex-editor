@@ -1,5 +1,5 @@
 // 機能紹介（reference/<言語>/features.html）の画面のスクリーンショットを撮る（開発用）
-// 使い方: node tools/capture-feature-screenshots.mjs [--lang ja|en] [撮るものの名前...]
+// 使い方: node tools/capture-feature-screenshots.mjs [--lang ja|en|zh|es|ko|hi] [撮るものの名前...]
 // Chrome をヘッドレスで起動し、DevTools Protocol で操作して reference/images/features/<言語>/ に PNG を保存する
 // 言語によらない画像（COMMON_SHOTS）は reference/images/features/common/ に、最初の言語のときに1度だけ保存する
 // （--lang を省略すると全言語、名前を省略すると全部撮る）
