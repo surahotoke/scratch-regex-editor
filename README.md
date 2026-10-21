@@ -1,5 +1,5 @@
-# Scratch風のRegexエディター
-正規表現をScratchで作成できます  
+# Scratch風Regexエディター
+Scratchのようなブロックを組み立てて、正規表現を作成できます  
 
 - 機能
   - 正規表現の作成/コピー
@@ -14,6 +14,7 @@
     - [機能紹介](https://surahotoke.github.io/scratch-regex-editor/reference/ja/features.html)：画面の見方や、右クリックメニューなどの機能の使い方
   - スマホでも操作可能（Scratchを参考にした）
   - テーマ（自動/ライト/ダーク）の切り替え
+  - 言語（日本語・English・简体中文・Español・한국어・हिंदी）の切り替え
   - 4つのサンプル
   - 右クリックでテキストとブロックの相互変換（ブロック化/テキスト化）
   - 右クリックで連結ブロックの中身をまとめる/まとめを解除
@@ -22,6 +23,13 @@
 - 今後やること
   - `ui.js`の整理・分離
 
+- 開発用
+  - ヘルプページの画像は、スクリプトで撮り直せます（Chrome と Node.js 22 以降が必要です）
+    - `node tools/export-block-images.mjs`：ブロック一覧のブロック画像
+    - `node tools/capture-feature-screenshots.mjs`：機能紹介の画面のスクリーンショット
+    - どちらも `--lang ja` のように言語を指定すると、その言語だけを撮り直します
+    - Chrome は Mac の標準の場所から起動します。ほかの場所にあるときは、環境変数 `CHROME` で指定します
+
 リンク：https://surahotoke.github.io/scratch-regex-editor/
 
 ## ライセンス
@@ -29,7 +37,7 @@
 
 ---
 
-# Scratch-like Regex Editor
+# Scratch-style Regex Editor
 Create regular expressions with a Scratch-style visual editor.
 
 - Features
@@ -45,6 +53,7 @@ Create regular expressions with a Scratch-style visual editor.
     - [Features](https://surahotoke.github.io/scratch-regex-editor/reference/en/features.html): how to use the screen, right-click menu, and other features
   - Usable on mobile (inspired by Scratch)
   - Theme switching (auto / light / dark)
+  - Language switching (日本語, English, 简体中文, Español, 한국어, हिंदी)
   - 4 sample patterns included
   - Convert between text and blocks from the right-click menu
   - Group/ungroup items in join blocks from the right-click menu
@@ -52,6 +61,13 @@ Create regular expressions with a Scratch-style visual editor.
 
 - Future Work
   - Refactor/separate `ui.js`
+
+- Development
+  - The images in the help pages can be regenerated with scripts (requires Chrome and Node.js 22 or later)
+    - `node tools/export-block-images.mjs`: block images for the Block Reference
+    - `node tools/capture-feature-screenshots.mjs`: screenshots for the Features page
+    - Add `--lang en` (or another language) to regenerate only that language
+    - Chrome is launched from its default location on macOS. Set the `CHROME` environment variable if it is somewhere else
 
 Demo: https://surahotoke.github.io/scratch-regex-editor/
 
